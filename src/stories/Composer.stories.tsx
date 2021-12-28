@@ -16,7 +16,7 @@ const Template: Story<ComposerProps> = (args) => <Composer {...args} />
 
 // Reuse that template for creating different stories
 export const Primary = Template.bind({})
-Primary.args = { label: 'Primary 😃', size: 'large' }
+Primary.args = { width: 600, height: 500 }
 
 export const Secondary = Template.bind({})
-Secondary.args = { ...Primary.args, primary: false, label: 'Secondary 😇' }
+Secondary.args = { ...Primary.args }

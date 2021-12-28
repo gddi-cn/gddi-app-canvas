@@ -1,1 +1,2 @@
-export * from './components/Composer'
+export { AppCanvas } from './AppCanvas/'
+export * from './AppCanvas/types'

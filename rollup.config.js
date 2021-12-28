@@ -12,7 +12,8 @@ export default {
     {
       file: packageJson.main,
       format: 'cjs',
-      sourcemap: true
+      sourcemap: true,
+      name: 'gddi-app-canvas'
     },
     {
       file: packageJson.module,
@@ -20,13 +21,20 @@ export default {
       sourcemap: true
     }
   ],
+  // plugins: [
+  //   peerDepsExternal(),
+  //   postcss({
+  //     minimize: true
+  //   }),
+  //   resolve(),
+  //   commonjs(),
+  //   typescript({ useTsconfigDeclarationDir: true })
+  // ]
   plugins: [
     peerDepsExternal(),
     resolve(),
     commonjs(),
     typescript({ useTsconfigDeclarationDir: true }),
-    postcss({
-      extensions: ['.css']
-    })
+    postcss()
   ]
 }
