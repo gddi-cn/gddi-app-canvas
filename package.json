@@ -1,6 +1,6 @@
 {
   "name": "gddi-app-canvas",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Building GDDi AI Apps by scribbling on canvas",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.es.js",
