@@ -31,7 +31,7 @@ const PropRow = ({
         onChange(e.target.value)
       }
       return (
-        <FormControl variant="standard" sx={{ m: 1, width: 280 }}>
+        <FormControl variant="standard" sx={{ m: 1, width: 256, margin: 0 }}>
           <InputLabel id={`prop-label-${propName}`}>{propName}</InputLabel>
           <Select
             disabled={readonly}
@@ -40,9 +40,14 @@ const PropRow = ({
             value={value?.toString()}
             onChange={handleSelectChange}
             label="Age"
+            sx={{ fontSize: '0.8rem' }}
           >
             {options.map((op) => (
-              <MenuItem key={op?.toString()} value={op?.toString()}>
+              <MenuItem
+                key={op?.toString()}
+                value={op?.toString()}
+                sx={{ fontSize: '0.8rem' }}
+              >
                 {op}
               </MenuItem>
             ))}

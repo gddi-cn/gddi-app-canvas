@@ -34,9 +34,9 @@ export const CollapseContainer = ({
           <KeyboardArrowDownTwoToneIcon />
         )}
       </div>
-      <div hidden={!open} className="gddi-aiappcanvas__collapse-body">
-        {children}
-      </div>
+      {open && (
+        <div className="gddi-aiappcanvas__collapse-body">{children}</div>
+      )}
     </div>
   )
 }
