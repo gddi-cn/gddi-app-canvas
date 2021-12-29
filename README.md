@@ -5,13 +5,13 @@ A React component to visualize and edit GDDi's AI APPs.
 
 ## Installation
 
-```
+```shell
 yarn add gddi-app-canvas
 ```
 
 ## Simple Usage
 
-```typescript
+```tsx
 import {
   AppCanvas,
   ModuleDefinitions,
