@@ -3,7 +3,7 @@
 import React, { useCallback, useMemo } from 'react'
 import shallow from 'zustand/shallow'
 import { Module } from '../types'
-import './SimpleNode.less'
+import './SimpleNode.scss'
 import useStore from '../store/useStore'
 import { SimpleNodeHandles } from './SimpleNodeHandles'
 import { NodeDropDown } from './NodeDropDown'

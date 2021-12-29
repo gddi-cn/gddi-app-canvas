@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import ReactFlow, { Controls, OnLoadParams } from 'react-flow-renderer'
-import './AppCanvas.less'
+import './AppCanvas.scss'
 import shallow from 'zustand/shallow'
 import { Pipeline, ModuleDefinitions, AIApp } from './types'
 import { rfNodeTypes } from './RFNodes'
@@ -9,11 +9,31 @@ import { ExtendedControls } from './ExtendedControls'
 import useStore from './store/useStore'
 
 export interface AppCanvasProps {
+  /**
+   * Object to define different types of modules
+   */
   moduleDefinitions: ModuleDefinitions
+  /**
+   * Default value (App pipeline)
+   */
   defaultValue?: Pipeline
+  /**
+   * Callback when the AppCanvas get loaded
+   */
   onLoad?: (app: AIApp) => void
+  /**
+   * Callback when the content (value) of the AppCanvas changed
+   */
   onValueChange?: (newValue: Pipeline) => void
+  /**
+   * Disable graph editing (adding modules, deleting modules, connect modules, etc.)
+   * false by default
+   */
   graphEditingDisabled?: boolean
+  /**
+   * Disable module property editing.
+   * false by default
+   */
   propEditingDisabled?: boolean
 }
 

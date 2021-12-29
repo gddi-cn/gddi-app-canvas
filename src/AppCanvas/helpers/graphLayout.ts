@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Edge, Elements, Node } from 'react-flow-renderer'
-import ELK from 'elkjs/lib/elk.bundled'
+import ELK from 'elkjs/lib/elk.bundled.js'
 
 const elk = new ELK()
 

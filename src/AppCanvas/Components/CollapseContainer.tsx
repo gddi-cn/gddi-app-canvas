@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 // eslint-disable-next-line max-len
 import KeyboardArrowDownTwoToneIcon from '@mui/icons-material/KeyboardArrowDownTwoTone'
 import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone'
-import './CollapseContainer.less'
+import './CollapseContainer.scss'
 
 export interface CollapseContainerProps {
   title: string

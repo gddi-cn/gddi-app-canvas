@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import Button from '@mui/material/Button'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox'
-import './NodeRunner.less'
+import './NodeRunner.scss'
 
 export interface NodeRunnerProps {
   runner: string

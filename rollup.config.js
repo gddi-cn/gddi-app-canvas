@@ -18,18 +18,9 @@ export default {
     {
       file: packageJson.module,
       format: 'esm',
-      sourcemap: true
+      strict: false
     }
   ],
-  // plugins: [
-  //   peerDepsExternal(),
-  //   postcss({
-  //     minimize: true
-  //   }),
-  //   resolve(),
-  //   commonjs(),
-  //   typescript({ useTsconfigDeclarationDir: true })
-  // ]
   plugins: [
     peerDepsExternal(),
     resolve(),
