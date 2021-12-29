@@ -10,6 +10,10 @@
   ],
   "author": "daisy.pang",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.gddi.com/rd/web/gddi-app-canvas"
+  },
   "private": false,
   "devDependencies": {
     "@babel/core": "^7.16.0",
