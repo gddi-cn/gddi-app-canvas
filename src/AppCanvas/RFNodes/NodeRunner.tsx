@@ -62,6 +62,8 @@ export const NodeRunner = ({
       <Button
         sx={{
           width: 110,
+          height: '1.5rem',
+          fontSize: '0.7rem',
           boxShadow: 'none',
           '&:hover': {
             boxShadow: 'none'
