@@ -13,9 +13,18 @@
   opacity: 0;
 }
 
-.custom-controls {
+.control-button {
   top: 10px;
   left: 10px;
   position: absolute;
   z-index: 5;
+  background-color: #e7f1fe;
+  box-shadow: 0 0 2px 1px rgb(0 0 0 / 8%);
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
+  .control-button-icon {
+    color: #606060;
+    font-size: 1.1rem;
+  }
 }

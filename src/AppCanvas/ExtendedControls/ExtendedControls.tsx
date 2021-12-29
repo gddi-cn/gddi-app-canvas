@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
 import shallow from 'zustand/shallow'
 import useStore from '../store/useStore'
+import Tooltip from '@mui/material/Tooltip'
+import HorizontalSplitOutlinedIcon from '@mui/icons-material/HorizontalSplitOutlined'
 
 export const ExtendedControls = (): JSX.Element => {
   const { layoutGraph } = useStore(
@@ -16,9 +18,14 @@ export const ExtendedControls = (): JSX.Element => {
 
   return (
     <div className="custom-controls">
-      <button type="button" onClick={onLayout}>
-        horizontal layout
-      </button>
+      <Tooltip title={`horizontally layout graph`}>
+        <div className="control-button">
+          <HorizontalSplitOutlinedIcon
+            className="control-button-icon"
+            onClick={onLayout}
+          />
+        </div>
+      </Tooltip>
     </div>
   )
 }
