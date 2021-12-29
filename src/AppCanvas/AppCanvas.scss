@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .react-flow__pane {
   background-color: #e8eaed;
 }

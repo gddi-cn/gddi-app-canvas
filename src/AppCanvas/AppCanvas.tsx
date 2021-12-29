@@ -1,12 +1,17 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import ReactFlow, { Controls, OnLoadParams } from 'react-flow-renderer'
-import './AppCanvas.scss'
 import shallow from 'zustand/shallow'
-import { Pipeline, ModuleDefinitions, AIApp } from './types'
+import { Pipeline, ModuleDefinitions, AIAppType } from './types'
 import { rfNodeTypes } from './RFNodes'
 import { rfEdgeTypes } from './RFEdges'
 import { ExtendedControls } from './ExtendedControls'
 import useStore from './store/useStore'
+
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import './AppCanvas.scss'
 
 export interface AppCanvasProps {
   /**
@@ -20,7 +25,7 @@ export interface AppCanvasProps {
   /**
    * Callback when the AppCanvas get loaded
    */
-  onLoad?: (app: AIApp) => void
+  onLoad?: (app: AIAppType) => void
   /**
    * Callback when the content (value) of the AppCanvas changed
    */
@@ -45,7 +50,7 @@ export const AppCanvas = ({
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasProps): JSX.Element => {
-  const appRef = useRef<AIApp | null>(null)
+  const appRef = useRef<AIAppType | null>(null)
   const loadParaRef = useRef<OnLoadParams<any> | null>(null)
   const {
     value,
@@ -138,11 +143,6 @@ export const AppCanvas = ({
 
   return (
     <>
-      <link
-        rel="stylesheet"
-        // eslint-disable-next-line max-len
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-      />
       <ReactFlow
         elements={rfElements}
         nodeTypes={rfNodeTypes}

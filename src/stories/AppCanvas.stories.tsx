@@ -2,7 +2,7 @@ import React from 'react'
 import { Meta } from '@storybook/react/types-6-0'
 import { Story } from '@storybook/react'
 import {
-  AIApp,
+  AIAppType,
   AppCanvas,
   AppCanvasProps,
   Pipeline,
@@ -10,6 +10,7 @@ import {
   Connection
 } from '../AppCanvas'
 import { pipeline1 } from './data/pipelines'
+import { modDef1 } from './data/moduleDefinitions'
 
 const myPipeline: Pipeline = {
   version: '0.0.1',
@@ -19,14 +20,11 @@ const myPipeline: Pipeline = {
 
 export default {
   title: 'AppCanvas',
-  component: AppCanvas,
-  argTypes: {
-    backgroundColor: { control: 'color' }
-  }
+  component: AppCanvas
 } as Meta
 
 // Create a master template for mapping args to render the component
-const handleCanvasLoad = (canvas: AIApp): void => {
+const handleCanvasLoad = (canvas: AIAppType): void => {
   canvas.layoutGraph()
 }
 const handleValueChange = (val: Pipeline): void => {
@@ -37,7 +35,7 @@ const handleValueChange = (val: Pipeline): void => {
 const Template: Story<AppCanvasProps> = (args) => (
   <div
     className="app-canvas-wrapper"
-    style={{ width: '1000px', height: '600px' }}
+    style={{ width: '1000px', height: '500px' }}
   >
     <AppCanvas {...args} />
   </div>
@@ -47,6 +45,7 @@ const Template: Story<AppCanvasProps> = (args) => (
 export const Primary = Template.bind({})
 Primary.args = {
   defaultValue: myPipeline,
+  moduleDefinitions: modDef1,
   onLoad: handleCanvasLoad,
   onValueChange: handleValueChange
 } as AppCanvasProps

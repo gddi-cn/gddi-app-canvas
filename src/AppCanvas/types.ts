@@ -42,7 +42,7 @@ export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 
 export type RawModule = Optional<Module, 'id'>
 
-export interface AIApp {
+export type AIAppType = {
   addModule: (module: RawModule) => void
   addPipeline: (modules: Module[], connections: Connection[]) => void
   layoutGraph: () => void
