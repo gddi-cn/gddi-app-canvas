@@ -48,8 +48,8 @@
     "zustand": "^3.6.8"
   },
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "16 || 17",
+    "react-dom": "16 || 17"
   },
   "dependencies": {},
   "scripts": {
