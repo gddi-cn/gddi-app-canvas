@@ -2,7 +2,7 @@ export const pipeline1 = {
   nodes: [
     {
       id: 0,
-      moduleType: 'Demuxer_v1_1',
+      type: 'Demuxer_v1_1',
       name: 'Demuxer_v1_1',
       runner: 'default',
       props: {
@@ -12,7 +12,7 @@ export const pipeline1 = {
     },
     {
       id: 1,
-      moduleType: 'Decoder_v1_1',
+      type: 'Decoder_v1_1',
       name: 'Decoder_v1_1',
       runner: 'default',
       props: {
@@ -22,7 +22,7 @@ export const pipeline1 = {
     },
     {
       id: 2,
-      moduleType: 'AvToCvMat_v1',
+      type: 'AvToCvMat_v1',
       name: 'frame to mat',
       runner: 'default',
       props: {
@@ -31,13 +31,13 @@ export const pipeline1 = {
     },
     {
       id: 3,
-      moduleType: 'CvImShow_v2',
+      type: 'CvImShow_v2',
       name: 'decode show',
       runner: 'default'
     },
     {
       id: 4,
-      moduleType: 'MessageRefTime_v1',
+      type: 'MessageRefTime_v1',
       name: 'show time for frame',
       runner: 'default'
     }

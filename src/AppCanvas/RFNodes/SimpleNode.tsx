@@ -80,7 +80,7 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
         </header>
         <div className="gddi-aiappcanvas__section module-type-display">
           <span className="module-type-type">Module Type</span>
-          <span>{nodeData1.moduleType}</span>
+          <span>{nodeData1.type}</span>
         </div>
         <div className="gddi-aiappcanvas__section module-runner">
           <NodeRunner
@@ -115,13 +115,13 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
         <div className="gddi-aiappcanvas__simplenode-wrapper">
           <SimpleNodeHandles
             handleIdPrefix={`chris-pipenode-${id.toString()}`}
-            nodeType={(nodeData as Module).moduleType}
+            nodeType={(nodeData as Module).type}
             isInput
           />
           {NodeBodyEle}
           <SimpleNodeHandles
             handleIdPrefix={`chris-pipenode-${id.toString()}`}
-            nodeType={(nodeData as Module).moduleType}
+            nodeType={(nodeData as Module).type}
             isInput={false}
           />
         </div>

@@ -90,8 +90,8 @@ export const NodeDetail = ({
 }: NodeDetailProps): JSX.Element => {
   const { propDefinition } = useStore(
     (state) => ({
-      propDefinition: state.moduleDefinitions[nodeData.moduleType]
-        ? state.moduleDefinitions[nodeData.moduleType].props
+      propDefinition: state.moduleDefinitions[nodeData.type]
+        ? state.moduleDefinitions[nodeData.type].props
         : undefined
     }),
     shallow

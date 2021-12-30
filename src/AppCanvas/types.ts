@@ -23,7 +23,7 @@ export interface ModuleDefinitions {
 // Module and Template
 export interface Module {
   id: number
-  moduleType: string
+  type: string
   name: string
   runner: string
   props?: { [propName: string]: ModulePropType }
