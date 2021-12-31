@@ -1,7 +1,7 @@
 A React component to visualize and edit GDDi's AI APPs.
 
 - **Demo:** ...🚧
-- **API Doc:** ...🚧
+- **Data Explained:** ...🚧
 
 ## Installation
 
@@ -42,4 +42,36 @@ const handleValueChange = useCallback((val: Pipeline) => {
     propEditingDisabled={false}
   />
 </div>
+```
+
+## Data Explained
+
+### moduleDefinitions
+
+Object to describe the module's input / output endpoints, property, and other metadata.
+
+Type define can be found in `src/AppCanvas/types.ts`
+
+```typescript
+export type ModulePropType = string | number | boolean | undefined
+
+export interface ModulePropDefinition {
+  // type: 'string' | 'boolean' | 'number' | 'select'
+  options: ModulePropType[]
+}
+
+export interface Endpoint {
+  id: number
+  name: string
+}
+
+export interface ModuleDefinition {
+  inputs?: Endpoint[]
+  outputs?: Endpoint[]
+  props?: { [propName: string]: ModulePropDefinition }
+}
+
+export interface ModuleDefinitions {
+  [moduleType: string]: ModuleDefinition
+}
 ```

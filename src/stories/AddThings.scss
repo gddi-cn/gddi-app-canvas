@@ -1,0 +1,12 @@
+.story-wrapper {
+  display: flex;
+  flex-direction: column;
+  .row {
+    display: flex;
+    margin-bottom: 8px;
+    button {
+      margin-left: 6px;
+      margin-right: 6px;
+    }
+  }
+}

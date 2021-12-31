@@ -19,7 +19,7 @@ const myPipeline: Pipeline = {
 }
 
 export default {
-  title: 'AppCanvas',
+  title: 'Example/AppCanvas',
   component: AppCanvas
 } as Meta
 
@@ -42,16 +42,10 @@ const Template: Story<AppCanvasProps> = (args) => (
 )
 
 // Reuse that template for creating different stories
-export const Primary = Template.bind({})
-Primary.args = {
+export const BasicUsage = Template.bind({})
+BasicUsage.args = {
   defaultValue: myPipeline,
   moduleDefinitions: modDef1,
   onLoad: handleCanvasLoad,
   onValueChange: handleValueChange
-} as AppCanvasProps
-
-export const PropEditingMode = Template.bind({})
-PropEditingMode.args = {
-  ...Primary.args,
-  graphEditingDisabled: true
 } as AppCanvasProps

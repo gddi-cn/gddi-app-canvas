@@ -4,6 +4,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import postcss from 'rollup-plugin-postcss'
 import { terser } from 'rollup-plugin-terser'
+import bundleSize from 'rollup-plugin-bundle-size'
 
 const packageJson = require('./package.json')
 
@@ -28,6 +29,7 @@ export default {
     commonjs(),
     typescript({ useTsconfigDeclarationDir: true }),
     postcss(),
-    terser()
+    terser(),
+    bundleSize()
   ]
 }

@@ -42,6 +42,9 @@ export interface AppCanvasProps {
   propEditingDisabled?: boolean
 }
 
+/**
+ * React component to visualize GDDi's AI APPs in flow chart fashion.
+ */
 export const AppCanvas = ({
   defaultValue,
   moduleDefinitions,
