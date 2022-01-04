@@ -5095,10 +5095,10 @@ element-resize-detector@^1.2.2:
   dependencies:
     batch-processor "1.0.0"
 
-elkjs@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.npmmirror.com/elkjs/download/elkjs-0.7.1.tgz#4751c5e918a4988139baf7f214e010aea22de969"
-  integrity sha1-R1HF6RikmIE5uvfyFOAQrqIt6Wk=
+elkjs@^0.7.3-dev:
+  version "0.7.3-dev"
+  resolved "https://registry.nlark.com/elkjs/download/elkjs-0.7.3-dev.tgz#baaf9ff607576e1ee043a23ac4b4a3b09a21c3e2"
+  integrity sha1-uq+f9gdXbh7gQ6I6xLSjsJohw+I=
 
 elliptic@^6.5.3:
   version "6.5.4"

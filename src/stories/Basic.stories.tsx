@@ -49,3 +49,5 @@ BasicUsage.args = {
   onLoad: handleCanvasLoad,
   onValueChange: handleValueChange
 } as AppCanvasProps
+
+BasicUsage.storyName = 'Usage: Basic'
