@@ -5,6 +5,7 @@ import typescript from 'rollup-plugin-typescript2'
 import postcss from 'rollup-plugin-postcss'
 import { terser } from 'rollup-plugin-terser'
 import bundleSize from 'rollup-plugin-bundle-size'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 const packageJson = require('./package.json')
 
@@ -30,6 +31,7 @@ export default {
     typescript({ useTsconfigDeclarationDir: true }),
     postcss(),
     terser(),
-    bundleSize()
+    bundleSize(),
+    visualizer({ sourcemap: true, open: true })
   ]
 }
