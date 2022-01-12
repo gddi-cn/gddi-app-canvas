@@ -157,7 +157,7 @@ export const AppCanvas = ({
         nodesDraggable={!graphEditingDisabled}
         nodesConnectable={!graphEditingDisabled}
       >
-        <Controls />
+        <Controls showInteractive={false} />
         {!graphEditingDisabled && <ExtendedControls />}
       </ReactFlow>
     </>
