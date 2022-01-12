@@ -66,3 +66,31 @@ export const getNextModuleId = (modules: Module[]): number => {
   id += 1
   return id
 }
+
+export const updateIds = (
+  modules: Module[],
+  connections: Connection[],
+  modules0: Module[]
+): [Module[], Connection[]] => {
+  const mods1 = [...modules]
+  const conns1 = connections.map((conn) => [...conn] as Connection)
+  // replace module id with new one -- mods1, conns1
+  let modIdNew = getNextModuleId(modules0)
+  modules.forEach((mod, modIdx) => {
+    const modId0 = mod.id
+    if (modId0 !== modIdNew) {
+      mods1[modIdx] = { ...mod, id: modIdNew }
+      // also replace connectionIds
+      connections.forEach((conn, connIdx) => {
+        if (conn[0] === modId0) {
+          conns1[connIdx][0] = modIdNew
+        }
+        if (conn[2] === modId0) {
+          conns1[connIdx][2] = modIdNew
+        }
+      })
+    }
+    modIdNew += 1
+  })
+  return [mods1, conns1]
+}

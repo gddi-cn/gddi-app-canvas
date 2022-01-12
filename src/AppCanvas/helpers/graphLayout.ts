@@ -61,6 +61,7 @@ export const graphLayoutHelper = (
   })
 }
 
+// unused currently
 export const layoutNodes = (
   rfNodes: Node[],
   rfEdges: Edge[]

@@ -16,7 +16,9 @@ import {
   getRFEdges,
   getRFEdge,
   graphLayoutHelper,
-  getNextModuleId
+  getNextModuleId,
+  updateIds,
+  updatePositions
 } from '../helpers'
 
 export interface CoreSlice {
@@ -78,43 +80,58 @@ const createCoreSlice = (
       })
     )
   },
-  addPipeline: (modules: Module[], connections: Connection[]) => {
-    set(
-      produce((draft: MyState) => {
-        const draft1 = draft
-        const mods1 = [...modules]
-        const conns1 = connections.map((conn) => [...conn])
-        // replace module id with new one -- mods1, conns1
-        let modIdNew = getNextModuleId(draft.value.nodes)
-        modules.forEach((mod, modIdx) => {
-          const modId0 = mod.id
-          if (modId0 !== modIdNew) {
-            mods1[modIdx] = { ...mod, id: modIdNew }
-            connections.forEach((conn, connIdx) => {
-              if (conn[0] === modId0) {
-                conns1[connIdx][0] = modIdNew
-              }
-              if (conn[2] === modId0) {
-                conns1[connIdx][2] = modIdNew
-              }
-            })
-          }
-          modIdNew += 1
-        })
-        // add modules
-        mods1.forEach((mod1) => {
-          draft1.value.nodes.push(mod1)
-          draft1.rfElements.push(getRFNode(mod1))
-        })
-        // connect modules
-        conns1.forEach(([srcId, srcOutputId, targetId, targetInputId]) => {
-          draft1.value.pipe.push([srcId, srcOutputId, targetId, targetInputId])
-          draft1.rfElements.push(
-            getRFEdge([srcId, srcOutputId, targetId, targetInputId])
-          )
-        })
-      })
+  addPipeline: async (modules: Module[], connections: Connection[]) => {
+    const { value, rfElements } = get()
+    // update modules and connections IDs
+    const [mods1, conns1] = updateIds(modules, connections, value.nodes)
+    // update positions
+    const rfNodesNew = mods1.map((mod) => getRFNode(mod))
+    const rfEdgeNew = conns1.map(
+      ([srcId, srcOutputId, targetId, targetInputId]) =>
+        getRFEdge([srcId, srcOutputId, targetId, targetInputId])
     )
+    const rfElements1 = [...rfElements, ...rfNodesNew, ...rfEdgeNew]
+    try {
+      const newPostions = await graphLayoutHelper(rfElements1)
+      // set state
+      set(
+        produce((draft: MyState) => {
+          const draft1 = draft
+          // set state - value
+          mods1.forEach((mod1) => {
+            draft1.value.nodes.push(mod1)
+          })
+          conns1.forEach(([srcId, srcOutputId, targetId, targetInputId]) => {
+            draft1.value.pipe.push([
+              srcId,
+              srcOutputId,
+              targetId,
+              targetInputId
+            ])
+          })
+          // set state - add new rfElements
+          rfNodesNew.forEach((nodeNew) => {
+            const p = newPostions.find((np) => np.nodeId === nodeNew.id)
+            if (p) {
+              nodeNew.position = { x: p.x, y: p.y }
+            }
+            draft1.rfElements.push(nodeNew)
+          })
+          rfEdgeNew.forEach((edgeNew) => {
+            draft1.rfElements.push(edgeNew)
+          })
+          // set state - update old rfElements' positions
+          newPostions.forEach((np) => {
+            const ele1 = draft1.rfElements.find((e) => e.id === np.nodeId)
+            if (ele1) {
+              ;(ele1 as Node).position = { x: np.x, y: np.y }
+            }
+          })
+        })
+      )
+    } catch (error) {
+      console.error(error)
+    }
   },
   addModule: (module: RawModule) => {
     set(

@@ -66,7 +66,7 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
     const nodeData1 = nodeData as Module
     return (
       <div className="gddi-aiappcanvas__simplenode">
-        <header className="gddi-aiappcanvas__section gddi-aiappcanvas__header">
+        <div className="gddi-aiappcanvas__section gddi-aiappcanvas__header">
           <div className="gddi-aiappcanvas__simplenode-header-left">
             <EditableText
               value={nodeData1.name}
@@ -77,7 +77,7 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
           <div className="gddi-aiappcanvas__simplenode-header-right">
             <NodeDropDown onDeleteClick={handleModDelete} />
           </div>
-        </header>
+        </div>
         <div className="gddi-aiappcanvas__section module-type-display">
           <span className="module-type-type">Module Type</span>
           <span>{nodeData1.type}</span>

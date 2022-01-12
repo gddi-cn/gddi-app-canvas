@@ -10,7 +10,7 @@ export interface ModeSlice {
 }
 
 const createModeSlice = (set: SetState<MyState>): ModeSlice => ({
-  graphEditingDisabled: false,
+  graphEditingDisabled: true,
   propEditingDisabled: false,
   setGraphEditingDisabled: (disabled: boolean) => {
     set(
