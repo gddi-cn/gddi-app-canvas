@@ -17,8 +17,7 @@ import {
   getRFEdge,
   graphLayoutHelper,
   getNextModuleId,
-  updateIds,
-  updatePositions
+  updateIds
 } from '../helpers'
 
 export interface CoreSlice {
@@ -45,6 +44,7 @@ export interface CoreSlice {
   ) => void
   removeConnection: (rfEdgeId: string) => void
   layoutGraph: () => void
+  clear: () => void
 }
 
 const createCoreSlice = (
@@ -275,6 +275,19 @@ const createCoreSlice = (
         )
       })
     })
+  },
+  clear: () => {
+    set(
+      produce((draft: MyState) => {
+        const draft1 = draft
+        draft1.value = {
+          version: 'v0.1.0',
+          nodes: [],
+          pipe: []
+        }
+        draft1.rfElements = []
+      })
+    )
   }
 })
 

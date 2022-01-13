@@ -64,7 +64,8 @@ export const AppCanvas = ({
     addModule,
     addPipeline,
     setGraphEditingDisabled,
-    setPropEditingDisabled
+    setPropEditingDisabled,
+    clear
   } = useStore(
     (state) => ({
       value: state.value,
@@ -75,7 +76,8 @@ export const AppCanvas = ({
       addModule: state.addModule,
       addPipeline: state.addPipeline,
       setGraphEditingDisabled: state.setGraphEditingDisabled,
-      setPropEditingDisabled: state.setPropEditingDisabled
+      setPropEditingDisabled: state.setPropEditingDisabled,
+      clear: state.clear
     }),
     shallow
   )
@@ -90,7 +92,8 @@ export const AppCanvas = ({
         addModule,
         addPipeline,
         layoutGraph,
-        fitView
+        fitView,
+        clear
       }
     } else {
       appRef.current.addModule = addModule

@@ -59,4 +59,8 @@ export type AIAppType = {
    * Fit the graph in view
    */
   fitView: () => void
+  /**
+   * Clear content in canvas
+   */
+  clear: () => void
 }

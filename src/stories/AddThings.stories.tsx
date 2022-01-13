@@ -104,6 +104,11 @@ const Template: Story<AppCanvasProps> = (args) => {
       )
     }
   }
+  const handleClear = (): void => {
+    if (canvasRef.current) {
+      canvasRef.current.clear()
+    }
+  }
 
   return (
     <div className="story-wrapper">
@@ -118,6 +123,11 @@ const Template: Story<AppCanvasProps> = (args) => {
       <div className="row">
         <Button size="medium" variant="contained" onClick={handleAddTemplate}>
           + Chris' App Template
+        </Button>
+      </div>
+      <div className="row">
+        <Button size="medium" onClick={handleClear}>
+          Clear
         </Button>
       </div>
       <Tabs
