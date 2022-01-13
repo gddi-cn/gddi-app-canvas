@@ -1,0 +1,111 @@
+{
+  "Demuxer_v2": {
+    "outputs": [
+      {
+        "id": 0,
+        "name": "output_0"
+      },
+      {
+        "id": 1,
+        "name": "output_1"
+      }
+    ]
+  },
+  "Decoder_v2": {
+    "inputs": [
+      {
+        "id": 0,
+        "name": "input_0"
+      },
+      {
+        "id": 1,
+        "name": "input_1"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 0,
+        "name": "output_0"
+      },
+      {
+        "id": 1,
+        "name": "output_1"
+      }
+    ]
+  },
+  "AvToCv_v2": {
+    "inputs": [
+      {
+        "id": 0,
+        "name": "input_0"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 0,
+        "name": "output_0"
+      }
+    ]
+  },
+  "Detection_v2": {
+    "inputs": [
+      {
+        "id": 0,
+        "name": "input_0"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 0,
+        "name": "output_0"
+      }
+    ],
+    "props": {
+      "filter_labels": {
+        "options": ["person"]
+      }
+    }
+  },
+  "Tracking_v2": {
+    "inputs": [
+      {
+        "id": 0,
+        "name": "input_0"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 0,
+        "name": "output_0"
+      }
+    ]
+  },
+  "Graphics_v2": {
+    "inputs": [
+      {
+        "id": 0,
+        "name": "input_0"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 0,
+        "name": "output_0"
+      }
+    ]
+  },
+  "Report_v2": {
+    "inputs": [
+      {
+        "id": 0,
+        "name": "input_0"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 0,
+        "name": "output_0"
+      }
+    ]
+  }
+}

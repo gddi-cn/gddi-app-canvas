@@ -13,15 +13,15 @@ import {
   Connection
 } from '../AppCanvas'
 import { TabPanel } from './components'
-import { pipeline1 } from './data/pipelines'
-import { modDef1 } from './data/moduleDefinitions'
+import { pipeline2 } from './data/pl2'
+import { modDef2 } from './data/md2'
 
 import './AddThings.scss'
 
 const myPipeline: Pipeline = {
-  version: '0.0.1',
-  nodes: pipeline1.nodes.map((node) => node as Module),
-  pipe: pipeline1.pipe.map((p) => p as Connection)
+  version: '0.0.0',
+  nodes: pipeline2.nodes.map((node) => node as Module),
+  pipe: pipeline2.pipe.map((p) => p as Connection)
 }
 
 const desString =
@@ -164,7 +164,7 @@ const Template: Story<AppCanvasProps> = (args) => {
 
 export const AddModules = Template.bind({})
 AddModules.args = {
-  moduleDefinitions: modDef1
+  moduleDefinitions: modDef2
 } as AppCanvasProps
 
 AddModules.storyName = 'Usage: Add Modules'
