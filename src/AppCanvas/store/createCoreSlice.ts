@@ -66,19 +66,28 @@ const createCoreSlice = (
       })
     )
   },
-  setValue: (newValue: Pipeline) => {
-    set(
-      produce((draft: MyState) => {
-        const draft1 = draft
-        draft1.value.version = newValue.version
-        draft1.value.nodes = [...newValue.nodes]
-        draft1.value.pipe = [...newValue.pipe]
-        draft1.rfElements = [
-          ...getRFNodes(newValue.nodes),
-          ...getRFEdges(newValue.pipe)
-        ]
+  setValue: async (newValue: Pipeline) => {
+    const rfElements = [...getRFNodes(newValue.nodes), ...getRFEdges(newValue.pipe)]
+    try {
+      const newPostions = await graphLayoutHelper(rfElements)
+      newPostions.forEach((np) => {
+        const ele = rfElements.find((e) => e.id === np.nodeId)
+        if (ele) {
+          ;(ele as Node).position = { x: np.x, y: np.y }
+        }
       })
-    )
+      set(
+        produce((draft: MyState) => {
+          const draft1 = draft
+          draft1.value.version = newValue.version
+          draft1.value.nodes = [...newValue.nodes]
+          draft1.value.pipe = [...newValue.pipe]
+          draft1.rfElements = [...rfElements]
+        })
+      )
+    } catch (error) {
+      console.error(error)
+    }
   },
   addPipeline: async (modules: Module[], connections: Connection[]) => {
     const { value, rfElements } = get()
