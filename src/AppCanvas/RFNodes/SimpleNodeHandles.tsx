@@ -52,6 +52,8 @@ export const SimpleNodeHandles = ({
     [connectModules]
   )
 
+  const intervalHeight = 80 / endpointList.length
+
   return (
     <>
       <div
@@ -59,7 +61,7 @@ export const SimpleNodeHandles = ({
           isInput ? 'input' : 'output'
         }-wrapper`}
       >
-        {endpointList.map((ep) => {
+        {endpointList.map((ep, idx) => {
           return (
             <div
               className={`gddi-aiappcanvas__simplenode-${
@@ -75,6 +77,7 @@ export const SimpleNodeHandles = ({
                   type={isInput ? 'target' : 'source'}
                   position={(isInput ? 'left' : 'right') as Position}
                   onConnect={handleConnectNodes}
+                  style={{ top: 70 + intervalHeight * (idx + 1) }}
                   isConnectable
                 />
               </Tooltip>
