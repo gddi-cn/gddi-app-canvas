@@ -69,7 +69,6 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
     return (
       <div className="gddi-aiappcanvas__simplenode">
         <div className="gddi-aiappcanvas__section gddi-aiappcanvas__header">
-          <div>{name}</div>
           <div className="gddi-aiappcanvas__simplenode-header-left">
             <EditableText
               value={nodeData1.name}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React from 'react'
 import { Provider, createStore } from './store/useStore'
 import { Pipeline, ModuleDefinitions, AIAppType } from './types'
 import { AppCanvasChild } from './AppCanvasChild'
@@ -7,13 +7,8 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
-import './AppCanvas.scss'
 
 export interface AppCanvasProps {
-  /**
-   * Name
-   */
-  name: string
   /**
    * Object to define different types of modules
    */
@@ -46,7 +41,6 @@ export interface AppCanvasProps {
  * React component to visualize GDDi's AI APPs in flow chart fashion.
  */
 export const AppCanvas = ({
-  name,
   defaultValue,
   moduleDefinitions,
   onLoad,   
@@ -57,7 +51,6 @@ export const AppCanvas = ({
 
     return  <Provider createStore={createStore}> 
                 <AppCanvasChild
-                    name={name}
                     defaultValue={defaultValue}
                     moduleDefinitions={moduleDefinitions}
                     onLoad={onLoad}

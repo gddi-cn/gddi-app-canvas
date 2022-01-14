@@ -49,7 +49,6 @@ export interface CoreSlice {
   clear: () => void
 }
 
-console.log('CCCCCCCCCCCCCCCCreate Store')
 const createCoreSlice = (
   set: SetState<MyState>,
   get: GetState<MyState>
@@ -74,8 +73,6 @@ const createCoreSlice = (
     )
   },
   setValue: async (newValue: Pipeline) => {
-    console.log('ssssssssssset')
-    // console.log(newValue)
     const rfElements = [...getRFNodes(newValue.nodes), ...getRFEdges(newValue.pipe)]
     try {
       const newPostions = await graphLayoutHelper(rfElements)
@@ -92,7 +89,6 @@ const createCoreSlice = (
           draft1.value.nodes = [...newValue.nodes]
           draft1.value.pipe = [...newValue.pipe]
           draft1.rfElements = [...rfElements]
-          console.log(newValue.nodes)
         })
       )
     } catch (error) {

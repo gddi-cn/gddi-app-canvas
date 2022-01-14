@@ -6,18 +6,9 @@ import { rfNodeTypes } from './RFNodes'
 import { rfEdgeTypes } from './RFEdges'
 import { ExtendedControls } from './ExtendedControls'
 import { useStore } from './store/useStore'
-
-import '@fontsource/roboto/300.css'
-import '@fontsource/roboto/400.css'
-import '@fontsource/roboto/500.css'
-import '@fontsource/roboto/700.css'
 import './AppCanvas.scss'
 
 export interface AppCanvasChildProps {
-  /**
-   * Name
-   */
-  name: string
   /**
    * Object to define different types of modules
    */
@@ -50,7 +41,6 @@ export interface AppCanvasChildProps {
  * React component to visualize GDDi's AI APPs in flow chart fashion.
  */
 export const AppCanvasChild = ({
-  name,
   defaultValue,
   moduleDefinitions,
   onLoad,
@@ -88,22 +78,6 @@ export const AppCanvasChild = ({
     }),
     shallow
   )
-  // const {
-  //   value,
-  //   rfElements,
-  //   setName,
-  //   setModuleDefinitions, 
-  //   setValue,
-  //   layoutGraph,
-  //   addModule,
-  //   addPipeline,
-  //   setGraphEditingDisabled,
-  //   setPropEditingDisabled,
-  //   clear
-  // } = useStore().getState()
-  console.log('rrr')
-  console.log(value)
-  
 
   const fitView = useCallback(() => {
     if (loadParaRef.current) {
@@ -138,23 +112,17 @@ export const AppCanvasChild = ({
   )
 
   useEffect(() => {
-    console.log('EEEE - modDef')
+    // console.log('EEEE - modDef')
     if (moduleDefinitions) {
       setModuleDefinitions(moduleDefinitions)
     }
   }, [setModuleDefinitions, moduleDefinitions])
 
   useEffect(() => {
-    console.log(`EEEE ${name} - defaultValue`)
-    console.log(defaultValue)
+    // console.log(`EEEE ${name} - defaultValue`)
+    // console.log(defaultValue)
     if (defaultValue) {
       setValue(defaultValue)
-    }
-    // else {
-    //   setValue({version: '0.0.1', nodes:[], pipe: []})
-    // }
-    return () => {
-      console.log(`EEEE unmount ${name} - defaultValue`)
     }
   }, [setValue, defaultValue, name])
 
@@ -180,13 +148,8 @@ export const AppCanvasChild = ({
     )
   }, [propEditingDisabled, setPropEditingDisabled])
 
-  useEffect(() => {
-    setName(name)
-  }, [setName, name])
-
   return (
     <>
-      <span>{name}</span>
       <ReactFlow
         elements={rfElements}
         nodeTypes={rfNodeTypes}
