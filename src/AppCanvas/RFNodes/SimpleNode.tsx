@@ -8,7 +8,7 @@ import { useStore } from '../store/useStore'
 import { SimpleNodeHandles } from './SimpleNodeHandles'
 import { NodeDropDown } from './NodeDropDown'
 import { NodeDetail } from './NodeDetail'
-import { NodeRunner } from './NodeRunner'
+// import { NodeRunner } from './NodeRunner'
 import { EditableText } from '../Components'
 
 export interface SimpleNodeProps {
@@ -82,13 +82,13 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
           <span className="module-type-type">Module Type</span>
           <span>{nodeData1.type}</span>
         </div>
-        <div className="gddi-aiappcanvas__section module-runner">
+        {/* <div className="gddi-aiappcanvas__section module-runner">
           <NodeRunner
             runner={nodeData1.runner}
             disabled={propEditingDisabled}
             onChange={handleRunnerChange}
           />
-        </div>
+        </div> */}
         {nodeData1.props ? (
           <div>
             <NodeDetail
