@@ -20,7 +20,6 @@ export interface SimpleNodeProps {
 const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
   const { id } = data
   const {
-    name,
     nodeData,
     modifyModuleName,
     modifyModuleProp,
@@ -29,7 +28,6 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
     propEditingDisabled
   } = useStore(
     (state) => ({
-      name: state.name,
       nodeData: state.value.nodes.find((n) => n.id === id),
       modifyModuleName: state.modifyModuleName,
       modifyModuleProp: state.modifyModuleProp,

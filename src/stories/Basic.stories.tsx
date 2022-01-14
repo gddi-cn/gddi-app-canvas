@@ -44,7 +44,6 @@ const Template: Story<AppCanvasProps> = (args) => (
 // Reuse that template for creating different stories
 export const BasicUsage = Template.bind({})
 BasicUsage.args = {
-  name: 'basic',
   defaultValue: myPipeline,
   moduleDefinitions: modDef1,
   onLoad: handleCanvasLoad,

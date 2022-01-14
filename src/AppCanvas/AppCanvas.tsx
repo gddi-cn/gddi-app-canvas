@@ -7,6 +7,7 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
+import './AppCanvas.scss'
 
 export interface AppCanvasProps {
   /**
@@ -43,20 +44,21 @@ export interface AppCanvasProps {
 export const AppCanvas = ({
   defaultValue,
   moduleDefinitions,
-  onLoad,   
+  onLoad,
   onValueChange,
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasProps): JSX.Element => {
-
-    return  <Provider createStore={createStore}> 
-                <AppCanvasChild
-                    defaultValue={defaultValue}
-                    moduleDefinitions={moduleDefinitions}
-                    onLoad={onLoad}
-                    onValueChange={onValueChange}
-                    graphEditingDisabled={graphEditingDisabled}
-                    propEditingDisabled={propEditingDisabled}
-                />
-            </Provider>
+  return (
+    <Provider createStore={createStore}>
+      <AppCanvasChild
+        defaultValue={defaultValue}
+        moduleDefinitions={moduleDefinitions}
+        onLoad={onLoad}
+        onValueChange={onValueChange}
+        graphEditingDisabled={graphEditingDisabled}
+        propEditingDisabled={propEditingDisabled}
+      />
+    </Provider>
+  )
 }

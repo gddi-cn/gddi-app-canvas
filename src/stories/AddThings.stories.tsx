@@ -164,7 +164,6 @@ const Template: Story<AppCanvasProps> = (args) => {
 
 export const AddModules = Template.bind({})
 AddModules.args = {
-  name: 'addThings',
   defaultValue: undefined,
   moduleDefinitions: modDef2
 } as AppCanvasProps

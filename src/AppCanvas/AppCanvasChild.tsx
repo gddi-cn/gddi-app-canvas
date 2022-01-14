@@ -6,7 +6,7 @@ import { rfNodeTypes } from './RFNodes'
 import { rfEdgeTypes } from './RFEdges'
 import { ExtendedControls } from './ExtendedControls'
 import { useStore } from './store/useStore'
-import './AppCanvas.scss'
+// import './AppCanvas.scss'
 
 export interface AppCanvasChildProps {
   /**
@@ -53,8 +53,7 @@ export const AppCanvasChild = ({
   const {
     value,
     rfElements,
-    setName,
-    setModuleDefinitions, 
+    setModuleDefinitions,
     setValue,
     layoutGraph,
     addModule,
@@ -66,7 +65,6 @@ export const AppCanvasChild = ({
     (state) => ({
       value: state.value,
       rfElements: state.rfElements,
-      setName: state.setName,
       setModuleDefinitions: state.setModuleDefinitions,
       setValue: state.setValue,
       layoutGraph: state.layoutGraph,

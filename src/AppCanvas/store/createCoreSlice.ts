@@ -21,11 +21,9 @@ import {
 } from '../helpers'
 
 export interface CoreSlice {
-  name: string
   value: Pipeline
   moduleDefinitions: ModuleDefinitions
   rfElements: Elements
-  setName: (n: string) => void
   setModuleDefinitions: (newMDs: ModuleDefinitions) => void
   setValue: (newValue: Pipeline) => void
   addModule: (module: RawModule) => void
@@ -53,7 +51,6 @@ const createCoreSlice = (
   set: SetState<MyState>,
   get: GetState<MyState>
 ): CoreSlice => ({
-  name: '',
   value: {
     version: 'v0.1.0',
     nodes: [],
@@ -61,9 +58,6 @@ const createCoreSlice = (
   },
   moduleDefinitions: {},
   rfElements: [],
-  setName: (n: string) => {set((state: MyState) => {
-   return {name: n}
-  })},
   setModuleDefinitions: (newMDs: ModuleDefinitions) => {
     set(
       produce((draft: MyState) => {
@@ -73,7 +67,10 @@ const createCoreSlice = (
     )
   },
   setValue: async (newValue: Pipeline) => {
-    const rfElements = [...getRFNodes(newValue.nodes), ...getRFEdges(newValue.pipe)]
+    const rfElements = [
+      ...getRFNodes(newValue.nodes),
+      ...getRFEdges(newValue.pipe)
+    ]
     try {
       const newPostions = await graphLayoutHelper(rfElements)
       newPostions.forEach((np) => {
