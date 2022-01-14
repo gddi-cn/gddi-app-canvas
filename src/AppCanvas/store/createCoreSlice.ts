@@ -21,9 +21,11 @@ import {
 } from '../helpers'
 
 export interface CoreSlice {
+  name: string
   value: Pipeline
   moduleDefinitions: ModuleDefinitions
   rfElements: Elements
+  setName: (n: string) => void
   setModuleDefinitions: (newMDs: ModuleDefinitions) => void
   setValue: (newValue: Pipeline) => void
   addModule: (module: RawModule) => void
@@ -47,10 +49,12 @@ export interface CoreSlice {
   clear: () => void
 }
 
+console.log('CCCCCCCCCCCCCCCCreate Store')
 const createCoreSlice = (
   set: SetState<MyState>,
   get: GetState<MyState>
 ): CoreSlice => ({
+  name: '',
   value: {
     version: 'v0.1.0',
     nodes: [],
@@ -58,6 +62,9 @@ const createCoreSlice = (
   },
   moduleDefinitions: {},
   rfElements: [],
+  setName: (n: string) => {set((state: MyState) => {
+   return {name: n}
+  })},
   setModuleDefinitions: (newMDs: ModuleDefinitions) => {
     set(
       produce((draft: MyState) => {
@@ -67,6 +74,8 @@ const createCoreSlice = (
     )
   },
   setValue: async (newValue: Pipeline) => {
+    console.log('ssssssssssset')
+    // console.log(newValue)
     const rfElements = [...getRFNodes(newValue.nodes), ...getRFEdges(newValue.pipe)]
     try {
       const newPostions = await graphLayoutHelper(rfElements)
@@ -83,6 +92,7 @@ const createCoreSlice = (
           draft1.value.nodes = [...newValue.nodes]
           draft1.value.pipe = [...newValue.pipe]
           draft1.rfElements = [...rfElements]
+          console.log(newValue.nodes)
         })
       )
     } catch (error) {

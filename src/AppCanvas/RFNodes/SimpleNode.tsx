@@ -4,7 +4,7 @@ import React, { useCallback, useMemo } from 'react'
 import shallow from 'zustand/shallow'
 import { Module } from '../types'
 import './SimpleNode.scss'
-import useStore from '../store/useStore'
+import { useStore } from '../store/useStore'
 import { SimpleNodeHandles } from './SimpleNodeHandles'
 import { NodeDropDown } from './NodeDropDown'
 import { NodeDetail } from './NodeDetail'
@@ -20,6 +20,7 @@ export interface SimpleNodeProps {
 const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
   const { id } = data
   const {
+    name,
     nodeData,
     modifyModuleName,
     modifyModuleProp,
@@ -28,6 +29,7 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
     propEditingDisabled
   } = useStore(
     (state) => ({
+      name: state.name,
       nodeData: state.value.nodes.find((n) => n.id === id),
       modifyModuleName: state.modifyModuleName,
       modifyModuleProp: state.modifyModuleProp,
@@ -67,6 +69,7 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
     return (
       <div className="gddi-aiappcanvas__simplenode">
         <div className="gddi-aiappcanvas__section gddi-aiappcanvas__header">
+          <div>{name}</div>
           <div className="gddi-aiappcanvas__simplenode-header-left">
             <EditableText
               value={nodeData1.name}
@@ -101,6 +104,7 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
       </div>
     )
   }, [
+    name,
     nodeData,
     handleNodePropChange,
     handleNodeNameChange,

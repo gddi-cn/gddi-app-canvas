@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import shallow from 'zustand/shallow'
-import useStore from '../store/useStore'
+import { useStore } from '../store/useStore'
 import Tooltip from '@mui/material/Tooltip'
 import HorizontalSplitOutlinedIcon from '@mui/icons-material/HorizontalSplitOutlined'
 

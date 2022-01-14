@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import ReactFlow, { Controls, OnLoadParams } from 'react-flow-renderer'
-import shallow from 'zustand/shallow'
+import { Provider, createStore } from './store/useStore'
 import { Pipeline, ModuleDefinitions, AIAppType } from './types'
-import { rfNodeTypes } from './RFNodes'
-import { rfEdgeTypes } from './RFEdges'
-import { ExtendedControls } from './ExtendedControls'
-import useStore from './store/useStore'
+import { AppCanvasChild } from './AppCanvasChild'
 
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -14,6 +10,10 @@ import '@fontsource/roboto/700.css'
 import './AppCanvas.scss'
 
 export interface AppCanvasProps {
+  /**
+   * Name
+   */
+  name: string
   /**
    * Object to define different types of modules
    */
@@ -46,123 +46,24 @@ export interface AppCanvasProps {
  * React component to visualize GDDi's AI APPs in flow chart fashion.
  */
 export const AppCanvas = ({
+  name,
   defaultValue,
   moduleDefinitions,
-  onLoad,
+  onLoad,   
   onValueChange,
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasProps): JSX.Element => {
-  const appRef = useRef<AIAppType | null>(null)
-  const loadParaRef = useRef<OnLoadParams<any> | null>(null)
-  const {
-    value,
-    rfElements,
-    setModuleDefinitions,
-    setValue,
-    layoutGraph,
-    addModule,
-    addPipeline,
-    setGraphEditingDisabled,
-    setPropEditingDisabled,
-    clear
-  } = useStore(
-    (state) => ({
-      value: state.value,
-      rfElements: state.rfElements,
-      setModuleDefinitions: state.setModuleDefinitions,
-      setValue: state.setValue,
-      layoutGraph: state.layoutGraph,
-      addModule: state.addModule,
-      addPipeline: state.addPipeline,
-      setGraphEditingDisabled: state.setGraphEditingDisabled,
-      setPropEditingDisabled: state.setPropEditingDisabled,
-      clear: state.clear
-    }),
-    shallow
-  )
-  const fitView = useCallback(() => {
-    if (loadParaRef.current) {
-      loadParaRef.current.fitView()
-    }
-  }, [])
-  const initAppRef = useCallback(() => {
-    if (appRef.current === null) {
-      appRef.current = {
-        addModule,
-        addPipeline,
-        layoutGraph,
-        fitView,
-        clear
-      }
-    } else {
-      appRef.current.addModule = addModule
-    }
-  }, [addModule, addPipeline, layoutGraph, fitView])
-  const handleLoaded = useCallback(
-    (params: OnLoadParams<any>) => {
-      console.log('[gddi-aiappcanvas] loaded')
-      params.fitView()
-      loadParaRef.current = params
-      layoutGraph()
-      initAppRef()
-      if (onLoad && appRef.current) {
-        onLoad(appRef.current)
-      }
-    },
-    [layoutGraph, initAppRef, onLoad]
-  )
 
-  useEffect(() => {
-    if (defaultValue) {
-      setValue(defaultValue)
-    }
-  }, [setValue, defaultValue])
-
-  useEffect(() => {
-    if (moduleDefinitions) {
-      setModuleDefinitions(moduleDefinitions)
-    }
-  }, [setModuleDefinitions, moduleDefinitions])
-
-  useEffect(() => {
-    if (onValueChange) {
-      onValueChange(value)
-    }
-  }, [value, onValueChange])
-
-  useEffect(() => {
-    initAppRef()
-  }, [initAppRef])
-
-  useEffect(() => {
-    setGraphEditingDisabled(
-      graphEditingDisabled === undefined ? false : graphEditingDisabled
-    )
-  }, [graphEditingDisabled, setGraphEditingDisabled])
-
-  useEffect(() => {
-    setPropEditingDisabled(
-      propEditingDisabled === undefined ? false : propEditingDisabled
-    )
-  }, [propEditingDisabled, setPropEditingDisabled])
-
-  return (
-    <>
-      <ReactFlow
-        elements={rfElements}
-        nodeTypes={rfNodeTypes}
-        edgeTypes={rfEdgeTypes}
-        onLoad={handleLoaded}
-        snapToGrid
-        snapGrid={[15, 15]}
-        minZoom={0.2}
-        nodesDraggable={!graphEditingDisabled}
-        nodesConnectable={!graphEditingDisabled}
-      >
-        <Controls showInteractive={false} />
-        {!graphEditingDisabled && <ExtendedControls />}
-      </ReactFlow>
-    </>
-  )
+    return  <Provider createStore={createStore}> 
+                <AppCanvasChild
+                    name={name}
+                    defaultValue={defaultValue}
+                    moduleDefinitions={moduleDefinitions}
+                    onLoad={onLoad}
+                    onValueChange={onValueChange}
+                    graphEditingDisabled={graphEditingDisabled}
+                    propEditingDisabled={propEditingDisabled}
+                />
+            </Provider>
 }

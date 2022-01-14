@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import shallow from 'zustand/shallow'
 import { Handle, Position, Connection } from 'react-flow-renderer'
 import Tooltip from '@mui/material/Tooltip'
-import useStore from '../store/useStore'
+import { useStore } from '../store/useStore'
 
 interface SimpleNodeHandlesProps {
   handleIdPrefix: string

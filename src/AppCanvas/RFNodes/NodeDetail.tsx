@@ -7,7 +7,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import shallow from 'zustand/shallow'
 import { Module, ModulePropType, ModulePropDefinition } from '../types'
 import { CollapseContainer } from '../Components'
-import useStore from '../store/useStore'
+import { useStore } from '../store/useStore'
 
 interface PropRowProps {
   readonly: boolean

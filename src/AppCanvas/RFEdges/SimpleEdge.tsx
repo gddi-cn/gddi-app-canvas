@@ -7,7 +7,7 @@ import {
 } from 'react-flow-renderer'
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded'
 import shallow from 'zustand/shallow'
-import useStore from '../store/useStore'
+import { useStore } from '../store/useStore'
 
 const foreignObjectSize = 40
 

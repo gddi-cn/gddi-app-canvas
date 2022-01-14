@@ -68,7 +68,7 @@ const Template: Story<AppCanvasProps> = (args) => {
   const handleValueChange = (val: Pipeline): void => {
     console.log(`value changed!`)
     setAppVal(val)
-    console.log(val)
+    // console.log(val)
   }
   const handleAddDemuxer = (): void => {
     if (canvasRef.current) {
@@ -164,6 +164,8 @@ const Template: Story<AppCanvasProps> = (args) => {
 
 export const AddModules = Template.bind({})
 AddModules.args = {
+  name: 'addThings',
+  defaultValue: undefined,
   moduleDefinitions: modDef2
 } as AppCanvasProps
 
