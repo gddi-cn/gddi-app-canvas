@@ -3,13 +3,15 @@
 import React, { useCallback, useMemo } from 'react'
 import shallow from 'zustand/shallow'
 import { Module } from '../types'
-import './SimpleNode.scss'
 import { useStore } from '../store/useStore'
 import { SimpleNodeHandles } from './SimpleNodeHandles'
 import { NodeDropDown } from './NodeDropDown'
 import { NodeDetail } from './NodeDetail'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText } from '../Components'
+import './SimpleNode.scss'
+
+import Box from '@mui/material/Box'
 
 export interface SimpleNodeProps {
   data: {
@@ -65,43 +67,47 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
     }
     const nodeData1 = nodeData as Module
     return (
-      <div className="gddi-aiappcanvas__simplenode">
-        <div className="gddi-aiappcanvas__section gddi-aiappcanvas__header">
-          <div className="gddi-aiappcanvas__simplenode-header-left">
+      <Box
+        sx={{ bgcolor: 'background.default', color: 'text.primary' }}
+        className="gddi-aiappcanvas__simplenode"
+      >
+        <Box className="gddi-aiappcanvas__section gddi-aiappcanvas__header">
+          <Box className="gddi-aiappcanvas__simplenode-header-left">
             <EditableText
               value={nodeData1.name}
               disabled={propEditingDisabled}
               onChange={handleNodeNameChange}
             />
-          </div>
-          <div className="gddi-aiappcanvas__simplenode-header-right">
+          </Box>
+          <Box className="gddi-aiappcanvas__simplenode-header-right">
             <NodeDropDown onDeleteClick={handleModDelete} />
-          </div>
-        </div>
-        <div className="gddi-aiappcanvas__section module-type-display">
-          <span className="module-type-type">Module Type</span>
-          <span>{nodeData1.type}</span>
-        </div>
-        {/* <div className="gddi-aiappcanvas__section module-runner">
+          </Box>
+        </Box>
+        <Box className="gddi-aiappcanvas__section module-type-display">
+          <Box className="module-type-type" component="span">
+            Module Type
+          </Box>
+          <Box component="span">{nodeData1.type}</Box>
+        </Box>
+        {/* <Box className="gddi-aiappcanvas__section module-runner">
           <NodeRunner
             runner={nodeData1.runner}
             disabled={propEditingDisabled}
             onChange={handleRunnerChange}
           />
-        </div> */}
+        </Box> */}
         {nodeData1.props ? (
-          <div>
+          <Box>
             <NodeDetail
               readonly={propEditingDisabled}
               nodeData={nodeData1}
               onPropChange={handleNodePropChange}
             />
-          </div>
+          </Box>
         ) : null}
-      </div>
+      </Box>
     )
   }, [
-    name,
     nodeData,
     handleNodePropChange,
     handleNodeNameChange,
@@ -113,7 +119,7 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
   return (
     <>
       {nodeData && (
-        <div className="gddi-aiappcanvas__simplenode-wrapper">
+        <Box className="gddi-aiappcanvas__simplenode-wrapper">
           <SimpleNodeHandles
             handleIdPrefix={`chris-pipenode-${id.toString()}`}
             nodeType={(nodeData as Module).type}
@@ -125,7 +131,7 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
             nodeType={(nodeData as Module).type}
             isInput={false}
           />
-        </div>
+        </Box>
       )}
     </>
   )

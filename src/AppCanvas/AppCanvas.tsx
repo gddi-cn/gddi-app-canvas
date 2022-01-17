@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 import { Provider, createStore } from './store/useStore'
 import { Pipeline, ModuleDefinitions, AIAppType } from './types'
 import { AppCanvasChild } from './AppCanvasChild'
+import { ColorModeContext } from './context'
+
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -49,16 +53,40 @@ export const AppCanvas = ({
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasProps): JSX.Element => {
+  const [mode, setMode] = useState<'light' | 'dark'>('light')
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
+      }
+    }),
+    []
+  )
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode
+        }
+      }),
+    [mode]
+  )
+
   return (
     <Provider createStore={createStore}>
-      <AppCanvasChild
-        defaultValue={defaultValue}
-        moduleDefinitions={moduleDefinitions}
-        onLoad={onLoad}
-        onValueChange={onValueChange}
-        graphEditingDisabled={graphEditingDisabled}
-        propEditingDisabled={propEditingDisabled}
-      />
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <AppCanvasChild
+            defaultValue={defaultValue}
+            moduleDefinitions={moduleDefinitions}
+            onLoad={onLoad}
+            onValueChange={onValueChange}
+            graphEditingDisabled={graphEditingDisabled}
+            propEditingDisabled={propEditingDisabled}
+          />
+        </ThemeProvider>
+      </ColorModeContext.Provider>
     </Provider>
   )
 }

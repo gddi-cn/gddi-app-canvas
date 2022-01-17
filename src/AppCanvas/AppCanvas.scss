@@ -2,10 +2,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-.react-flow__pane {
-  background-color: #e8eaed;
+  // transition: all 0.15s ease;
 }
 
 .react-flow__node {
@@ -14,7 +11,7 @@
 }
 
 .control-button {
-  top: 10px;
+  top: 15px;
   left: 10px;
   position: absolute;
   z-index: 5;
@@ -26,5 +23,26 @@
   .control-button-icon {
     color: #606060;
     font-size: 1.1rem;
+  }
+}
+
+.togglemode-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+}
+
+.react-flow__controls {
+  box-shadow: 0 0 2px 1px rgb(0 0 0 / 8%);
+  &.dark {
+    button {
+      background: rgb(0, 0, 0);
+      border-color: #323232;
+    }
+    svg {
+      filter: invert(48%) sepia(79%) saturate(0%) hue-rotate(83deg)
+        brightness(150%) contrast(119%);
+    }
   }
 }

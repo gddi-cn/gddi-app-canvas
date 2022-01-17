@@ -4,6 +4,8 @@ import shallow from 'zustand/shallow'
 import { useOutsideClick } from '../hooks'
 import { useStore } from '../store/useStore'
 
+import Box from '@mui/material/Box'
+
 export interface NodeDropDownProps {
   onDeleteClick: () => void
 }
@@ -31,13 +33,17 @@ export const NodeDropDown = ({
   }, [setShowDd, onDeleteClick])
 
   return (
-    <div ref={menuRef} role="menu">
+    <Box
+      ref={menuRef}
+      role="menu"
+      sx={{ bgcolor: 'background.default', color: 'text.primary' }}
+    >
       <MoreVertIcon
         className="gddi-aiappcanvas__dropdown-icon"
         style={{ cursor: 'pointer' }}
         onClick={handleIconClick}
       />
-      <div
+      <Box
         className="gddi-aiappcanvas__dropdown-menu"
         hidden={isClickOutside || !showDd}
       >
@@ -50,7 +56,7 @@ export const NodeDropDown = ({
         >
           Delete
         </button>
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

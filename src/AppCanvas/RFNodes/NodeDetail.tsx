@@ -31,8 +31,22 @@ const PropRow = ({
         onChange(e.target.value)
       }
       return (
-        <FormControl variant="standard" sx={{ m: 1, width: 256, margin: 0 }}>
-          <InputLabel id={`prop-label-${propName}`}>{propName}</InputLabel>
+        <FormControl
+          variant="standard"
+          sx={{
+            m: 1,
+            width: 256,
+            margin: 0,
+            bgcolor: 'background.default',
+            color: 'text.primary'
+          }}
+        >
+          <InputLabel
+            id={`prop-label-${propName}`}
+            sx={{ bgcolor: 'background.default', color: 'text.primary' }}
+          >
+            {propName}
+          </InputLabel>
           <Select
             disabled={readonly}
             labelId={`prop-label-${propName}`}
@@ -40,13 +54,21 @@ const PropRow = ({
             value={value?.toString()}
             onChange={handleSelectChange}
             label="Age"
-            sx={{ fontSize: '0.8rem' }}
+            sx={{
+              fontSize: '0.8rem',
+              bgcolor: 'background.default',
+              color: 'text.primary'
+            }}
           >
             {options.map((op) => (
               <MenuItem
                 key={op?.toString()}
                 value={op?.toString()}
-                sx={{ fontSize: '0.8rem' }}
+                sx={{
+                  fontSize: '0.8rem',
+                  bgcolor: 'background.default',
+                  color: 'text.primary'
+                }}
               >
                 {op}
               </MenuItem>
@@ -62,6 +84,7 @@ const PropRow = ({
     }
     return (
       <TextField
+        sx={{ bgcolor: 'background.default', color: 'text.primary' }}
         style={{ width: '100%' }}
         size="small"
         disabled={readonly}

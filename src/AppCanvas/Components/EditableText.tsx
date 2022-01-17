@@ -54,7 +54,10 @@ export const EditableText = ({
   const editingMode = useMemo(
     () => (
       <Input
-        style={{ width: '200px' }}
+        style={{
+          width: '200px',
+          color: 'text.primary'
+        }}
         value={value}
         inputProps={{ 'aria-label': 'description' }}
         onChange={handleInputChange}

@@ -1,3 +1,5 @@
+// Currently unused!
+
 import React, { useCallback } from 'react'
 import { ModulePropType } from '../types'
 
