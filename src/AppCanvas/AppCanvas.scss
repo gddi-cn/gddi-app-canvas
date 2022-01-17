@@ -1,6 +1,7 @@
 $color-black: rgb(0, 0, 0);
 $color-white: rgb(255, 255, 255);
 $color-default-gray: #838383;
+$color-default-gray-lighter: #a7a7a7;
 $color-gray-light: #e8eaed;
 $color-gray-dark: #444444;
 $color-gray-darker: #606060;
@@ -51,7 +52,7 @@ $shadow-black: 0px 2px 2px rgb(0 0 0 / 20%);
   &.dark {
     --color-page-background: #{$color-black};
     --color-text: #{$color-white};
-    --color-button-background: #{$color-default-gray};
+    --color-button-background: #{$color-default-gray-lighter};
     --color-button-text-disabled: #{$color-gray-disabled-darker};
     --color-border: #{$color-white};
     --color-article-background: #{$color-gray-light};
@@ -65,7 +66,7 @@ $shadow-black: 0px 2px 2px rgb(0 0 0 / 20%);
     --color-border2: #{$color-border-gray2};
     --color-blue-text: #{$color-green-blue};
     --color-svg-text: #{$color-gainsboro};
-    --color-control-bg: #{$color-default-gray};
+    --color-control-bg: #{$color-default-gray-lighter};
   }
 }
 
@@ -103,12 +104,12 @@ $shadow-black: 0px 2px 2px rgb(0 0 0 / 20%);
   &.dark {
     box-shadow: 0 0 2px 1px rgb(255 255 255 / 8%);
     button {
-      background: #838383;
+      background: #a7a7a7;
       border-color: #979797;
     }
-    svg {
-      filter: invert(48%) sepia(79%) saturate(0%) hue-rotate(83deg)
-        brightness(150%) contrast(119%);
-    }
+    // svg {
+    //   filter: invert(48%) sepia(79%) saturate(0%) hue-rotate(83deg)
+    //     brightness(150%) contrast(119%);
+    // }
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { Provider, createStore } from './store/useStore'
 import { Pipeline, ModuleDefinitions, AIAppType } from './types'
 import { AppCanvasChild } from './AppCanvasChild'
@@ -14,6 +14,14 @@ import '@fontsource/roboto/700.css'
 import './AppCanvas.scss'
 
 export interface AppCanvasProps {
+  /**
+   * Set dark theme when component loaded
+   */
+  dark?: boolean
+  /**
+   * Hide the button for toggling dark mode
+   */
+  hideDarkModeButton?: boolean
   /**
    * Object to define different types of modules
    */
@@ -46,6 +54,8 @@ export interface AppCanvasProps {
  * React component to visualize GDDi's AI APPs in flow chart fashion.
  */
 export const AppCanvas = ({
+  dark,
+  hideDarkModeButton,
   defaultValue,
   moduleDefinitions,
   onLoad,
@@ -62,17 +72,10 @@ export const AppCanvas = ({
     }),
     []
   )
-
-  // const theme = useMemo(
-  //   () =>
-  //     createTheme({
-  //       palette: {
-  //         mode
-  //       }
-  //     }),
-  //   [mode]
-  // )
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode])
+  useEffect(() => {
+    setMode(dark === true ? 'dark' : 'light')
+  }, [dark])
 
   return (
     <Provider createStore={createStore}>
@@ -80,6 +83,7 @@ export const AppCanvas = ({
         <ThemeProvider theme={theme}>
           <AppCanvasChild
             defaultValue={defaultValue}
+            hideDarkModeButton={hideDarkModeButton}
             moduleDefinitions={moduleDefinitions}
             onLoad={onLoad}
             onValueChange={onValueChange}

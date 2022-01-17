@@ -21,6 +21,10 @@ import Brightness7Icon from '@mui/icons-material/Brightness7'
 
 export interface AppCanvasChildProps {
   /**
+   * Hide the button for toggling dark mode
+   */
+  hideDarkModeButton?: boolean
+  /**
    * Object to define different types of modules
    */
   moduleDefinitions: ModuleDefinitions
@@ -52,6 +56,7 @@ export interface AppCanvasChildProps {
  * React component to visualize GDDi's AI APPs in flow chart fashion.
  */
 export const AppCanvasChild = ({
+  hideDarkModeButton,
   defaultValue,
   moduleDefinitions,
   onLoad,
@@ -181,19 +186,21 @@ export const AppCanvasChild = ({
         nodesDraggable={!graphEditingDisabled}
         nodesConnectable={!graphEditingDisabled}
       >
-        <div className="togglemode-button">
-          <IconButton
-            size="small"
-            onClick={colorMode.toggleColorMode}
-            color="inherit"
-          >
-            {theme.palette.mode === 'dark' ? (
-              <Brightness7Icon />
-            ) : (
-              <Brightness4Icon />
-            )}
-          </IconButton>
-        </div>
+        {(hideDarkModeButton === false || hideDarkModeButton === undefined) && (
+          <div className="togglemode-button">
+            <IconButton
+              size="small"
+              onClick={colorMode.toggleColorMode}
+              color="inherit"
+            >
+              {theme.palette.mode === 'dark' ? (
+                <Brightness7Icon />
+              ) : (
+                <Brightness4Icon />
+              )}
+            </IconButton>
+          </div>
+        )}
         <Controls className={theme.palette.mode} showInteractive={false} />
         {!graphEditingDisabled && <ExtendedControls />}
       </ReactFlow>

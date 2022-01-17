@@ -164,6 +164,8 @@ const Template: Story<AppCanvasProps> = (args) => {
 
 export const AddModules = Template.bind({})
 AddModules.args = {
+  dark: false,
+  hideDarkModeButton: false,
   defaultValue: undefined,
   moduleDefinitions: modDef2
 } as AppCanvasProps
