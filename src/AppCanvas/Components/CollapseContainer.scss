@@ -4,13 +4,13 @@
   justify-content: space-between;
   padding: 18px;
   font-size: 14px;
-  color: #1a73e8;
+  color: var(--color-blue-text);
   transition: 0.2s all ease-out;
   font-weight: 600;
-  border-top: 1px solid #dedede;
+  border-top: 1px solid var(--color-border);
 
   &:hover {
-    background-color: #e8f0fe;
+    background-color: var(--color-dropdown-hover);
   }
 }
 

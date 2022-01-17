@@ -7,6 +7,7 @@
 .react-flow__handle {
   height: 15px;
   width: 15px;
+  border-color: var(--color-page-background);
 }
 
 .react-flow__handle-right {
@@ -22,8 +23,8 @@
   display: flex;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0px 2px 2px rgb(0 0 0 / 20%);
-  background-color: #fff;
+  box-shadow: var(--shadow-simplenode);
+  // background-color: #fff;
   box-sizing: border-box;
 
   .gddi-aiappcanvas__simplenode {
@@ -53,15 +54,15 @@
       margin: 18px;
       flex-direction: column;
       text-align: center;
-      background-color: #e8f0fe;
-      color: #1967d2;
+      background-color: var(--color-moduletype-bg);
+      color: var(--color-moduletype-type);
       border: 2px solid transparent;
       border-radius: 4px;
       font-weight: 700;
     }
     .module-type-type {
       font-size: 0.65em;
-      color: #7aa1cb;
+      color: var(--color-moduletype-title);
       font-style: italic;
       margin-bottom: 10px;
     }
@@ -69,9 +70,9 @@
     .gddi-aiappcanvas__header {
       display: flex;
       height: 57px;
-      border-bottom: 1px solid #dedede;
+      border-bottom: 1px solid var(--color-border);
       justify-content: space-between;
-      color: gray;
+      color: var(--color-svg-text);
 
       .gddi-aiappcanvas__dropdown-icon:hover {
         color: #999999;
@@ -79,13 +80,14 @@
       .gddi-aiappcanvas__dropdown-menu {
         position: absolute;
         z-index: 1000;
-        box-shadow: 0px 1px 5px #ccc;
+        box-shadow: 0px 1px 5px #4e4e4e;
         border-radius: 6px;
         width: 200px;
         min-width: 200px;
-        background-color: #fff;
-        color: #3c4043;
+        background-color: var(--color-button-background);
+        color: var(--color-text);
         button {
+          color: inherit;
           text-align: left;
           font-weight: 500;
           background: transparent;
@@ -99,7 +101,7 @@
             background-color: rgba(0, 0, 0, 0.05);
           }
           &.disabled {
-            color: #cbcbcb;
+            color: var(--color-button-text-disabled);
           }
         }
       }
@@ -126,7 +128,7 @@
 
     .gddi-aiappcanvas__simplenode-proprow {
       font-size: 14px;
-      border-top: 1px solid #eaeaea;
+      border-top: 1px solid var(--color-border2);
       padding: 18px;
       &:first-child {
         padding-top: 0px;

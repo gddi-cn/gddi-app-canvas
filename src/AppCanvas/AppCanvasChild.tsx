@@ -16,7 +16,6 @@ import { ColorModeContext } from './context'
 
 import { useTheme } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
-import Box from '@mui/material/Box'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 
@@ -129,13 +128,6 @@ export const AppCanvasChild = ({
     }),
     [theme]
   )
-  const controlStyle = useMemo(
-    () => ({
-      background: theme.palette.mode === 'dark' ? '#444444' : 'white',
-      color: theme.palette.mode === 'dark' ? 'yellow' : 'black'
-    }),
-    [theme]
-  )
 
   useEffect(() => {
     // console.log('EEEE - modDef')
@@ -177,6 +169,7 @@ export const AppCanvasChild = ({
   return (
     <>
       <ReactFlow
+        className={theme.palette.mode}
         style={style}
         elements={rfElements}
         nodeTypes={rfNodeTypes}

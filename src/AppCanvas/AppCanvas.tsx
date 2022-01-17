@@ -3,9 +3,9 @@ import { Provider, createStore } from './store/useStore'
 import { Pipeline, ModuleDefinitions, AIAppType } from './types'
 import { AppCanvasChild } from './AppCanvasChild'
 import { ColorModeContext } from './context'
+import { getDesignTokens } from './theme'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
 
 import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
@@ -63,15 +63,16 @@ export const AppCanvas = ({
     []
   )
 
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode
-        }
-      }),
-    [mode]
-  )
+  // const theme = useMemo(
+  //   () =>
+  //     createTheme({
+  //       palette: {
+  //         mode
+  //       }
+  //     }),
+  //   [mode]
+  // )
+  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode])
 
   return (
     <Provider createStore={createStore}>

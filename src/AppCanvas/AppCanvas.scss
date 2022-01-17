@@ -1,8 +1,72 @@
+$color-black: rgb(0, 0, 0);
+$color-white: rgb(255, 255, 255);
+$color-default-gray: #838383;
+$color-gray-light: #e8eaed;
+$color-gray-dark: #444444;
+$color-gray-darker: #606060;
+$color-blue-lighter: #e7f1fe;
+$color-blue-light: #e8f0fe;
+$color-blue-mid: #97a4b9;
+$color-blue: #1967d2;
+$color-blue-gray: #7aa1cb;
+$color-blue-gray-dark: #64738b;
+$color-blue-dark: #21262e;
+$color-border-gray: #dedede;
+$color-border-gray-dark: #323232;
+$color-border-gray2: #eaeaea;
+$color-border-gray-dark2: #282828;
+$color-green-blue: #40cfdf;
+$color-gray-disabled: #cbcbcb;
+$color-gray-disabled-darker: #484848;
+$color-gainsboro: 'gainsboro';
+
+$shadow-black: 0px 2px 2px rgb(0 0 0 / 20%);
+// $shadow-white: 0px 2px 2px rgb(255 255 255 / 20%);
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   // transition: all 0.15s ease;
+}
+
+.react-flow {
+  --color-page-background: #{$color-white};
+  --color-text: #{$color-black};
+  --color-button-background: #{$color-white};
+  --color-button-text-disabled: #{$color-gray-disabled};
+  --color-border: #{$color-black};
+  --color-article-background: #{$color-white};
+  --color-article-shadow: #{$color-gray-dark};
+  --shadow-simplenode: #{$shadow-black};
+  --color-moduletype-bg: #{$color-blue-light};
+  --color-moduletype-title: #{$color-blue-gray};
+  --color-moduletype-type: #{$color-blue};
+  --color-dropdown-hover: #{$color-blue-light};
+  --color-border: #{$color-border-gray};
+  --color-border2: #{$color-border-gray2};
+  --color-blue-text: #{$color-blue};
+  --color-svg-text: #{$color-gray-darker};
+  --color-control-bg: #{$color-blue-lighter};
+  &.dark {
+    --color-page-background: #{$color-black};
+    --color-text: #{$color-white};
+    --color-button-background: #{$color-default-gray};
+    --color-button-text-disabled: #{$color-gray-disabled-darker};
+    --color-border: #{$color-white};
+    --color-article-background: #{$color-gray-light};
+    --color-article-shadow: #{$color-gray-dark};
+    --shadow-simplenode: #{$shadow-black};
+    --color-moduletype-bg: #{$color-blue-gray-dark};
+    --color-moduletype-title: #{$color-blue-mid};
+    --color-moduletype-type: #{$color-green-blue};
+    --color-dropdown-hover: #{$color-blue-gray-dark};
+    --color-border: #{$color-border-gray};
+    --color-border2: #{$color-border-gray2};
+    --color-blue-text: #{$color-green-blue};
+    --color-svg-text: #{$color-gainsboro};
+    --color-control-bg: #{$color-default-gray};
+  }
 }
 
 .react-flow__node {
@@ -15,13 +79,14 @@
   left: 10px;
   position: absolute;
   z-index: 5;
-  background-color: #e7f1fe;
+  background-color: var(--color-control-bg);
+  color: var(--color-svg-text);
   box-shadow: 0 0 2px 1px rgb(0 0 0 / 8%);
   cursor: pointer;
   display: flex;
   padding: 4px;
   .control-button-icon {
-    color: #606060;
+    color: inherit;
     font-size: 1.1rem;
   }
 }
@@ -31,14 +96,15 @@
   top: 10px;
   right: 10px;
   z-index: 5;
+  color: var(--color-svg-text);
 }
 
 .react-flow__controls {
-  box-shadow: 0 0 2px 1px rgb(0 0 0 / 8%);
   &.dark {
+    box-shadow: 0 0 2px 1px rgb(255 255 255 / 8%);
     button {
-      background: rgb(0, 0, 0);
-      border-color: #323232;
+      background: #838383;
+      border-color: #979797;
     }
     svg {
       filter: invert(48%) sepia(79%) saturate(0%) hue-rotate(83deg)
