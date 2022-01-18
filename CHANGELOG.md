@@ -1,4 +1,4 @@
-## v0.1.2
+## v0.1.3
 
 - AppInstance 新增 methods ----
   - clear(); clear all contents in the canvas
