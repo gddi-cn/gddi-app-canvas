@@ -25,7 +25,7 @@ export const graphLayoutHelper = (
       ;(graph.children as Record<string, any>[]).push({
         id: eleNode.id,
         width: 500,
-        height: 300
+        height: 400
       })
     } else {
       const eleEdge = ele as Edge
