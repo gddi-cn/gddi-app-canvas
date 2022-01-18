@@ -27,6 +27,8 @@ export interface Module {
   name: string
   runner: string
   props?: { [propName: string]: ModulePropType }
+  // the props' value when the they were initially added
+  propsInited?: { [propName: string]: ModulePropType }
 }
 
 // [sourceModuleId, sourceModuleOutputId, targetModuleId, targetModuleInputId]
@@ -63,4 +65,8 @@ export type AIAppType = {
    * Clear content in canvas
    */
   clear: () => void
+  /**
+   * Reset all modules' properties to what they were when inited
+   */
+  resetModuleProps: () => void
 }

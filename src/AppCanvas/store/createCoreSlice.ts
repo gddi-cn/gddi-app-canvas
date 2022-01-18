@@ -17,8 +17,10 @@ import {
   getRFEdge,
   graphLayoutHelper,
   getNextModuleId,
-  updateIds
+  updateIds,
+  setModulePropInited
 } from '../helpers'
+import { initValue } from './initState'
 
 export interface CoreSlice {
   value: Pipeline
@@ -51,11 +53,7 @@ const createCoreSlice = (
   set: SetState<MyState>,
   get: GetState<MyState>
 ): CoreSlice => ({
-  value: {
-    version: 'v0.1.0',
-    nodes: [],
-    pipe: []
-  },
+  value: initValue,
   moduleDefinitions: {},
   rfElements: [],
   setModuleDefinitions: (newMDs: ModuleDefinitions) => {
@@ -83,7 +81,9 @@ const createCoreSlice = (
         produce((draft: MyState) => {
           const draft1 = draft
           draft1.value.version = newValue.version
-          draft1.value.nodes = [...newValue.nodes]
+          draft1.value.nodes = newValue.nodes.map(
+            (node) => setModulePropInited(node) as Module
+          )
           draft1.value.pipe = [...newValue.pipe]
           draft1.rfElements = [...rfElements]
         })
@@ -111,7 +111,7 @@ const createCoreSlice = (
           const draft1 = draft
           // set state - value
           mods1.forEach((mod1) => {
-            draft1.value.nodes.push(mod1)
+            draft1.value.nodes.push(setModulePropInited(mod1) as Module)
           })
           conns1.forEach(([srcId, srcOutputId, targetId, targetInputId]) => {
             draft1.value.pipe.push([
@@ -153,7 +153,7 @@ const createCoreSlice = (
         if (id === undefined) {
           id = getNextModuleId(draft.value.nodes)
         }
-        const module1 = { ...module, id }
+        const module1 = { ...setModulePropInited(module), id }
         draft1.value.nodes.push(module1)
         draft1.rfElements.push(getRFNode(module1))
       })

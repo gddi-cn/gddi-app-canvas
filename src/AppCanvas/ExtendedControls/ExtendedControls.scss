@@ -1,0 +1,21 @@
+.custom-controls {
+  position: absolute;
+  top: 0.8rem;
+  display: flex;
+  z-index: 5;
+
+  .control-button {
+    margin-left: 0.8rem;
+    margin-right: 0.8rem;
+    background-color: var(--color-control-bg);
+    color: var(--color-svg-text);
+    box-shadow: 0 0 2px 1px rgb(0 0 0 / 8%);
+    cursor: pointer;
+    display: flex;
+    padding: 4px;
+    .control-button-icon {
+      color: inherit;
+      font-size: 1.1rem;
+    }
+  }
+}

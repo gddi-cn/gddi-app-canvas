@@ -78,7 +78,8 @@ export const AppCanvasChild = ({
     addPipeline,
     setGraphEditingDisabled,
     setPropEditingDisabled,
-    clear
+    clear,
+    resetModuleProps
   } = useStore(
     (state) => ({
       value: state.value,
@@ -90,7 +91,8 @@ export const AppCanvasChild = ({
       addPipeline: state.addPipeline,
       setGraphEditingDisabled: state.setGraphEditingDisabled,
       setPropEditingDisabled: state.setPropEditingDisabled,
-      clear: state.clear
+      clear: state.clear,
+      resetModuleProps: state.resetModuleProps
     }),
     shallow
   )
@@ -107,7 +109,8 @@ export const AppCanvasChild = ({
         addPipeline,
         layoutGraph,
         fitView,
-        clear
+        clear,
+        resetModuleProps
       }
     } else {
       appRef.current.addModule = addModule
@@ -142,12 +145,13 @@ export const AppCanvasChild = ({
   }, [setModuleDefinitions, moduleDefinitions])
 
   useEffect(() => {
+    // Set Default Value
     // console.log(`EEEE ${name} - defaultValue`)
     // console.log(defaultValue)
     if (defaultValue) {
       setValue(defaultValue)
     }
-  }, [setValue, defaultValue, name])
+  }, [setValue, defaultValue])
 
   useEffect(() => {
     if (onValueChange) {
@@ -202,7 +206,7 @@ export const AppCanvasChild = ({
           </div>
         )}
         <Controls className={theme.palette.mode} showInteractive={false} />
-        {!graphEditingDisabled && <ExtendedControls />}
+        <ExtendedControls />
       </ReactFlow>
     </>
   )

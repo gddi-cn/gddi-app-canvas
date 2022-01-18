@@ -1,8 +1,9 @@
 /* eslint-disable max-len */
 import { Node, Edge, ArrowHeadType } from 'react-flow-renderer'
-import { Module, Connection } from '../types'
+import { Module, Connection, Pipeline } from '../types'
 import { SIMPLE_NODE } from '../RFNodes'
 import { SIMPLE_EDGE } from '../RFEdges'
+import { RawModule } from '..'
 
 const getRandomInt = (min: number, max: number): number => {
   const min1 = Math.ceil(min)
@@ -93,4 +94,30 @@ export const updateIds = (
     modIdNew += 1
   })
   return [mods1, conns1]
+}
+
+export const setPipelinePropsInited = (defaultValue: Pipeline): void => {
+  defaultValue.nodes.forEach((mod) => {
+    if (mod.props) {
+      mod.propsInited = { ...mod.props }
+    }
+  })
+}
+
+export const setModulesPropInited = (modules: (Module | RawModule)[]): void => {
+  modules.forEach((mod) => {
+    if (mod.props) {
+      mod.propsInited = { ...mod.props }
+    }
+  })
+}
+
+export const setModulePropInited = (
+  module: Module | RawModule
+): Module | RawModule => {
+  const res = { ...module }
+  if (module.props) {
+    res.propsInited = { ...res.props }
+  }
+  return res
 }
