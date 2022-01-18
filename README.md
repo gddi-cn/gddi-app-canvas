@@ -44,13 +44,20 @@ const handleValueChange = useCallback((val: Pipeline) => {
 </div>
 ```
 
+## Style
+
+### Dark Mode
+
+set prop `dark`
+
 ## Data Explained
 
 ### moduleDefinitions
 
 Object to describe the module's input / output endpoints, property, and other metadata.
 
-Type define can be found in `src/AppCanvas/types.ts`
+- Type define can be found in `src/AppCanvas/types.ts`
+- Example can be found in `src/stories/data/`
 
 ```typescript
 export type ModulePropType = string | number | boolean | undefined
