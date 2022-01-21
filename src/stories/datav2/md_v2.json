@@ -1,0 +1,76 @@
+{
+  "CppZmqCvMatPusher_v1": {
+    "version": "v1.0",
+    "name": "CppZmqCvMatPusher_v1",
+    "description": "ZMQ cv::Mat图片推送",
+    "inputs": [
+      {
+        "id": 0,
+        "name": "Mat"
+      }
+    ],
+    "props": {
+      "push_addr": {
+        "type": "string"
+      }
+    }
+  },
+  "Detection_v2": {
+    "version": "v1.0",
+    "name": "Detection_v2",
+    "description": "SE5 推理组件 v2.0",
+    "inputs": [
+      {
+        "id": 0,
+        "name": "cv_image"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 0,
+        "name": "cv_image"
+      }
+    ]
+  },
+  "props": {
+    "mod_name": {
+      "type": "string"
+    },
+    "mod_path": {
+      "type": "string"
+    },
+    "conf_path": {
+      "type": "string"
+    },
+    "filter_labels": {
+      "type": "array"
+    },
+    "stream_id": {
+      "type": "string"
+    }
+  },
+  "ROI_v2": {
+    "version": "v2.0",
+    "name": "ROI_v2",
+    "description": "ROI 组件 v2.0",
+    "inputs": [
+      {
+        "id": 0,
+        "name": "cv_image"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 0,
+        "name": "cv_image"
+      }
+    ],
+    "props": {
+      "regions": {
+        "type": "array",
+        "description": "所有ROI区域的列表；每个ROI -- [topX, topY, width, height]",
+        "minDimension": 2
+      }
+    }
+  }
+}

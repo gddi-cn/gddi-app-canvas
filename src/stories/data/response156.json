@@ -1,0 +1,288 @@
+[
+  {
+    "description": "ZMQ cv::Mat图片推送",
+    "ep_in": [{ "feature": "Mat", "index": 0 }],
+    "ep_out": [],
+    "name": "CppZmqCvMatPusher_v1",
+    "props": { "push_addr": null },
+    "type": "CppZmqCvMatPusher_v1",
+    "version": "v1.0"
+  },
+  {
+    "description": "图像绘制组件 v2.0",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [{ "feature": "cv_image", "index": 0 }],
+    "name": "Graphics_v2",
+    "props": { "ttf_file": null },
+    "type": "Graphics_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "视频读取组件",
+    "ep_in": [],
+    "ep_out": [{ "feature": "cv_image", "index": 0 }],
+    "name": "VideoCaptureNode",
+    "props": { "video_path": null },
+    "type": "VideoCaptureNode",
+    "version": "null"
+  },
+  {
+    "description": "AVFrame to cv::Mat，github yuv2rgb std",
+    "ep_in": [{ "feature": "AVFrame*", "index": 0 }],
+    "ep_out": [{ "feature": "Mat", "index": 0 }],
+    "name": "AvToCvMat_yuv2rgb",
+    "props": null,
+    "type": "AvToCvMat_yuv2rgb",
+    "version": "null"
+  },
+  {
+    "description": "ZMQ cv::Mat图片推送",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [],
+    "name": "CvMatPusher_v2",
+    "props": { "address": null, "quality": null },
+    "type": "CvMatPusher_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "AVFrame to cv::Mat，sws方法",
+    "ep_in": [{ "feature": "AVFrame*", "index": 0 }],
+    "ep_out": [{ "feature": "Mat", "index": 0 }],
+    "name": "AvToCvMat_v1",
+    "props": { "print_sws_time": null },
+    "type": "AvToCvMat_v1",
+    "version": "v1.0"
+  },
+  {
+    "description": "SE5 推理组件 v2.0",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [{ "feature": "cv_image", "index": 0 }],
+    "name": "Detection_v2",
+    "props": {
+      "conf_path": null,
+      "filter_labels": null,
+      "mod_name": null,
+      "mod_path": null,
+      "stream_id": null
+    },
+    "type": "Detection_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "ROI 组件 v2.0",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [{ "feature": "cv_image", "index": 0 }],
+    "name": "ROI_v2",
+    "props": { "hot_region": null, "max_detect": null, "min_detect": null },
+    "type": "ROI_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "Bridge",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [{ "feature": "cv_image", "index": 0 }],
+    "name": "Bridge_v1",
+    "props": { "last_node": null },
+    "type": "Bridge_v1",
+    "version": "v1.0"
+  },
+  {
+    "description": "消息时间分析打印(debug)",
+    "ep_in": [{ "feature": "any", "index": 0 }],
+    "ep_out": [{ "feature": "any", "index": 0 }],
+    "name": "MessageRefTime_v1",
+    "props": null,
+    "type": "MessageRefTime_v1",
+    "version": "v1.0"
+  },
+  {
+    "description": "码流解包组件 v2.0",
+    "ep_in": [],
+    "ep_out": [
+      { "feature": "av_stream_open", "index": 0 },
+      { "feature": "av_packet", "index": 1 }
+    ],
+    "name": "Demuxer_v2",
+    "props": { "loop": null, "stream_url": null },
+    "type": "Demuxer_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "AVFrame to cv::Mat，cvtColor方法",
+    "ep_in": [{ "feature": "AVFrame*", "index": 0 }],
+    "ep_out": [{ "feature": "Mat", "index": 0 }],
+    "name": "AvToCvMat_opencv2",
+    "props": null,
+    "type": "AvToCvMat_opencv2",
+    "version": "null"
+  },
+  {
+    "description": "码流解包组件 v1.1",
+    "ep_in": [],
+    "ep_out": [
+      { "feature": "AVPacket*", "index": 0 },
+      { "feature": "av_stream_open", "index": 1 }
+    ],
+    "name": "Demuxer_v1_1",
+    "props": { "stream_url": null },
+    "type": "Demuxer_v1_1",
+    "version": "v1.1"
+  },
+  {
+    "description": "编码组件 v2.0",
+    "ep_in": [
+      { "feature": "av_stream_open", "index": 0 },
+      { "feature": "av_packet", "index": 1 }
+    ],
+    "ep_out": [
+      { "feature": "av_decode_open", "index": 0 },
+      { "feature": "av_frame", "index": 1 }
+    ],
+    "name": "Decoder_v2",
+    "props": { "enable_acc": null, "hw_type": null },
+    "type": "Decoder_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "检测节点合并组件",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [{ "feature": "cv_image", "index": 0 }],
+    "name": "Merge_v2",
+    "props": { "input_node": null },
+    "type": "Merge_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "码流解包组件",
+    "ep_in": [{ "feature": "demux.cmd", "index": 0 }],
+    "ep_out": [
+      { "feature": "AVPacket*", "index": 0 },
+      { "feature": "AVCodecParameters*", "index": 1 }
+    ],
+    "name": "Demuxer_v1",
+    "props": { "stream_url": null },
+    "type": "Demuxer_v1",
+    "version": "v1.0"
+  },
+  {
+    "description": "解码组件 v2.0",
+    "ep_in": [{ "feature": "av_frame", "index": 0 }],
+    "ep_out": [
+      { "feature": "av_encode_open", "index": 0 },
+      { "feature": "av_packet", "index": 1 }
+    ],
+    "name": "Encoder_v2",
+    "props": {
+      "bitrate": null,
+      "codec": null,
+      "framerate": null,
+      "gop_size": null,
+      "height": null,
+      "width": null
+    },
+    "type": "Encoder_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "FFmpeg -> Opencv",
+    "ep_in": [{ "feature": "av_frame", "index": 0 }],
+    "ep_out": [{ "feature": "cv_image", "index": 0 }],
+    "name": "AvToCv_v2",
+    "props": { "task_name": null },
+    "type": "AvToCv_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "码流封包组件 v2.0",
+    "ep_in": [
+      { "feature": "av_encode_open", "index": 0 },
+      { "feature": "av_packet", "index": 1 }
+    ],
+    "ep_out": [],
+    "name": "Remuxer_v2",
+    "props": { "stream_url": null },
+    "type": "Remuxer_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "Opencv -> FFmpeg",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [{ "feature": "av_frame", "index": 0 }],
+    "name": "CvToAv_v2",
+    "props": null,
+    "type": "CvToAv_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "解码组件 v1",
+    "ep_in": [
+      { "feature": "AVPacket*", "index": 0 },
+      { "feature": "AVCodecParameters*", "index": 1 }
+    ],
+    "ep_out": [
+      { "feature": "AVFrame*", "index": 0 },
+      {
+        "feature": "std::char_traits<char>, std::allocator<char> >",
+        "index": 1
+      }
+    ],
+    "name": "Decoder_v1",
+    "props": { "disable_hw_acc": null, "prefer_hw": null },
+    "type": "Decoder_v1",
+    "version": "v1.0"
+  },
+  {
+    "description": "",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [],
+    "name": "Debug_v2",
+    "props": { "save_path": null },
+    "type": "Debug_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "解码组件 v1.1",
+    "ep_in": [
+      { "feature": "AVPacket*", "index": 0 },
+      { "feature": "av_stream_open", "index": 1 }
+    ],
+    "ep_out": [
+      { "feature": "AVFrame*", "index": 0 },
+      {
+        "feature": "std::char_traits<char>, std::allocator<char> >",
+        "index": 1
+      }
+    ],
+    "name": "Decoder_v1_1",
+    "props": { "disable_hw_acc": null, "prefer_hw": null },
+    "type": "Decoder_v1_1",
+    "version": "v1.1"
+  },
+  {
+    "description": "推理结果上报组件 v2.0",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [],
+    "name": "Report_v2",
+    "props": { "report_url": null, "save_raw": null },
+    "type": "Report_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "目标跟踪组件 v2.0",
+    "ep_in": [{ "feature": "cv_image", "index": 0 }],
+    "ep_out": [{ "feature": "cv_image", "index": 0 }],
+    "name": "Tracking_v2",
+    "props": null,
+    "type": "Tracking_v2",
+    "version": "v2.0"
+  },
+  {
+    "description": "图像检测组件 v2.0",
+    "ep_in": [],
+    "ep_out": [{ "feature": "cv_image", "index": 0 }],
+    "name": "Image_v2",
+    "props": { "image_url": null, "task_id": null },
+    "type": "Image_v2",
+    "version": "v2.0"
+  }
+]
