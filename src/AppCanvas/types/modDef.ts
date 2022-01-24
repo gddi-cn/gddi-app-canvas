@@ -17,25 +17,25 @@ export interface Endpoint {
 }
 
 type PropDefinitionObject = {
-  [propName: string]: PropDefinition | ROIPropDefinition
+  [propName: string]: SimplePropDefinition | ROIPropDefinition
 }
 
 type BasicType = 'string' | 'boolean' | 'number'
 
 interface PropDefBasic {
-  type: BasicType | 'object' | 'array'
+  type: BasicType | 'array'
   description?: string
 }
 
-export interface PropDefinition extends PropDefBasic {
+export interface SimplePropDefinition extends PropDefBasic {
   default?: BasicType
   // [case] type is number or integer
   maximum?: number
   minimum?: number
   // [case] type is BasicType; single select
   enum?: BasicType[]
-  // [case] type is object -- props must be defined
-  props?: PropDefinitionObject
+  // // [case] type is object -- props must be defined
+  // props?: PropDefinitionObject
 }
 
 // For ROI模块的特殊设定参数

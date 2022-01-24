@@ -10,7 +10,6 @@ export type Connection = [number, number, number, number]
 export interface Module {
   id: number
   type: string
-  version: string
   name: string
   runner: string
   props?: PropObject
@@ -20,6 +19,7 @@ export interface Module {
 
 export type PropObject = { [propName: string]: PropValue }
 
-export type PropValue = PropValueBaiscType | PropObject | PropValue[]
+// export type PropValue = PropValueBaiscType | PropObject | PropValue[]
+export type PropValue = PropValueBaiscType | PropValue[]
 
 export type PropValueBaiscType = string | number | boolean
