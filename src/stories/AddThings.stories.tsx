@@ -13,15 +13,15 @@ import {
   Connection
 } from '../AppCanvas'
 import { TabPanel } from './components'
-import { pipeline2 } from './data/pl2'
-import { modDef2 } from './data/md2'
+import modDef from './datav2/md_v2.json'
+import pipeline from './datav2/pipeline_v2.json'
 
 import './AddThings.scss'
 
 const myPipeline: Pipeline = {
   version: '0.0.0',
-  nodes: pipeline2.nodes.map((node) => node as Module),
-  pipe: pipeline2.pipe.map((p) => p as Connection)
+  nodes: pipeline.nodes.map((node) => node as Module),
+  pipe: pipeline.pipe.map((p) => p as Connection)
 }
 
 const desString =
@@ -167,7 +167,7 @@ AddModules.args = {
   dark: false,
   hideDarkModeButton: false,
   defaultValue: undefined,
-  moduleDefinitions: modDef2
+  moduleDefinitions: modDef
 } as AppCanvasProps
 
 AddModules.storyName = 'Usage: Add Modules'

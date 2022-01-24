@@ -9,13 +9,13 @@ import {
   Module,
   Connection
 } from '../AppCanvas'
-import { pipeline1 } from './data/pipelines'
-import { modDef1 } from './data/moduleDefinitions'
+import modDef from './datav2/md_v2.json'
+import pipeline from './datav2/pipeline_v2.json'
 
 const myPipeline: Pipeline = {
   version: '0.0.1',
-  nodes: pipeline1.nodes.map((node) => node as Module),
-  pipe: pipeline1.pipe.map((p) => p as Connection)
+  nodes: pipeline.nodes.map((node) => node as Module),
+  pipe: pipeline.pipe.map((p) => p as Connection)
 }
 
 export default {
@@ -47,7 +47,7 @@ BasicUsage.args = {
   dark: false,
   hideDarkModeButton: false,
   defaultValue: myPipeline,
-  moduleDefinitions: modDef1,
+  moduleDefinitions: modDef,
   onLoad: handleCanvasLoad,
   onValueChange: handleValueChange
 } as AppCanvasProps
