@@ -1,16 +1,16 @@
 {
-  "CppZmqCvMatPusher_v1": {
-    "version": "v1.0",
-    "name": "CppZmqCvMatPusher_v1",
-    "description": "ZMQ cv::Mat图片推送",
-    "inputs": [
+  "VideoCaptureNode": {
+    "version": "null",
+    "name": "VideoCaptureNode",
+    "description": "视频读取组件",
+    "outputs": [
       {
         "id": 0,
-        "name": "Mat"
+        "name": "cv_image"
       }
     ],
     "props": {
-      "push_addr": {
+      "video_path": {
         "type": "string"
       }
     }
@@ -30,23 +30,23 @@
         "id": 0,
         "name": "cv_image"
       }
-    ]
-  },
-  "props": {
-    "mod_name": {
-      "type": "string"
-    },
-    "mod_path": {
-      "type": "string"
-    },
-    "conf_path": {
-      "type": "string"
-    },
-    "filter_labels": {
-      "type": "array"
-    },
-    "stream_id": {
-      "type": "string"
+    ],
+    "props": {
+      "mod_name": {
+        "type": "string"
+      },
+      "mod_path": {
+        "type": "string"
+      },
+      "conf_path": {
+        "type": "string"
+      },
+      "filter_labels": {
+        "type": "array"
+      },
+      "stream_id": {
+        "type": "string"
+      }
     }
   },
   "ROI_v2": {
@@ -70,6 +70,25 @@
         "type": "array",
         "description": "所有ROI区域的列表；每个ROI -- [topX, topY, width, height]",
         "minDimension": 2
+      }
+    }
+  },
+  "Report_v2": {
+    "version": "v2.0",
+    "name": "Report_v2",
+    "description": "推理结果上报组件 v2.0",
+    "inputs": [
+      {
+        "id": 0,
+        "name": "cv_image"
+      }
+    ],
+    "props": {
+      "report_url": {
+        "type": "string"
+      },
+      "save_raw": {
+        "type": "boolean"
       }
     }
   }

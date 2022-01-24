@@ -3,19 +3,17 @@
   "nodes": [
     {
       "id": 0,
-      "type": "CppZmqCvMatPusher_v1",
-      "name": "CppZmqCvMatPusher_v1",
-      "version": "CppZmqCvMatPusher_v1",
+      "type": "VideoCaptureNode",
+      "name": "视频读取",
       "runner": "default",
       "props": {
-        "push_addr": "https://xxx/xxx"
+        "video_path": "rtsp://192.168.1.233/chrisCCTV"
       }
     },
     {
       "id": 2,
       "type": "Detection_v2",
-      "name": "Detection_v2",
-      "version": "v1.0",
+      "name": "目标检测模型推理",
       "runner": "default",
       "props": {
         "mod_name": "detect_animals",
@@ -28,7 +26,7 @@
     {
       "id": 3,
       "type": "ROI_v2",
-      "name": "ROI_v2",
+      "name": "ROI区域选择",
       "version": "v2.0",
       "runner": "default",
       "props": {
@@ -37,6 +35,23 @@
           [10, 200, 1028, 1010]
         ]
       }
+    },
+    {
+      "id": 4,
+      "type": "Report_v2",
+      "name": "推理结果上报",
+      "version": "v2.0",
+      "runner": "default",
+      "props": {
+        "report_url": "https://chrisAlarm/findcuteanimal",
+        "save_raw": true
+      }
     }
+  ],
+  "pipe": [
+    [0, 0, 1, 0],
+    [1, 0, 2, 0],
+    [2, 0, 3, 0],
+    [3, 0, 4, 0]
   ]
 }
