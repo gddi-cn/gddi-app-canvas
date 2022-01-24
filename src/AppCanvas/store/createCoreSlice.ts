@@ -4,7 +4,7 @@ import { GetState, SetState } from 'zustand'
 import {
   ModuleDefinitions,
   Pipeline,
-  ModulePropType,
+  PropValue,
   RawModule,
   Module,
   Connection
@@ -33,7 +33,7 @@ export interface CoreSlice {
   modifyModuleProp: (
     moduleId: number,
     propName: string,
-    propVal: ModulePropType
+    propVal: PropValue
   ) => void
   modifyModuleName: (moduleId: number, newName: string) => void
   modifyModuleRunner: (moduleId: number, runner: string) => void
@@ -162,7 +162,7 @@ const createCoreSlice = (
   modifyModuleProp: (
     moduleId: number,
     propName: string,
-    propVal: ModulePropType
+    propVal: PropValue
   ) => {
     set(
       produce((draft: MyState) => {

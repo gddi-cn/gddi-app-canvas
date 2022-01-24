@@ -35,6 +35,9 @@
       "mod_name": {
         "type": "string"
       },
+      "mod_version": {
+        "type": "string"
+      },
       "mod_path": {
         "type": "string"
       },

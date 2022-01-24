@@ -11,20 +11,23 @@
       }
     },
     {
-      "id": 2,
+      "id": 1,
       "type": "Detection_v2",
       "name": "目标检测模型推理",
       "runner": "default",
       "props": {
-        "mod_name": "detect_animals",
-        "mod_path": "home/foo/bar/detect_animals.model",
-        "conf_path": "home/foo/bar/detect_animals.conf",
+        "mod_result_id": "balabalaID",
+        "mod_license": "",
+        "mod_path": "",
+        "mod_name": "可爱动物检测",
+        "mod_version": "1.0",
+        "mod_created_at": 0,
         "filter_labels": ["cow", "horse", "chicken"],
         "stream_id": "id9527"
       }
     },
     {
-      "id": 3,
+      "id": 2,
       "type": "ROI_v2",
       "name": "ROI区域选择",
       "version": "v2.0",
@@ -37,7 +40,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 3,
       "type": "Report_v2",
       "name": "推理结果上报",
       "version": "v2.0",
@@ -51,7 +54,6 @@
   "pipe": [
     [0, 0, 1, 0],
     [1, 0, 2, 0],
-    [2, 0, 3, 0],
-    [3, 0, 4, 0]
+    [2, 0, 3, 0]
   ]
 }

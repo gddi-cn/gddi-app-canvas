@@ -17,10 +17,8 @@ export interface Endpoint {
 }
 
 type PropDefinitionObject = {
-  [propName: string]: PropDefinitionType
+  [propName: string]: SimplePropDefinition | ROIPropDefinition
 }
-
-export type PropDefinitionType = SimplePropDefinition & ROIPropDefinition
 
 type BasicType = 'string' | 'boolean' | 'number'
 
