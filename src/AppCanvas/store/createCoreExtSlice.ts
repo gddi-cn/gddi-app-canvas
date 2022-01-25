@@ -13,9 +13,11 @@ import {
 export const pageSize = 2
 
 export interface CoreExtSlice {
+  fetchLoading: boolean
   fetchModelRes: FetchModelRes
   fetchLabelMemo: FetchLabelMemo
   fetchLabelRes: FetchLabelRes
+  setFetchLoading: (loading: boolean) => void
   modelListFetcher?: ModelListFetcher
   labelListFetcher?: LabelListFetcher
   setModelListFetcher: (fetcher: ModelListFetcher | undefined) => void
@@ -30,6 +32,7 @@ const createCoreExtSlice = (
   set: SetState<MyState>,
   get: GetState<MyState>
 ): CoreExtSlice => ({
+  fetchLoading: false,
   fetchModelRes: {
     models: [],
     totalCnt: 0
@@ -40,6 +43,14 @@ const createCoreExtSlice = (
   fetchLabelMemo: {},
   modelListFetcher: undefined,
   labelListFetcher: undefined,
+  setFetchLoading: (loading: boolean) => {
+    set(
+      produce((draft: MyState) => {
+        const draft1 = draft
+        draft1.fetchLoading = loading
+      })
+    )
+  },
   resetModuleProps: () => {
     set(
       produce((draft: MyState) => {
@@ -101,11 +112,9 @@ const createCoreExtSlice = (
         if (labelListFetcher) {
           for (const mod of modRes.models) {
             const labelRes = await labelListFetcher(mod.mod_result_id)
-            console.log(labelRes)
             labelMemo.set(mod.mod_result_id, labelRes.labels)
           }
         }
-        console.log(labelMemo)
         set(
           produce((draft: MyState) => {
             const draft1 = draft
@@ -113,6 +122,7 @@ const createCoreExtSlice = (
             labelMemo.forEach((val, key) => {
               draft1.fetchLabelMemo[key] = val
             })
+            draft1.fetchLoading = false
           })
         )
       } catch (error) {

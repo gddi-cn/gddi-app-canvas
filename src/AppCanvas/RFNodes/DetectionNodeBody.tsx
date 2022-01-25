@@ -29,7 +29,8 @@ export const DetectionNodeBody = ({
     modifyModuleProp,
     removeModule,
     propEditingDisabled,
-    fetchModelsWithLabels
+    fetchModelsWithLabels,
+    setFetchLoading
   } = useStore(
     (state) => ({
       modDef: state.moduleDefinitions[nodeData.type],
@@ -37,7 +38,8 @@ export const DetectionNodeBody = ({
       modifyModuleProp: state.modifyModuleProp,
       removeModule: state.removeModule,
       propEditingDisabled: state.propEditingDisabled,
-      fetchModelsWithLabels: state.fetchModelsWithLabels
+      fetchModelsWithLabels: state.fetchModelsWithLabels,
+      setFetchLoading: state.setFetchLoading
     }),
     shallow
   )
@@ -142,6 +144,7 @@ export const DetectionNodeBody = ({
   }, [nodeData.props])
 
   useEffect(() => {
+    setFetchLoading(true)
     fetchModelsWithLabels(0)
   }, [fetchModelsWithLabels])
 
