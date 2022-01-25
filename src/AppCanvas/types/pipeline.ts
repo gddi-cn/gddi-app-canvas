@@ -20,6 +20,6 @@ export interface Module {
 export type PropObject = { [propName: string]: PropValue }
 
 // export type PropValue = PropValueBaiscType | PropObject | PropValue[]
-export type PropValue = PropValueBaiscType | PropValue[]
+export type PropValue = PropValueBaiscType | PropValueBaiscType[]
 
 export type PropValueBaiscType = string | number | boolean

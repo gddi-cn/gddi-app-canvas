@@ -1,0 +1,11 @@
+.model-select-content {
+  display: flex;
+  flex-direction: column;
+  height: 18rem;
+
+  .model-list {
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+}

@@ -7,7 +7,12 @@ import React, {
 } from 'react'
 import ReactFlow, { Controls, OnLoadParams } from 'react-flow-renderer'
 import shallow from 'zustand/shallow'
-import { Pipeline, ModuleDefinitions, AIAppType } from './types'
+import {
+  Pipeline,
+  ModuleDefinitions,
+  AIAppType,
+  ModelListFetcher
+} from './types'
 import { rfNodeTypes } from './RFNodes'
 import { rfEdgeTypes } from './RFEdges'
 import { ExtendedControls } from './ExtendedControls'
@@ -41,6 +46,10 @@ export interface AppCanvasChildProps {
    */
   onValueChange?: (newValue: Pipeline) => void
   /**
+   * async fetch models
+   */
+  fetchModelList?: ModelListFetcher
+  /**
    * Disable graph editing (adding modules, deleting modules, connect modules, etc.)
    * false by default
    */
@@ -61,6 +70,7 @@ export const AppCanvasChild = ({
   moduleDefinitions,
   onLoad,
   onValueChange,
+  fetchModelList,
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasChildProps): JSX.Element => {
@@ -79,7 +89,8 @@ export const AppCanvasChild = ({
     setGraphEditingDisabled,
     setPropEditingDisabled,
     clear,
-    resetModuleProps
+    resetModuleProps,
+    setModelListFetcher
   } = useStore(
     (state) => ({
       value: state.value,
@@ -92,7 +103,8 @@ export const AppCanvasChild = ({
       setGraphEditingDisabled: state.setGraphEditingDisabled,
       setPropEditingDisabled: state.setPropEditingDisabled,
       clear: state.clear,
-      resetModuleProps: state.resetModuleProps
+      resetModuleProps: state.resetModuleProps,
+      setModelListFetcher: state.setModelListFetcher
     }),
     shallow
   )
@@ -174,6 +186,10 @@ export const AppCanvasChild = ({
       propEditingDisabled === undefined ? false : propEditingDisabled
     )
   }, [propEditingDisabled, setPropEditingDisabled])
+
+  useEffect(() => {
+    setModelListFetcher(fetchModelList)
+  }, [setModelListFetcher])
 
   return (
     <>

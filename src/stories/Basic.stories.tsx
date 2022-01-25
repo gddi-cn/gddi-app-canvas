@@ -7,10 +7,13 @@ import {
   AppCanvasProps,
   Pipeline,
   Module,
-  Connection
+  Connection,
+  ModelListFetcher,
+  FetchModelRes
 } from '../AppCanvas'
 import modDef from './datav2/md_v2.json'
 import pipeline from './datav2/pipeline_v2.json'
+import { fetchModelResult } from './datav2/fetchExample'
 
 const myPipeline: Pipeline = {
   version: '0.0.1',
@@ -31,6 +34,20 @@ const handleValueChange = (val: Pipeline): void => {
   console.log(`value changed!`)
   console.log(val)
 }
+const fetchModelList = (
+  page: number,
+  pageSize: number
+): Promise<FetchModelRes> => {
+  return new Promise<FetchModelRes>((resolve, reject) => {
+    setTimeout(() => {
+      const { models, totalCnt } = fetchModelResult
+      resolve({
+        models: models.slice(pageSize * page, pageSize * (page + 1)),
+        totalCnt
+      })
+    }, 2000)
+  })
+}
 
 const Template: Story<AppCanvasProps> = (args) => (
   <div
@@ -49,7 +66,8 @@ BasicUsage.args = {
   defaultValue: myPipeline,
   moduleDefinitions: modDef,
   onLoad: handleCanvasLoad,
-  onValueChange: handleValueChange
+  onValueChange: handleValueChange,
+  fetchModelList: fetchModelList
 } as AppCanvasProps
 
 BasicUsage.storyName = 'Usage: Basic'

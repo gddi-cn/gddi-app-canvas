@@ -1,6 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { Provider, createStore } from './store/useStore'
-import { Pipeline, ModuleDefinitions, AIAppType } from './types'
+import {
+  Pipeline,
+  ModuleDefinitions,
+  AIAppType,
+  ModelListFetcher
+} from './types'
 import { AppCanvasChild } from './AppCanvasChild'
 import { ColorModeContext } from './context'
 import { getDesignTokens } from './theme'
@@ -39,6 +44,10 @@ export interface AppCanvasProps {
    */
   onValueChange?: (newValue: Pipeline) => void
   /**
+   * async fetch models
+   */
+  fetchModelList?: ModelListFetcher
+  /**
    * Disable graph editing (adding modules, deleting modules, connect modules, etc.)
    * false by default
    */
@@ -60,6 +69,7 @@ export const AppCanvas = ({
   moduleDefinitions,
   onLoad,
   onValueChange,
+  fetchModelList,
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasProps): JSX.Element => {
@@ -87,6 +97,7 @@ export const AppCanvas = ({
             moduleDefinitions={moduleDefinitions}
             onLoad={onLoad}
             onValueChange={onValueChange}
+            fetchModelList={fetchModelList}
             graphEditingDisabled={graphEditingDisabled}
             propEditingDisabled={propEditingDisabled}
           />

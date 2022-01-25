@@ -1,13 +1,14 @@
 // custom node: https://reactflow.dev/examples/custom-node/
 
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
-import { Module, PropObject } from '../types'
+import { Module, PropObject, ModelRes } from '../types'
 import { useStore } from '../store/useStore'
 import { NodeDropDown } from './NodeDropDown'
 import { NodeDetail } from './NodeDetail'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText, MyDialog } from '../Components'
+import { ModelSelectContent, PageSize } from './../AsyncContents'
 import './DetectionNodeBody.scss'
 
 import Box from '@mui/material/Box'
@@ -27,14 +28,20 @@ export const DetectionNodeBody = ({
     modifyModuleName,
     modifyModuleProp,
     removeModule,
-    propEditingDisabled
+    propEditingDisabled,
+    modelListFetcher,
+    fetchModelRes,
+    setFetchModelRes
   } = useStore(
     (state) => ({
       modDef: state.moduleDefinitions[nodeData.type],
       modifyModuleName: state.modifyModuleName,
       modifyModuleProp: state.modifyModuleProp,
       removeModule: state.removeModule,
-      propEditingDisabled: state.propEditingDisabled
+      propEditingDisabled: state.propEditingDisabled,
+      modelListFetcher: state.modelListFetcher,
+      fetchModelRes: state.fetchModelRes,
+      setFetchModelRes: state.setFetchModelRes
     }),
     shallow
   )
@@ -67,9 +74,31 @@ export const DetectionNodeBody = ({
   const handleModSelectClose = useCallback(() => {
     setModelSelectDialogOpen(false)
   }, [])
+
+  const handleModelSelect = useCallback(
+    (model: ModelRes) => {
+      modifyModuleProp(nodeData.id, 'mod_result_id', model.mod_result_id)
+      modifyModuleProp(nodeData.id, 'mod_name', model.mod_name)
+      modifyModuleProp(nodeData.id, 'mod_version', model.mod_version)
+      modifyModuleProp(
+        nodeData.id,
+        'mod_created_at',
+        model.mod_created_at.toString()
+      )
+    },
+    [nodeData.id]
+  )
+  const propObj = nodeData.props as PropObject
+
   const renderModSelect = useCallback(() => {
-    return <p>content 🐸🐸</p>
-  }, [])
+    // const propObj = nodeData.props as PropObject
+    return (
+      <ModelSelectContent
+        selectedModId={propObj['mod_result_id'] as string}
+        onSelect={handleModelSelect}
+      />
+    )
+  }, [handleModelSelect, propObj['mod_result_id']])
 
   const ModelSelector: JSX.Element = useMemo(() => {
     const modName =
@@ -86,13 +115,12 @@ export const DetectionNodeBody = ({
         </Box>
       )
     }
-    const propObj = nodeData.props as PropObject
     return (
       <Box className="model-specify">
         <Box className="model-info">
           <Box className="model-info-row modelname">{propObj['mod_name']}</Box>
           <Box className="model-info-row">{`v${propObj['mod_version']}`}</Box>
-          <Box className="model-info-row">{`created at: ${propObj['mod_created_at']}`}</Box>
+          {/* <Box className="model-info-row">{`created at: ${propObj['mod_created_at']}`}</Box> */}
         </Box>
         <Box className="model-select-button">
           <Button
@@ -107,6 +135,18 @@ export const DetectionNodeBody = ({
       </Box>
     )
   }, [nodeData.props])
+
+  useEffect(() => {
+    if (modelListFetcher) {
+      modelListFetcher(0, PageSize)
+        .then((res) => {
+          setFetchModelRes(res)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  }, [modelListFetcher, setFetchModelRes])
 
   return (
     <Box

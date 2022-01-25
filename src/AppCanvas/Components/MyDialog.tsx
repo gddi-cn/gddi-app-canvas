@@ -59,6 +59,7 @@ export const MyDialog = ({
 
   return (
     <Dialog
+      fullWidth={true}
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={open}
@@ -66,7 +67,9 @@ export const MyDialog = ({
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
         {title}
       </BootstrapDialogTitle>
-      <DialogContent dividers>{renderContent()}</DialogContent>
+      <DialogContent sx={{ overflow: 'hidden' }} dividers>
+        {renderContent()}
+      </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose}>
           {okTitle}

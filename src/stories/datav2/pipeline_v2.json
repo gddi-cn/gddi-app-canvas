@@ -22,8 +22,7 @@
         "mod_name": "可爱动物检测",
         "mod_version": "1.0",
         "mod_created_at": 0,
-        "filter_labels": ["cow", "horse", "chicken"],
-        "stream_id": "id9527"
+        "filter_labels": ["cow", "horse", "chicken"]
       }
     },
     {
