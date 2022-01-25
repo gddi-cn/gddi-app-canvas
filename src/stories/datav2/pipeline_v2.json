@@ -16,13 +16,13 @@
       "name": "目标检测模型推理",
       "runner": "default",
       "props": {
-        "mod_result_id": "balabalaID",
+        "mod_result_id": "333",
         "mod_license": "",
         "mod_path": "",
-        "mod_name": "可爱动物检测",
+        "mod_name": "大西瓜模型",
         "mod_version": "1.0",
         "mod_created_at": 0,
-        "filter_labels": ["cow", "horse", "chicken"]
+        "filter_labels": ["shawn the sheep"]
       }
     },
     {
