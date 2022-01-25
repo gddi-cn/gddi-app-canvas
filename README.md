@@ -19,19 +19,54 @@ import {
   Pipeline,
   Module,
   Connection,
+  FetchLabelRes,
+  FetchModelRes,
+  FetchROIImgRes
 } from 'gddi-app-canvas'
 
 const handleAppLoad = useCallback((app: AIAppType) => {
-    app.fitView()
-    console.log('app loaded')
+  app.fitView()
+  console.log('app loaded')
 }, [])
 
 const handleValueChange = useCallback((val: Pipeline) => {
-    console.log('val changed')
-    console.log(val)
+  console.log('val changed')
+  console.log(val)
 }, [])
 
-<div style={{ width: '1000px', height: '800px' }}>
+const fetchModelList = (
+  pageOffset: number,
+  pageSize: number
+): Promise<FetchModelRes> => {
+  return fetch(
+    `https://randommodels.me/api/?page=${pageOffset}&pageSize=${pageSize}`
+  )
+    .then((response) => response.json())
+    .then((body) => {
+      return body
+    })
+}
+
+const fetchLabelList = (mod_result_id: string): Promise<FetchLabelRes> => {
+  return fetch(`https://randomlabels.me/api/?mod_result_id=${mod_result_id}`)
+    .then((response) => response.json())
+    .then((body) => {
+      return body
+    })
+}
+
+const fetchROIImg = (
+  width: number,
+  height: number
+): Promise<FetchROIImgRes> => {
+  return new Promise<FetchROIImgRes>((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ url: `https://place-puppy.com/${width}x${height}` })
+    }, 1100)
+  })
+}
+
+;<div style={{ width: '1000px', height: '800px' }}>
   // width and height of the parent element are required to be set
   <AppCanvas
     defaultValue={myPipeline as Pipeline}
@@ -40,6 +75,12 @@ const handleValueChange = useCallback((val: Pipeline) => {
     onValueChange={handleValueChange}
     graphEditingDisabled={false}
     propEditingDisabled={false}
+    // 获取模型列表
+    fetchModelList={fetchModelList}
+    // 获取labels列表
+    fetchLabelList={fetchLabelList}
+    // 获取用于标ROI的图
+    fetchROIImg={fetchROIImg}
   />
 </div>
 ```
