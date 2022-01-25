@@ -10,7 +10,7 @@ import {
   FetchLabelMemo
 } from '../types'
 
-export const pageSize = 2
+export const pageSize = 10
 
 export interface CoreExtSlice {
   fetchLoading: boolean
