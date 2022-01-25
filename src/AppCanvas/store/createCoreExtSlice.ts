@@ -1,14 +1,24 @@
 import produce from 'immer'
 import { SetState, GetState } from 'zustand'
 import { MyState } from './useStore'
-import { PropValue, ModelListFetcher, FetchModelRes } from '../types'
+import {
+  PropValue,
+  ModelListFetcher,
+  FetchModelRes,
+  LabelListFetcher,
+  FetchLabelRes
+} from '../types'
 
 export interface CoreExtSlice {
   fetchModelRes: FetchModelRes
+  fetchLabelRes: FetchLabelRes
   modelListFetcher?: ModelListFetcher
+  labelListFetcher?: LabelListFetcher
   setModelListFetcher: (fetcher: ModelListFetcher | undefined) => void
+  setLabelListFetcher: (fetcher: LabelListFetcher | undefined) => void
   resetModuleProps: () => void
   setFetchModelRes: (res: FetchModelRes) => void
+  setFetchLabelRes: (res: FetchLabelRes) => void
 }
 
 const createCoreExtSlice = (
@@ -19,7 +29,11 @@ const createCoreExtSlice = (
     models: [],
     totalCnt: 0
   },
+  fetchLabelRes: {
+    labels: []
+  },
   modelListFetcher: undefined,
+  labelListFetcher: undefined,
   resetModuleProps: () => {
     set(
       produce((draft: MyState) => {
@@ -44,12 +58,28 @@ const createCoreExtSlice = (
       })
     )
   },
+  setLabelListFetcher: (fetcher: LabelListFetcher | undefined) => {
+    set(
+      produce((draft: MyState) => {
+        const draft1 = draft
+        draft1.labelListFetcher = fetcher
+      })
+    )
+  },
   setFetchModelRes: (res: FetchModelRes) => {
     set(
       produce((draft: MyState) => {
         const draft1 = draft
         draft1.fetchModelRes.models = [...res.models]
         draft1.fetchModelRes.totalCnt = res.totalCnt
+      })
+    )
+  },
+  setFetchLabelRes: (res: FetchLabelRes) => {
+    set(
+      produce((draft: MyState) => {
+        const draft1 = draft
+        draft1.fetchLabelRes.labels = [...res.labels]
       })
     )
   }

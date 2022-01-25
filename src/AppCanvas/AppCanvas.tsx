@@ -4,7 +4,8 @@ import {
   Pipeline,
   ModuleDefinitions,
   AIAppType,
-  ModelListFetcher
+  ModelListFetcher,
+  LabelListFetcher
 } from './types'
 import { AppCanvasChild } from './AppCanvasChild'
 import { ColorModeContext } from './context'
@@ -48,6 +49,10 @@ export interface AppCanvasProps {
    */
   fetchModelList?: ModelListFetcher
   /**
+   * async fetch labels
+   */
+  fetchLabelList?: LabelListFetcher
+  /**
    * Disable graph editing (adding modules, deleting modules, connect modules, etc.)
    * false by default
    */
@@ -70,6 +75,7 @@ export const AppCanvas = ({
   onLoad,
   onValueChange,
   fetchModelList,
+  fetchLabelList,
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasProps): JSX.Element => {
@@ -98,6 +104,7 @@ export const AppCanvas = ({
             onLoad={onLoad}
             onValueChange={onValueChange}
             fetchModelList={fetchModelList}
+            fetchLabelList={fetchLabelList}
             graphEditingDisabled={graphEditingDisabled}
             propEditingDisabled={propEditingDisabled}
           />

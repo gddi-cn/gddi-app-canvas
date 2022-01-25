@@ -8,12 +8,12 @@ import {
   Pipeline,
   Module,
   Connection,
-  ModelListFetcher,
+  FetchLabelRes,
   FetchModelRes
 } from '../AppCanvas'
 import modDef from './datav2/md_v2.json'
 import pipeline from './datav2/pipeline_v2.json'
-import { fetchModelResult } from './datav2/fetchExample'
+import { fetchModelResult, modelLabels } from './datav2/fetchExample'
 
 const myPipeline: Pipeline = {
   version: '0.0.1',
@@ -49,6 +49,20 @@ const fetchModelList = (
   })
 }
 
+const fetchLabelList = (mod_result_id: string): Promise<FetchLabelRes> => {
+  const fetchLabelRes: FetchLabelRes = {
+    labels:
+      modelLabels[mod_result_id] === undefined
+        ? []
+        : modelLabels[mod_result_id].labels
+  }
+  return new Promise<FetchLabelRes>((resolve, reject) => {
+    setTimeout(() => {
+      resolve(fetchLabelRes)
+    }, 2000)
+  })
+}
+
 const Template: Story<AppCanvasProps> = (args) => (
   <div
     className="app-canvas-wrapper"
@@ -67,7 +81,8 @@ BasicUsage.args = {
   moduleDefinitions: modDef,
   onLoad: handleCanvasLoad,
   onValueChange: handleValueChange,
-  fetchModelList: fetchModelList
+  fetchModelList: fetchModelList,
+  fetchLabelList: fetchLabelList
 } as AppCanvasProps
 
 BasicUsage.storyName = 'Usage: Basic'

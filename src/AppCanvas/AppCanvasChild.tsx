@@ -11,7 +11,8 @@ import {
   Pipeline,
   ModuleDefinitions,
   AIAppType,
-  ModelListFetcher
+  ModelListFetcher,
+  LabelListFetcher
 } from './types'
 import { rfNodeTypes } from './RFNodes'
 import { rfEdgeTypes } from './RFEdges'
@@ -50,6 +51,10 @@ export interface AppCanvasChildProps {
    */
   fetchModelList?: ModelListFetcher
   /**
+   * async fetch labels
+   */
+  fetchLabelList?: LabelListFetcher
+  /**
    * Disable graph editing (adding modules, deleting modules, connect modules, etc.)
    * false by default
    */
@@ -71,6 +76,7 @@ export const AppCanvasChild = ({
   onLoad,
   onValueChange,
   fetchModelList,
+  fetchLabelList,
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasChildProps): JSX.Element => {
@@ -90,7 +96,8 @@ export const AppCanvasChild = ({
     setPropEditingDisabled,
     clear,
     resetModuleProps,
-    setModelListFetcher
+    setModelListFetcher,
+    setLabelListFetcher
   } = useStore(
     (state) => ({
       value: state.value,
@@ -104,7 +111,8 @@ export const AppCanvasChild = ({
       setPropEditingDisabled: state.setPropEditingDisabled,
       clear: state.clear,
       resetModuleProps: state.resetModuleProps,
-      setModelListFetcher: state.setModelListFetcher
+      setModelListFetcher: state.setModelListFetcher,
+      setLabelListFetcher: state.setLabelListFetcher
     }),
     shallow
   )
@@ -190,6 +198,10 @@ export const AppCanvasChild = ({
   useEffect(() => {
     setModelListFetcher(fetchModelList)
   }, [setModelListFetcher])
+
+  useEffect(() => {
+    setLabelListFetcher(fetchLabelList)
+  }, [setLabelListFetcher])
 
   return (
     <>

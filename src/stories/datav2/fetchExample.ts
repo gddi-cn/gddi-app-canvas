@@ -1,4 +1,4 @@
-import { FetchModelRes } from '../../AppCanvas'
+import { FetchLabelRes, FetchModelRes } from '../../AppCanvas'
 
 export const fetchModelResult: FetchModelRes = {
   models: [
@@ -36,7 +36,7 @@ export const fetchModelResult: FetchModelRes = {
       mod_created_at: new Date(),
       mod_version: '1.12',
       mod_version_id: '1',
-      mod_result_id: '3333'
+      mod_result_id: '333'
     },
     {
       mod_id: '4',
@@ -49,4 +49,35 @@ export const fetchModelResult: FetchModelRes = {
     }
   ],
   totalCnt: 5
+}
+
+const labels1: FetchLabelRes = {
+  labels: ['cat', 'dog', 'panda', 'horse']
+}
+const labels2: FetchLabelRes = {
+  labels: [
+    'lucy',
+    'tom',
+    'lily',
+    'almond',
+    'black',
+    'daisy',
+    'clark',
+    'rosenburg',
+    'alexander the great'
+  ]
+}
+const labels3: FetchLabelRes = {
+  labels: ['twinkle', 'little star', 'wish', 'milky', 'molly']
+}
+const labels4: FetchLabelRes = {
+  labels: ['pat', 'shawn the sheep']
+}
+
+export const modelLabels = {
+  '033': labels1,
+  '133': labels2,
+  '233': labels3,
+  '333': labels4,
+  '433': [...labels4.labels, ...labels2.labels]
 }

@@ -30,8 +30,9 @@ export const DetectionNodeBody = ({
     removeModule,
     propEditingDisabled,
     modelListFetcher,
-    fetchModelRes,
-    setFetchModelRes
+    setFetchModelRes,
+    labelListFetcher,
+    setFetchLabelRes
   } = useStore(
     (state) => ({
       modDef: state.moduleDefinitions[nodeData.type],
@@ -40,8 +41,9 @@ export const DetectionNodeBody = ({
       removeModule: state.removeModule,
       propEditingDisabled: state.propEditingDisabled,
       modelListFetcher: state.modelListFetcher,
-      fetchModelRes: state.fetchModelRes,
-      setFetchModelRes: state.setFetchModelRes
+      setFetchModelRes: state.setFetchModelRes,
+      labelListFetcher: state.labelListFetcher,
+      setFetchLabelRes: state.setFetchLabelRes
     }),
     shallow
   )
@@ -88,17 +90,26 @@ export const DetectionNodeBody = ({
     },
     [nodeData.id]
   )
+  const handleCheckedLabelsChange = useCallback(
+    (checkedLabels: string[]) => {
+      modifyModuleProp(nodeData.id, 'filter_labels', checkedLabels)
+    },
+    [nodeData.id]
+  )
+
   const propObj = nodeData.props as PropObject
 
   const renderModSelect = useCallback(() => {
     // const propObj = nodeData.props as PropObject
     return (
       <ModelSelectContent
+        checkedLabels={propObj['filter_labels'] as string[]}
         selectedModId={propObj['mod_result_id'] as string}
         onSelect={handleModelSelect}
+        onCheckedLabelsChange={handleCheckedLabelsChange}
       />
     )
-  }, [handleModelSelect, propObj['mod_result_id']])
+  }, [handleModelSelect, propObj['mod_result_id'], propObj['filter_labels']])
 
   const ModelSelector: JSX.Element = useMemo(() => {
     const modName =
@@ -148,6 +159,18 @@ export const DetectionNodeBody = ({
     }
   }, [modelListFetcher, setFetchModelRes])
 
+  useEffect(() => {
+    if (labelListFetcher) {
+      labelListFetcher(propObj['mod_result_id'] as string)
+        .then((res) => {
+          setFetchLabelRes(res)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  }, [labelListFetcher, setFetchLabelRes])
+
   return (
     <Box
       sx={{ bgcolor: 'background.default', color: 'text.primary' }}
@@ -187,7 +210,7 @@ export const DetectionNodeBody = ({
       </Box> */}
       <MyDialog
         open={modelSelectDialogOpen}
-        title="Select Model"
+        title="选择模型和模型的具体标签"
         okTitle="OK"
         onClose={handleModSelectClose}
         renderContent={renderModSelect}
