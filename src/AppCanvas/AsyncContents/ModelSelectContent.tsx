@@ -1,8 +1,7 @@
-import React, { useMemo, useCallback, useState, useEffect } from 'react'
+import React, { useMemo, useCallback, useState } from 'react'
 import shallow from 'zustand/shallow'
-import { useStore } from '../store/useStore'
+import { useStore, pageSize } from '../store/useStore'
 import { ModelRes } from '../types'
-import { PageSize } from './constance'
 import { debounce } from 'lodash'
 
 import Box from '@mui/material/Box'
@@ -32,26 +31,12 @@ export const ModelSelectContent = ({
   onSelect,
   onCheckedLabelsChange
 }: ModelSelectContentProps): JSX.Element => {
-  // const [modelListRes, setModelListRes] = useState<FetchModelRes>({
-  //   models: [],
-  //   totalCnt: 0
-  // })
   const [page, setPage] = useState<number>(1)
-  const {
-    modelListFetcher,
-    fetchModelRes,
-    setFetchModelRes,
-    labelListFetcher,
-    fetchLabelRes,
-    setFetchLabelRes
-  } = useStore(
+  const { fetchModelRes, fetchLabelMemo, fetchModelsWithLabels } = useStore(
     (state) => ({
-      modelListFetcher: state.modelListFetcher,
       fetchModelRes: state.fetchModelRes,
-      setFetchModelRes: state.setFetchModelRes,
-      labelListFetcher: state.labelListFetcher,
-      fetchLabelRes: state.fetchLabelRes,
-      setFetchLabelRes: state.setFetchLabelRes
+      fetchLabelMemo: state.fetchLabelMemo,
+      fetchModelsWithLabels: state.fetchModelsWithLabels
     }),
     shallow
   )
@@ -59,25 +44,21 @@ export const ModelSelectContent = ({
   const handlePageChange = useCallback(
     (evt, pageNum) => {
       setPage(pageNum)
-      if (modelListFetcher) {
-        modelListFetcher(pageNum - 1, PageSize)
-          .then((res) => {
-            setFetchModelRes(res)
-          })
-          .catch((error) => {
-            console.error(error)
-          })
-      }
+      fetchModelsWithLabels(pageNum - 1)
     },
-    [modelListFetcher]
+    [fetchModelsWithLabels]
   )
+
   const debouncedHandlePageChange = useMemo(
     () => debounce(handlePageChange, 300),
     [handlePageChange]
   )
 
   const LabelList = useMemo(() => {
-    return fetchLabelRes.labels.map((label) => {
+    if (fetchLabelMemo[selectedModId] === undefined) {
+      return null
+    }
+    return fetchLabelMemo[selectedModId].map((label) => {
       const handleToggle = () => {
         const currentIndex = checkedLabels.indexOf(label)
         const newChecked = [...checkedLabels]
@@ -107,19 +88,7 @@ export const ModelSelectContent = ({
         </ListItem>
       )
     })
-  }, [fetchLabelRes.labels, checkedLabels])
-
-  useEffect(() => {
-    if (labelListFetcher && selectedModId) {
-      labelListFetcher(selectedModId)
-        .then((res) => {
-          setFetchLabelRes(res)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }
-  }, [labelListFetcher, selectedModId])
+  }, [fetchLabelMemo[selectedModId], checkedLabels])
 
   if (fetchModelRes === undefined) {
     return <Box>🐸 呱~</Box>
@@ -156,7 +125,8 @@ export const ModelSelectContent = ({
           </List>
         </Box>
         <Box className="label-list">
-          {fetchLabelRes.labels.length >= 0 ? (
+          {fetchLabelMemo[selectedModId] === undefined ||
+          fetchLabelMemo[selectedModId].length >= 0 ? (
             LabelList
           ) : (
             <Box>该模型无labels可选</Box>
@@ -166,7 +136,7 @@ export const ModelSelectContent = ({
       <Box className="pagination-area">
         <Pagination
           page={page}
-          count={Math.ceil(fetchModelRes.totalCnt / PageSize)}
+          count={Math.ceil(fetchModelRes.totalCnt / pageSize)}
           size="small"
           onChange={debouncedHandlePageChange}
         />

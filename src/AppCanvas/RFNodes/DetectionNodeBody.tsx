@@ -8,7 +8,7 @@ import { NodeDropDown } from './NodeDropDown'
 import { NodeDetail } from './NodeDetail'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText, MyDialog } from '../Components'
-import { ModelSelectContent, PageSize } from './../AsyncContents'
+import { ModelSelectContent } from './../AsyncContents'
 import './DetectionNodeBody.scss'
 
 import Box from '@mui/material/Box'
@@ -29,10 +29,7 @@ export const DetectionNodeBody = ({
     modifyModuleProp,
     removeModule,
     propEditingDisabled,
-    modelListFetcher,
-    setFetchModelRes,
-    labelListFetcher,
-    setFetchLabelRes
+    fetchModelsWithLabels
   } = useStore(
     (state) => ({
       modDef: state.moduleDefinitions[nodeData.type],
@@ -40,10 +37,7 @@ export const DetectionNodeBody = ({
       modifyModuleProp: state.modifyModuleProp,
       removeModule: state.removeModule,
       propEditingDisabled: state.propEditingDisabled,
-      modelListFetcher: state.modelListFetcher,
-      setFetchModelRes: state.setFetchModelRes,
-      labelListFetcher: state.labelListFetcher,
-      setFetchLabelRes: state.setFetchLabelRes
+      fetchModelsWithLabels: state.fetchModelsWithLabels
     }),
     shallow
   )
@@ -148,28 +142,8 @@ export const DetectionNodeBody = ({
   }, [nodeData.props])
 
   useEffect(() => {
-    if (modelListFetcher) {
-      modelListFetcher(0, PageSize)
-        .then((res) => {
-          setFetchModelRes(res)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }
-  }, [modelListFetcher, setFetchModelRes])
-
-  useEffect(() => {
-    if (labelListFetcher) {
-      labelListFetcher(propObj['mod_result_id'] as string)
-        .then((res) => {
-          setFetchLabelRes(res)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }
-  }, [labelListFetcher, setFetchLabelRes])
+    fetchModelsWithLabels(0)
+  }, [fetchModelsWithLabels])
 
   return (
     <Box

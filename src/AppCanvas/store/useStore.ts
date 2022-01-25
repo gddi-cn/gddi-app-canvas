@@ -2,7 +2,10 @@ import create from 'zustand'
 import createContext from 'zustand/context'
 
 import createCoreSlice, { CoreSlice } from './createCoreSlice'
-import createCoreExtSlice, { CoreExtSlice } from './createCoreExtSlice'
+import createCoreExtSlice, {
+  CoreExtSlice,
+  pageSize
+} from './createCoreExtSlice'
 import createModeSlice, { ModeSlice } from './createModeSlice'
 
 export type MyState = CoreSlice & CoreExtSlice & ModeSlice
@@ -16,4 +19,4 @@ const createStore = () =>
     ...createModeSlice(set)
   }))
 
-export { Provider, useStore, createStore }
+export { Provider, useStore, createStore, pageSize }

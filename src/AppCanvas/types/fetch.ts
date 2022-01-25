@@ -1,6 +1,6 @@
 // model list
 export type ModelListFetcher = (
-  page: number,
+  pageOffset: number,
   pageSize: number
 ) => Promise<FetchModelRes>
 
@@ -24,4 +24,8 @@ export type LabelListFetcher = (modResultId: string) => Promise<FetchLabelRes>
 
 export interface FetchLabelRes {
   labels: string[]
+}
+
+export interface FetchLabelMemo {
+  [modResultId: string]: string[]
 }

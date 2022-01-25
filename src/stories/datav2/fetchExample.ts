@@ -79,5 +79,5 @@ export const modelLabels = {
   '133': labels2,
   '233': labels3,
   '333': labels4,
-  '433': [...labels4.labels, ...labels2.labels]
+  '433': { labels: [...labels4.labels, ...labels2.labels] }
 }

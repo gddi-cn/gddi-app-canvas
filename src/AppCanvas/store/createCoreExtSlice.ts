@@ -6,11 +6,15 @@ import {
   ModelListFetcher,
   FetchModelRes,
   LabelListFetcher,
-  FetchLabelRes
+  FetchLabelRes,
+  FetchLabelMemo
 } from '../types'
+
+export const pageSize = 2
 
 export interface CoreExtSlice {
   fetchModelRes: FetchModelRes
+  fetchLabelMemo: FetchLabelMemo
   fetchLabelRes: FetchLabelRes
   modelListFetcher?: ModelListFetcher
   labelListFetcher?: LabelListFetcher
@@ -19,6 +23,7 @@ export interface CoreExtSlice {
   resetModuleProps: () => void
   setFetchModelRes: (res: FetchModelRes) => void
   setFetchLabelRes: (res: FetchLabelRes) => void
+  fetchModelsWithLabels: (pageOffset: number) => void
 }
 
 const createCoreExtSlice = (
@@ -32,6 +37,7 @@ const createCoreExtSlice = (
   fetchLabelRes: {
     labels: []
   },
+  fetchLabelMemo: {},
   modelListFetcher: undefined,
   labelListFetcher: undefined,
   resetModuleProps: () => {
@@ -82,6 +88,37 @@ const createCoreExtSlice = (
         draft1.fetchLabelRes.labels = [...res.labels]
       })
     )
+  },
+  fetchModelsWithLabels: async (pageOffset: number) => {
+    if (pageOffset < 0) {
+      return
+    }
+    const { modelListFetcher, labelListFetcher } = get()
+    if (modelListFetcher) {
+      try {
+        const modRes = await modelListFetcher(pageOffset, pageSize)
+        const labelMemo = new Map<string, string[]>()
+        if (labelListFetcher) {
+          for (const mod of modRes.models) {
+            const labelRes = await labelListFetcher(mod.mod_result_id)
+            console.log(labelRes)
+            labelMemo.set(mod.mod_result_id, labelRes.labels)
+          }
+        }
+        console.log(labelMemo)
+        set(
+          produce((draft: MyState) => {
+            const draft1 = draft
+            draft1.fetchModelRes = modRes
+            labelMemo.forEach((val, key) => {
+              draft1.fetchLabelMemo[key] = val
+            })
+          })
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    }
   }
 })
 
