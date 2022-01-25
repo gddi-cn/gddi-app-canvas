@@ -10,6 +10,7 @@ import { NodeDetail } from './NodeDetail'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText } from '../Components'
 import { DetectionNodeBody } from './DetectionNodeBody'
+import { ROINodeBody } from './ROINodeBody'
 import './SimpleNode.scss'
 
 import Box from '@mui/material/Box'
@@ -120,6 +121,9 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
     }
     if (nodeData.type.toLocaleLowerCase().includes('detection')) {
       return <DetectionNodeBody nodeData={nodeData as Module} />
+    }
+    if (nodeData.type.toLocaleLowerCase().includes('roi')) {
+      return <ROINodeBody nodeData={nodeData as Module} />
     }
     return <SimpleNodeBody nodeData={nodeData as Module} />
   }, [nodeData])

@@ -29,3 +29,13 @@ export interface FetchLabelRes {
 export interface FetchLabelMemo {
   [modResultId: string]: string[]
 }
+
+// ROI image
+export type ROIImgFetcher = (
+  width: number,
+  height: number
+) => Promise<FetchROIImgRes>
+
+export interface FetchROIImgRes {
+  url: string
+}

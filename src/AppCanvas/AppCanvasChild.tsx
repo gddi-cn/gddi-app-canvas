@@ -12,7 +12,8 @@ import {
   ModuleDefinitions,
   AIAppType,
   ModelListFetcher,
-  LabelListFetcher
+  LabelListFetcher,
+  ROIImgFetcher
 } from './types'
 import { rfNodeTypes } from './RFNodes'
 import { rfEdgeTypes } from './RFEdges'
@@ -55,6 +56,10 @@ export interface AppCanvasChildProps {
    */
   fetchLabelList?: LabelListFetcher
   /**
+   * async fetch image for drawing ROIs
+   */
+  fetchROIImg?: ROIImgFetcher
+  /**
    * Disable graph editing (adding modules, deleting modules, connect modules, etc.)
    * false by default
    */
@@ -77,6 +82,7 @@ export const AppCanvasChild = ({
   onValueChange,
   fetchModelList,
   fetchLabelList,
+  fetchROIImg,
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasChildProps): JSX.Element => {
@@ -97,7 +103,8 @@ export const AppCanvasChild = ({
     clear,
     resetModuleProps,
     setModelListFetcher,
-    setLabelListFetcher
+    setLabelListFetcher,
+    setROIImgFetcher
   } = useStore(
     (state) => ({
       value: state.value,
@@ -112,7 +119,8 @@ export const AppCanvasChild = ({
       clear: state.clear,
       resetModuleProps: state.resetModuleProps,
       setModelListFetcher: state.setModelListFetcher,
-      setLabelListFetcher: state.setLabelListFetcher
+      setLabelListFetcher: state.setLabelListFetcher,
+      setROIImgFetcher: state.setROIImgFetcher
     }),
     shallow
   )
@@ -202,6 +210,10 @@ export const AppCanvasChild = ({
   useEffect(() => {
     setLabelListFetcher(fetchLabelList)
   }, [setLabelListFetcher])
+
+  useEffect(() => {
+    setROIImgFetcher(fetchROIImg)
+  }, [setROIImgFetcher])
 
   return (
     <>

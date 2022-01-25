@@ -5,7 +5,8 @@ import {
   ModuleDefinitions,
   AIAppType,
   ModelListFetcher,
-  LabelListFetcher
+  LabelListFetcher,
+  ROIImgFetcher
 } from './types'
 import { AppCanvasChild } from './AppCanvasChild'
 import { ColorModeContext } from './context'
@@ -53,6 +54,10 @@ export interface AppCanvasProps {
    */
   fetchLabelList?: LabelListFetcher
   /**
+   * async fetch image for drawing ROIs
+   */
+  fetchROIImg?: ROIImgFetcher
+  /**
    * Disable graph editing (adding modules, deleting modules, connect modules, etc.)
    * false by default
    */
@@ -76,6 +81,7 @@ export const AppCanvas = ({
   onValueChange,
   fetchModelList,
   fetchLabelList,
+  fetchROIImg,
   graphEditingDisabled,
   propEditingDisabled
 }: AppCanvasProps): JSX.Element => {
@@ -105,6 +111,7 @@ export const AppCanvas = ({
             onValueChange={onValueChange}
             fetchModelList={fetchModelList}
             fetchLabelList={fetchLabelList}
+            fetchROIImg={fetchROIImg}
             graphEditingDisabled={graphEditingDisabled}
             propEditingDisabled={propEditingDisabled}
           />

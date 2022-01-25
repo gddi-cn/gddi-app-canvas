@@ -5,7 +5,6 @@ import shallow from 'zustand/shallow'
 import { Module, PropObject, ModelRes } from '../types'
 import { useStore } from '../store/useStore'
 import { NodeDropDown } from './NodeDropDown'
-import { NodeDetail } from './NodeDetail'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText, MyDialog } from '../Components'
 import { ModelSelectContent } from './../AsyncContents'
@@ -43,13 +42,6 @@ export const DetectionNodeBody = ({
     }),
     shallow
   )
-
-  const handleNodePropChange = useCallback(
-    (propName, propVal) => {
-      modifyModuleProp(nodeData.id, propName, propVal)
-    },
-    [modifyModuleProp, nodeData.id]
-  )
   const handleNodeNameChange = useCallback(
     (newName) => {
       modifyModuleName(nodeData.id, newName)
@@ -62,6 +54,7 @@ export const DetectionNodeBody = ({
   //   },
   //   [modifyModuleRunner, nodeData.id]
   // )
+
   const handleModDelete = useCallback(() => {
     removeModule(nodeData.id)
   }, [nodeData.id, removeModule])
@@ -69,6 +62,7 @@ export const DetectionNodeBody = ({
     setModelSelectDialogOpen(true)
     console.log(`🐸 select model clicked`)
   }, [setModelSelectDialogOpen])
+
   const handleModSelectClose = useCallback(() => {
     setModelSelectDialogOpen(false)
   }, [])
@@ -99,13 +93,19 @@ export const DetectionNodeBody = ({
     // const propObj = nodeData.props as PropObject
     return (
       <ModelSelectContent
+        disable={propEditingDisabled}
         checkedLabels={propObj['filter_labels'] as string[]}
         selectedModId={propObj['mod_result_id'] as string}
         onSelect={handleModelSelect}
         onCheckedLabelsChange={handleCheckedLabelsChange}
       />
     )
-  }, [handleModelSelect, propObj['mod_result_id'], propObj['filter_labels']])
+  }, [
+    propEditingDisabled,
+    handleModelSelect,
+    propObj['mod_result_id'],
+    propObj['filter_labels']
+  ])
 
   const ModelSelector: JSX.Element = useMemo(() => {
     const modName =

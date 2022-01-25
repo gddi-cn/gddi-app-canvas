@@ -7,12 +7,18 @@ import {
   FetchModelRes,
   LabelListFetcher,
   FetchLabelRes,
-  FetchLabelMemo
+  FetchLabelMemo,
+  ROIImgFetcher
 } from '../types'
 
 export const pageSize = 10
 
 export interface CoreExtSlice {
+  roiImg: {
+    url: string | undefined
+    width: number
+    height: number
+  }
   fetchLoading: boolean
   fetchModelRes: FetchModelRes
   fetchLabelMemo: FetchLabelMemo
@@ -20,8 +26,10 @@ export interface CoreExtSlice {
   setFetchLoading: (loading: boolean) => void
   modelListFetcher?: ModelListFetcher
   labelListFetcher?: LabelListFetcher
+  roiImgFetcher?: ROIImgFetcher
   setModelListFetcher: (fetcher: ModelListFetcher | undefined) => void
   setLabelListFetcher: (fetcher: LabelListFetcher | undefined) => void
+  setROIImgFetcher: (fetcher: ROIImgFetcher | undefined) => void
   resetModuleProps: () => void
   setFetchModelRes: (res: FetchModelRes) => void
   setFetchLabelRes: (res: FetchLabelRes) => void
@@ -32,6 +40,11 @@ const createCoreExtSlice = (
   set: SetState<MyState>,
   get: GetState<MyState>
 ): CoreExtSlice => ({
+  roiImg: {
+    url: undefined,
+    width: 0,
+    height: 0
+  },
   fetchLoading: false,
   fetchModelRes: {
     models: [],
@@ -43,6 +56,7 @@ const createCoreExtSlice = (
   fetchLabelMemo: {},
   modelListFetcher: undefined,
   labelListFetcher: undefined,
+  roiImgFetcher: undefined,
   setFetchLoading: (loading: boolean) => {
     set(
       produce((draft: MyState) => {
@@ -80,6 +94,14 @@ const createCoreExtSlice = (
       produce((draft: MyState) => {
         const draft1 = draft
         draft1.labelListFetcher = fetcher
+      })
+    )
+  },
+  setROIImgFetcher: (fetcher: ROIImgFetcher | undefined) => {
+    set(
+      produce((draft: MyState) => {
+        const draft1 = draft
+        draft1.roiImgFetcher = fetcher
       })
     )
   },
