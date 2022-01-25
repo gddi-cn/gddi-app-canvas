@@ -25,8 +25,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
     modifyModuleProp,
     removeModule,
     propEditingDisabled,
-    fetchModelsWithLabels,
-    setFetchLoading
+    fetchROIImgURL
   } = useStore(
     (state) => ({
       modDef: state.moduleDefinitions[nodeData.type],
@@ -34,8 +33,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
       modifyModuleProp: state.modifyModuleProp,
       removeModule: state.removeModule,
       propEditingDisabled: state.propEditingDisabled,
-      fetchModelsWithLabels: state.fetchModelsWithLabels,
-      setFetchLoading: state.setFetchLoading
+      fetchROIImgURL: state.fetchROIImgURL
     }),
     shallow
   )
@@ -73,6 +71,10 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
       />
     )
   }, [nodeData.id, propObj['regions']])
+
+  useEffect(() => {
+    fetchROIImgURL()
+  }, [fetchROIImgURL])
 
   return (
     <Box

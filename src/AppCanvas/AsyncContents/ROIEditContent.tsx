@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { Module, PropObject } from '../types'
 import { useStore } from '../store/useStore'
+import { ROICanvas } from './../Components'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -51,10 +52,11 @@ export const ROIEditContent = ({
   defaultRegions
 }: ROIEditContentProps): JSX.Element => {
   const [tabId, setTabId] = useState<number>(0)
-  const { modifyModuleProp, propEditingDisabled } = useStore(
+  const { modifyModuleProp, propEditingDisabled, roiImg } = useStore(
     (state) => ({
       modifyModuleProp: state.modifyModuleProp,
-      propEditingDisabled: state.propEditingDisabled
+      propEditingDisabled: state.propEditingDisabled,
+      roiImg: state.roiImg
     }),
     shallow
   )
@@ -76,7 +78,12 @@ export const ROIEditContent = ({
         </Tabs>
       </Box>
       <TabPanel value={tabId} index={0}>
-        哼唧
+        <ROICanvas
+          imgUrl={roiImg.url}
+          imgWidth={roiImg.width}
+          imgHeight={roiImg.height}
+          defaultRegions={defaultRegions}
+        />
       </TabPanel>
       <TabPanel value={tabId} index={1}>
         么么么

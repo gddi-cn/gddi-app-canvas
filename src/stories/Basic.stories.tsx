@@ -9,7 +9,8 @@ import {
   Module,
   Connection,
   FetchLabelRes,
-  FetchModelRes
+  FetchModelRes,
+  FetchROIImgRes
 } from '../AppCanvas'
 import modDef from './datav2/md_v2.json'
 import pipeline from './datav2/pipeline_v2.json'
@@ -63,6 +64,17 @@ const fetchLabelList = (mod_result_id: string): Promise<FetchLabelRes> => {
   })
 }
 
+const fetchROIImg = (
+  width: number,
+  height: number
+): Promise<FetchROIImgRes> => {
+  return new Promise<FetchROIImgRes>((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ url: `https://place-puppy.com/${width}x${height}` })
+    }, 1100)
+  })
+}
+
 const Template: Story<AppCanvasProps> = (args) => (
   <div
     className="app-canvas-wrapper"
@@ -82,7 +94,8 @@ BasicUsage.args = {
   onLoad: handleCanvasLoad,
   onValueChange: handleValueChange,
   fetchModelList: fetchModelList,
-  fetchLabelList: fetchLabelList
+  fetchLabelList: fetchLabelList,
+  fetchROIImg: fetchROIImg
 } as AppCanvasProps
 
 BasicUsage.storyName = 'Usage: Basic'
