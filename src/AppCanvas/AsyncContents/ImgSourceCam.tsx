@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
+import './ImgSourceCam.scss'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -51,7 +52,7 @@ export const ImgSourceCam = (): JSX.Element => {
   }, [fetchROIImgURL])
 
   return (
-    <Box>
+    <Box className="content-wrapper">
       <FormControl>
         <FormLabel id="demo-controlled-radio-buttons-group">分辨率</FormLabel>
         <RadioGroup

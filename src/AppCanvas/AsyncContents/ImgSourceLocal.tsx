@@ -5,6 +5,7 @@ import ImageUploading, {
   ImageType
 } from 'react-images-uploading'
 import { useStore } from '../store/useStore'
+import './ImgSourceLocal.scss'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -77,19 +78,23 @@ export const ImgSourceLocal = (): JSX.Element => {
                 upload
               </Button>
               {imageList.length > 0 && (
-                <div className="image-item">
+                <Box className="image-item">
                   <img
                     hidden={true}
                     src={imageList[0].dataURL}
                     alt=""
                     onLoad={handleImgLoad}
                   />
-                  <div>{imageList[0].file?.name}</div>
+                  <Box>{imageList[0].file?.name}</Box>
                   <Box>{`${imgWH[0]} x ${imgWH[1]}`}</Box>
-                  <Button onClick={handleUseImageClick} variant="contained">
+                  <Button
+                    className="apply-button"
+                    onClick={handleUseImageClick}
+                    variant="contained"
+                  >
                     使用
                   </Button>
-                </div>
+                </Box>
               )}
             </Box>
           )

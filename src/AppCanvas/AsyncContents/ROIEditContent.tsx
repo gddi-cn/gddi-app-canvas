@@ -21,6 +21,7 @@ function TabPanel(props: TabPanelProps) {
 
   return (
     <div
+      className="tabpanel"
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -81,23 +82,21 @@ export const ROIEditContent = ({
           </Tabs>
         </Box>
         <TabPanel value={tabId} index={0}>
-          <Box className="img-source">
-            <ImgSourceCam />
-          </Box>
+          <ImgSourceCam />
         </TabPanel>
         <TabPanel value={tabId} index={1}>
-          <Box className="img-source">
-            <ImgSourceLocal />
-          </Box>
+          <ImgSourceLocal />
         </TabPanel>
       </Box>
-      <Box className="canvas-area">
-        <ROICanvas
-          imgUrl={roiImg.url}
-          imgWidth={roiImg.width}
-          imgHeight={roiImg.height}
-          defaultRegions={defaultRegions}
-        />
+      <Box className="canvas-and-control-area">
+        <Box className="canvas-area">
+          <ROICanvas
+            imgUrl={roiImg.url}
+            imgWidth={roiImg.width}
+            imgHeight={roiImg.height}
+            defaultRegions={defaultRegions}
+          />
+        </Box>
       </Box>
     </Box>
   )

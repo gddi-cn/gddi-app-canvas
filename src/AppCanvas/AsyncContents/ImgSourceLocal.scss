@@ -1,0 +1,15 @@
+.upload__image-wrapper {
+    display: flex;
+    flex-direction: row;
+
+    .image-item {
+        flex-grow: 1;
+        margin-left: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .apply-button {
+            margin-left: 1rem;
+        }
+    }
+}
