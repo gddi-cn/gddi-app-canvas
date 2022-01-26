@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
-import { Module, PropObject } from '../types'
 import { useStore } from '../store/useStore'
 import { ROICanvas } from './../Components'
 import { ImgSourceCam } from './ImgSourceCam'
@@ -9,7 +8,6 @@ import './ROIEditContent.scss'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
 interface TabPanelProps {
@@ -70,33 +68,37 @@ export const ROIEditContent = ({
   }, [])
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs
-          value={tabId}
-          onChange={handleTabChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="使用摄像头图片" {...a11yProps(0)} />
-          <Tab label="使用本地图片" {...a11yProps(1)} />
-        </Tabs>
+    <Box className="editor-content">
+      <Box className="tab-area">
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs
+            value={tabId}
+            onChange={handleTabChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="使用摄像头图片" {...a11yProps(0)} />
+            <Tab label="使用本地图片" {...a11yProps(1)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={tabId} index={0}>
+          <Box className="img-source">
+            <ImgSourceCam />
+          </Box>
+        </TabPanel>
+        <TabPanel value={tabId} index={1}>
+          <Box className="img-source">
+            <ImgSourceLocal />
+          </Box>
+        </TabPanel>
       </Box>
-      <TabPanel value={tabId} index={0}>
-        <Box className="img-source">
-          <ImgSourceCam />
-        </Box>
-      </TabPanel>
-      <TabPanel value={tabId} index={1}>
-        <Box className="img-source">
-          <ImgSourceLocal />
-        </Box>
-      </TabPanel>
-      <ROICanvas
-        imgUrl={roiImg.url}
-        imgWidth={roiImg.width}
-        imgHeight={roiImg.height}
-        defaultRegions={defaultRegions}
-      />
+      <Box className="canvas-area">
+        <ROICanvas
+          imgUrl={roiImg.url}
+          imgWidth={roiImg.width}
+          imgHeight={roiImg.height}
+          defaultRegions={defaultRegions}
+        />
+      </Box>
     </Box>
   )
 }
