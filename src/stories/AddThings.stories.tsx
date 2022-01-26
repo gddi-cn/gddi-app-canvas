@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { Meta } from '@storybook/react/types-6-0'
 import { Story } from '@storybook/react'
 import Button from '@mui/material/Button'
@@ -10,11 +10,15 @@ import {
   AppCanvasProps,
   Pipeline,
   Module,
-  Connection
+  Connection,
+  FetchLabelRes,
+  FetchModelRes,
+  FetchROIImgRes
 } from '../AppCanvas'
 import { TabPanel } from './components'
 import modDef from './datav2/md_v2.json'
 import pipeline from './datav2/pipeline_v2.json'
+import { fetchModelResult, modelLabels } from './datav2/fetchExample'
 
 import './AddThings.scss'
 
@@ -63,13 +67,13 @@ const Template: Story<AppCanvasProps> = (args) => {
   )
   const handleCanvasLoad = (canvas: AIAppType): void => {
     canvasRef.current = canvas
-    canvasRef.current.layoutGraph()
+    // canvasRef.current.layoutGraph()
   }
-  const handleValueChange = (val: Pipeline): void => {
+  const handleValueChange = useCallback((val: Pipeline): void => {
     console.log(`value changed!`)
     setAppVal(val)
     // console.log(val)
-  }
+  }, [])
   const handleAddDemuxer = (): void => {
     if (canvasRef.current) {
       canvasRef.current.addModule({
@@ -110,6 +114,70 @@ const Template: Story<AppCanvasProps> = (args) => {
     }
   }
 
+  const fetchModelList = useCallback(
+    (page: number, pageSize: number): Promise<FetchModelRes> => {
+      return new Promise<FetchModelRes>((resolve, reject) => {
+        setTimeout(() => {
+          const { models, totalCnt } = fetchModelResult
+          resolve({
+            models: models.slice(pageSize * page, pageSize * (page + 1)),
+            totalCnt
+          })
+        }, 2000)
+      })
+    },
+    [fetchModelResult]
+  )
+
+  const fetchLabelList = useCallback(
+    (mod_result_id: string): Promise<FetchLabelRes> => {
+      const fetchLabelRes: FetchLabelRes = {
+        labels:
+          modelLabels[mod_result_id] === undefined
+            ? []
+            : modelLabels[mod_result_id].labels
+      }
+      return new Promise<FetchLabelRes>((resolve, reject) => {
+        setTimeout(() => {
+          resolve(fetchLabelRes)
+        }, 2000)
+      })
+    },
+    [modelLabels]
+  )
+
+  const fetchROIImg = useCallback(
+    (width: number, height: number): Promise<FetchROIImgRes> => {
+      return new Promise<FetchROIImgRes>((resolve, reject) => {
+        setTimeout(() => {
+          resolve({ url: `https://place-puppy.com/${width}x${height}` })
+        }, 1100)
+      })
+    },
+    []
+  )
+
+  const appCanvas = useMemo(() => {
+    return (
+      <AppCanvas
+        {...args}
+        onLoad={handleCanvasLoad}
+        onValueChange={handleValueChange}
+        fetchModelList={fetchModelList}
+        fetchLabelList={fetchLabelList}
+        fetchROIImg={fetchROIImg}
+      />
+    )
+  }, [
+    args,
+    appVal,
+    handleCanvasLoad,
+    handleValueChange,
+    fetchModelList,
+    fetchLabelList,
+    fetchROIImg
+  ])
+
   return (
     <div className="story-wrapper">
       <div className="row">
@@ -143,11 +211,7 @@ const Template: Story<AppCanvasProps> = (args) => {
           className="row app-canvas-wrapper"
           style={{ width: '1000px', height: '400px' }}
         >
-          <AppCanvas
-            {...args}
-            onLoad={handleCanvasLoad}
-            onValueChange={handleValueChange}
-          />
+          {appCanvas}
         </div>
       </TabPanel>
       <TabPanel value={tabVal} index={1}>
@@ -166,7 +230,6 @@ export const AddModules = Template.bind({})
 AddModules.args = {
   dark: false,
   hideDarkModeButton: false,
-  defaultValue: undefined,
   moduleDefinitions: modDef
 } as AppCanvasProps
 

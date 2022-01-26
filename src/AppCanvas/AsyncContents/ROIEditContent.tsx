@@ -3,6 +3,9 @@ import shallow from 'zustand/shallow'
 import { Module, PropObject } from '../types'
 import { useStore } from '../store/useStore'
 import { ROICanvas } from './../Components'
+import { ImgSourceCam } from './ImgSourceCam'
+import { ImgSourceLocal } from './ImgSourceLocal'
+import './ROIEditContent.scss'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -26,11 +29,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   )
 }
@@ -44,6 +43,7 @@ function a11yProps(index: number) {
 
 export interface ROIEditContentProps {
   moduleId: number
+  // [topx, topy, width, heigh] all in percentage
   defaultRegions: number[][]
 }
 
@@ -65,6 +65,10 @@ export const ROIEditContent = ({
     setTabId(newVal)
   }, [])
 
+  const handleRegionsChange = useCallback((regions: number[][]) => {
+    console.log(regions)
+  }, [])
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -78,16 +82,21 @@ export const ROIEditContent = ({
         </Tabs>
       </Box>
       <TabPanel value={tabId} index={0}>
-        <ROICanvas
-          imgUrl={roiImg.url}
-          imgWidth={roiImg.width}
-          imgHeight={roiImg.height}
-          defaultRegions={defaultRegions}
-        />
+        <Box className="img-source">
+          <ImgSourceCam />
+        </Box>
       </TabPanel>
       <TabPanel value={tabId} index={1}>
-        么么么
+        <Box className="img-source">
+          <ImgSourceLocal />
+        </Box>
       </TabPanel>
+      <ROICanvas
+        imgUrl={roiImg.url}
+        imgWidth={roiImg.width}
+        imgHeight={roiImg.height}
+        defaultRegions={defaultRegions}
+      />
     </Box>
   )
 }

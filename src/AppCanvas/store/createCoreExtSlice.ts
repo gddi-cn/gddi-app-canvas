@@ -35,6 +35,7 @@ export interface CoreExtSlice {
   setFetchLabelRes: (res: FetchLabelRes) => void
   fetchModelsWithLabels: (pageOffset: number) => void
   fetchROIImgURL: () => void
+  setROIImg: (url?: string, width?: number, height?: number) => void
 }
 
 const createCoreExtSlice = (
@@ -43,7 +44,7 @@ const createCoreExtSlice = (
 ): CoreExtSlice => ({
   roiImg: {
     url: undefined,
-    width: 1024,
+    width: 1280,
     height: 720
   },
   fetchLoading: false,
@@ -166,6 +167,22 @@ const createCoreExtSlice = (
         )
       }
     }
+  },
+  setROIImg: (url?: string, width?: number, height?: number) => {
+    set(
+      produce((draft: MyState) => {
+        const draft1 = draft
+        if (url) {
+          draft1.roiImg.url = url
+        }
+        if (width) {
+          draft1.roiImg.width = width
+        }
+        if (height) {
+          draft1.roiImg.height = height
+        }
+      })
+    )
   }
 })
 
