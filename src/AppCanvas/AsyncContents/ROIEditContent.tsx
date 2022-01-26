@@ -77,8 +77,8 @@ export const ROIEditContent = ({
             onChange={handleTabChange}
             aria-label="basic tabs example"
           >
-            <Tab label="使用摄像头图片" {...a11yProps(0)} />
-            <Tab label="使用本地图片" {...a11yProps(1)} />
+            <Tab label="图片源：摄像头" {...a11yProps(0)} />
+            <Tab label="图片源：本地上传" {...a11yProps(1)} />
           </Tabs>
         </Box>
         <TabPanel value={tabId} index={0}>
