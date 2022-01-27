@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { fabric } from 'fabric'
-import { DrawRectAssistant } from './graph'
+import { DrawRectAssistant, cropBox, getRegionFromBoxCorner } from './graph'
 
 import Box from '@mui/material/Box'
 import Crop169Icon from '@mui/icons-material/Crop169'
@@ -18,10 +18,15 @@ const ImageInitSetting = {
 
 export interface ROICanvasProps {
   imgUrl: string | undefined
-  defaultRegions: number[][]
+  regions: number[][]
+  onRegionsChange: (newRegions: number[][]) => void
 }
 
-export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
+export function ROICanvas({
+  imgUrl,
+  regions,
+  onRegionsChange
+}: ROICanvasProps) {
   const [mode, setMode] = useState<string>('default')
   const modeRef = useRef<string>('default')
   const appRef = useRef<fabric.Canvas | undefined>(undefined)
@@ -32,6 +37,84 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
   const lastPosY = useRef<number>(0)
   const assistRef = useRef<DrawRectAssistant | undefined>(undefined)
   const boxesRef = useRef<fabric.Rect[]>([])
+
+  console.log(`rrrr ROICanvas`)
+  console.log(regions)
+
+  const addROIBox = useCallback(
+    ({ top, left, width, height }) => {
+      if (imgRef.current !== undefined) {
+        const imgW = imgRef.current.width as number
+        const imgH = imgRef.current.height as number
+        const cropRes = cropBox({
+          xtl: left,
+          ytl: top,
+          xbr: left + width,
+          ybr: top + height,
+          imgW,
+          imgH
+        })
+        // console.log(
+        //   `top: ${top} - left: ${left} - width: ${width} - height: ${height}`
+        // )
+        // console.log(`imgW: ${imgW}, imgH: ${imgH}`)
+        if (cropRes !== null) {
+          const newRegion = getRegionFromBoxCorner(cropRes, imgW, imgH)
+          // const idx = boxesRef.current.length
+          // const newBox = new fabric.Rect({
+          //   name: `roi-${idx}`,
+          //   data: { id: idx, type: 'box', region: [...region] },
+          //   fill: 'rgba(68, 227, 110, 0.3)',
+          //   stroke: 'rgb(68, 227, 110)',
+          //   strokeWidth: 1,
+          //   strokeUniform: true,
+          //   top: cropRes.ytl,
+          //   left: cropRes.xtl,
+          //   width: cropRes.xbr - cropRes.xtl,
+          //   height: cropRes.ybr - cropRes.ytl,
+          //   selectable: false,
+          //   visible: true
+          // })
+          // appRef.current?.add(newBox)
+          // boxesRef.current.push(newBox)
+          onRegionsChange([...regions, [...newRegion]])
+        }
+      }
+    },
+    [imgRef.current, boxesRef.current, appRef.current, regions]
+  )
+
+  const updateBoxes = useCallback(
+    (regions: number[][], imgW: number, imgH: number) => {
+      console.log('upate boxes')
+      console.log(boxesRef.current)
+      // 1) clear old boxes
+      boxesRef.current.forEach((box) => {
+        appRef.current?.remove(box)
+      })
+      boxesRef.current = []
+      // 2) create new boxes
+      regions.forEach((region, idx) => {
+        const newBox = new fabric.Rect({
+          name: `roi-${idx}`,
+          data: { id: idx, type: 'box', region: [...region] },
+          fill: 'rgba(68, 227, 110, 0.3)',
+          stroke: 'rgb(68, 227, 110)',
+          strokeWidth: 1,
+          strokeUniform: true,
+          top: Math.floor(region[0] * imgH),
+          left: Math.floor(region[1] * imgW),
+          width: Math.floor(region[2] * imgW),
+          height: Math.floor(region[3] * imgH),
+          selectable: false,
+          visible: true
+        })
+        appRef.current?.add(newBox)
+        boxesRef.current.push(newBox)
+      })
+    },
+    [boxesRef.current, appRef.current]
+  )
 
   const handleDrawBoxToggleChange = useCallback(() => {
     if (mode === 'box') {
@@ -78,18 +161,18 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
           // end draw -- create new box
           assistRef.current.setPoint(pt.x, pt.y)
           const { top, left, width, height } = assistRef.current.endDraw()
+          addROIBox({ top, left, width, height })
           // this.addNewBox(
           //   Math.round(top),
           //   Math.round(left),
           //   Math.round(width),
           //   Math.round(height)
           // )
-          console.log('removeeeeeee')
           assistRef.current.removeFromCanvas()
         }
       }
     },
-    [modeRef.current, assistRef.current, appRef.current]
+    [modeRef.current, assistRef.current, appRef.current, regions]
   )
 
   const handleCanvasMove = useCallback(
@@ -185,7 +268,7 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
   // }, [defaultRegions, imgRef.current?.width, imgRef.current?.height])
 
   useEffect(() => {
-    // update image and boxes
+    // image changed -> update image and boxes
     if (
       appRef.current !== undefined &&
       imgUrl !== undefined &&
@@ -202,33 +285,38 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
         })
         //TODO: fit image in center
 
-        // update boxes
-        // 1) clear old boxes
-        boxesRef.current.forEach((box) => {
-          appRef.current?.remove(box)
-        })
-        boxesRef.current = []
-        // 2) create new boxes
-        const imgW = img.width as number
-        const imgH = img.height as number
-        defaultRegions.forEach((region, idx) => {
-          const newBox = new fabric.Rect({
-            name: `roi-${idx}`,
-            data: { id: idx, type: 'box', region: [...region] },
-            fill: 'rgba(68, 227, 110, 0.3)',
-            stroke: 'rgb(68, 227, 110)',
-            strokeWidth: 1,
-            strokeUniform: true,
-            top: Math.floor(region[0] * imgH),
-            left: Math.floor(region[1] * imgW),
-            width: Math.floor(region[2] * imgW),
-            height: Math.floor(region[3] * imgH),
-            selectable: false,
-            visible: true
-          })
-          appRef.current?.add(newBox)
-          boxesRef.current.push(newBox)
-        })
+        updateBoxes(regions, img.width as number, img.height as number)
+        // const imgW = img.width as number
+        // const imgH = img.height as number
+        // // 1) clear old boxes
+        // boxesRef.current.forEach((box) => {
+        //   console.log('before remove box')
+        //   console.log(appRef.current?.getObjects())
+        //   console.log(appRef.current?.contains(box))
+        //   appRef.current?.remove(box)
+        //   console.log('after remove box')
+        //   console.log(appRef.current?.getObjects())
+        // })
+        // boxesRef.current = []
+        // // 2) create new boxes
+        // regions.forEach((region, idx) => {
+        //   const newBox = new fabric.Rect({
+        //     name: `roi-${idx}`,
+        //     data: { id: idx, type: 'box', region: [...region] },
+        //     fill: 'rgba(68, 227, 110, 0.3)',
+        //     stroke: 'rgb(68, 227, 110)',
+        //     strokeWidth: 1,
+        //     strokeUniform: true,
+        //     top: Math.floor(region[0] * imgH),
+        //     left: Math.floor(region[1] * imgW),
+        //     width: Math.floor(region[2] * imgW),
+        //     height: Math.floor(region[3] * imgH),
+        //     selectable: false,
+        //     visible: true
+        //   })
+        //   appRef.current?.add(newBox)
+        //   boxesRef.current.push(newBox)
+        // })
 
         appRef.current?.requestRenderAll()
       })
@@ -275,7 +363,7 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
           // init boxes
           const imgW = img.width as number
           const imgH = img.height as number
-          defaultRegions.forEach((region, idx) => {
+          regions.forEach((region, idx) => {
             const newBox = new fabric.Rect({
               name: `roi-${idx}`,
               data: { id: idx, type: 'box', region: [...region] },

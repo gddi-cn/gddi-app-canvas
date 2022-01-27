@@ -8,6 +8,7 @@ import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText, MyFullScreenDialog } from '../Components'
 import { ROIEditContent } from './../AsyncContents'
+import { ROIDialog } from './ROIDialog'
 import './ROINodeBody.scss'
 
 import Box from '@mui/material/Box'
@@ -57,20 +58,29 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
     setDialogOpen(false)
   }, [])
 
+  const handleDialogOk = useCallback((okVal: number[][]) => {
+    console.log(okVal)
+    setDialogOpen(false)
+  }, [])
+
   const handleEditROIClick = useCallback(() => {
     setDialogOpen(true)
   }, [])
 
   const propObj = nodeData.props as PropObject
 
-  const renderROIEditor = useCallback(() => {
-    return (
-      <ROIEditContent
-        moduleId={nodeData.id}
-        defaultRegions={propObj['regions'] as number[][]}
-      />
-    )
-  }, [nodeData.id, propObj['regions']])
+  // const renderROIEditor = useCallback(
+  //   ({ val, onValChange }) => {
+  //     return (
+  //       <ROIEditContent
+  //         moduleId={nodeData.id}
+  //         regions={propObj['regions'] as number[][]}
+  //         onRegionsChange={onValChange}
+  //       />
+  //     )
+  //   },
+  //   [nodeData.id, propObj['regions']]
+  // )
 
   useEffect(() => {
     fetchROIImgURL()
@@ -106,12 +116,21 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
           onChange={handleRunnerChange}
         />
       </Box> */}
-      <MyFullScreenDialog
+      {/* <MyFullScreenDialog
         open={dialogOpen}
         title="画 ROI"
         okTitle="Save Changes"
         onClose={handleDialogClose}
+        onOK={handleDialogOk}
         renderContent={renderROIEditor}
+      /> */}
+      <ROIDialog
+        open={dialogOpen}
+        title="画 ROI"
+        okTitle="Save Changes"
+        defaultRegions={propObj['regions'] as number[][]}
+        onClose={handleDialogClose}
+        onOK={handleDialogOk}
       />
     </Box>
   )

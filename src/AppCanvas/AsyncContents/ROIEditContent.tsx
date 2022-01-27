@@ -41,14 +41,14 @@ function a11yProps(index: number) {
 }
 
 export interface ROIEditContentProps {
-  moduleId: number
   // [topx, topy, width, heigh] all in percentage
-  defaultRegions: number[][]
+  regions: number[][]
+  onRegionsChange: (newRegions: number[][]) => void
 }
 
 export const ROIEditContent = ({
-  moduleId,
-  defaultRegions
+  regions,
+  onRegionsChange
 }: ROIEditContentProps): JSX.Element => {
   const [tabId, setTabId] = useState<number>(0)
   const { modifyModuleProp, propEditingDisabled, roiImg } = useStore(
@@ -64,8 +64,8 @@ export const ROIEditContent = ({
     setTabId(newVal)
   }, [])
 
-  const handleRegionsChange = useCallback((regions: number[][]) => {
-    console.log(regions)
+  const handleRegionsChange = useCallback((r: number[][]) => {
+    onRegionsChange(r)
   }, [])
 
   return (
@@ -90,7 +90,11 @@ export const ROIEditContent = ({
       </Box>
       <Box className="canvas-and-control-area">
         <Box className="canvas-area">
-          <ROICanvas imgUrl={roiImg.url} defaultRegions={defaultRegions} />
+          <ROICanvas
+            imgUrl={roiImg.url}
+            regions={regions}
+            onRegionsChange={handleRegionsChange}
+          />
         </Box>
       </Box>
     </Box>

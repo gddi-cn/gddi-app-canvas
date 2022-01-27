@@ -1,4 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+
+import { ROIEditContent } from './../AsyncContents'
 
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -24,34 +26,44 @@ export interface ContentProps {
   onValChange: (okVal: any) => void
 }
 
-export interface MyFullScreenDialogProps {
+export interface ROIDialogProps {
   open: boolean
   title: string
   okTitle: string
+  defaultRegions: number[][]
   onClose: () => void
-  onOK: (okVal: any) => void
-  renderContent: (props: ContentProps) => JSX.Element
+  onOK: (newRegions: number[][]) => void
 }
 
-export const MyFullScreenDialog = ({
+export const ROIDialog = ({
   open,
   title,
   okTitle,
+  defaultRegions,
   onClose,
-  onOK,
-  renderContent
-}: MyFullScreenDialogProps): JSX.Element => {
-  const [contentVal, setContentVal] = useState(undefined)
+  onOK
+}: ROIDialogProps): JSX.Element => {
+  const [regions, setRegions] = useState<number[][]>([])
+
   const handleClose = useCallback(() => {
     onClose()
   }, [])
-  const handleContentValChange = useCallback((val) => {
-    setContentVal(val)
-  }, [])
   const handleOk = useCallback(() => {
-    onOK(contentVal)
-  }, [])
+    onOK(regions)
+  }, [regions])
 
+  const handleRegionsChange = useCallback(
+    (newR: number[][]) => {
+      setRegions([...newR])
+    },
+    [setRegions]
+  )
+
+  useEffect(() => {
+    setRegions([...defaultRegions])
+  }, [defaultRegions])
+
+  console.log(regions)
   return (
     <Dialog
       fullScreen
@@ -77,7 +89,7 @@ export const MyFullScreenDialog = ({
           </Button>
         </Toolbar>
       </AppBar>
-      {renderContent({ val: contentVal, onValChange: handleContentValChange })}
+      <ROIEditContent regions={regions} onRegionsChange={handleRegionsChange} />
     </Dialog>
   )
 }

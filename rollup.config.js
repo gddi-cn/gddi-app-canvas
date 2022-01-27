@@ -6,7 +6,6 @@ import postcss from 'rollup-plugin-postcss'
 import { terser } from 'rollup-plugin-terser'
 import bundleSize from 'rollup-plugin-bundle-size'
 import { visualizer } from 'rollup-plugin-visualizer'
-import json from 'rollup-plugin-json'
 
 const packageJson = require('./package.json')
 
@@ -26,18 +25,18 @@ export default {
     }
   ],
   external: [
-    'canvas-prebuilt',
-    'canvas',
-    'jsdom/lib/jsdom/utils',
-    'jsdom/lib/jsdom/living/generated/utils',
-    'jsdom',
-    'xmldom'
+    // 'canvas-prebuilt',
+    // 'canvas',
+    // 'jsdom/lib/jsdom/utils',
+    // 'jsdom/lib/jsdom/living/generated/utils',
+    // 'jsdom',
+    // 'xmldom'
+    'fabric'
   ],
   plugins: [
     peerDepsExternal(),
     resolve(),
     commonjs(),
-    json(),
     typescript({ useTsconfigDeclarationDir: true }),
     postcss(),
     terser(),
