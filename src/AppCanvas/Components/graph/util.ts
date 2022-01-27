@@ -47,3 +47,23 @@ export function getRegionFromBoxCorner(
   //   return [corners.ytl / imgH, corners.xtl / imgW, width / imgW, height / imgH]
   return [corners.xtl / imgW, corners.ytl / imgH, width / imgW, height / imgH]
 }
+
+interface BoxDimension {
+  top: number
+  left: number
+  width: number
+  height: number
+}
+
+export function getBoxDimensionFromRegion(
+  region: number[],
+  imgW: number,
+  imgH: number
+): BoxDimension {
+  return {
+    top: region[1] * imgH,
+    left: region[0] * imgW,
+    width: region[2] * imgW,
+    height: region[3] * imgH
+  }
+}

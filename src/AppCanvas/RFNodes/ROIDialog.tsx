@@ -59,11 +59,15 @@ export const ROIDialog = ({
     [setRegions]
   )
 
+  console.log(regions, 66)
+  const handleAddRegion = useCallback((newEle: number[]) => {
+    setRegions((oldR) => [...oldR, newEle])
+  }, [])
+
   useEffect(() => {
     setRegions([...defaultRegions])
   }, [defaultRegions])
 
-  console.log(regions)
   return (
     <Dialog
       fullScreen
@@ -89,7 +93,11 @@ export const ROIDialog = ({
           </Button>
         </Toolbar>
       </AppBar>
-      <ROIEditContent regions={regions} onRegionsChange={handleRegionsChange} />
+      <ROIEditContent
+        regions={regions}
+        onRegionsChange={handleRegionsChange}
+        addRegion={handleAddRegion}
+      />
     </Dialog>
   )
 }

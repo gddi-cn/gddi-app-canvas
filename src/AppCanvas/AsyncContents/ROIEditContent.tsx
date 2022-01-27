@@ -44,11 +44,13 @@ export interface ROIEditContentProps {
   // [topx, topy, width, heigh] all in percentage
   regions: number[][]
   onRegionsChange: (newRegions: number[][]) => void
+  addRegion: (newRegions: number[]) => void
 }
 
 export const ROIEditContent = ({
   regions,
-  onRegionsChange
+  onRegionsChange,
+  addRegion
 }: ROIEditContentProps): JSX.Element => {
   const [tabId, setTabId] = useState<number>(0)
   const { modifyModuleProp, propEditingDisabled, roiImg } = useStore(
@@ -65,7 +67,11 @@ export const ROIEditContent = ({
   }, [])
 
   const handleRegionsChange = useCallback((r: number[][]) => {
-    onRegionsChange(r)
+    onRegionsChange([...r])
+  }, [])
+
+  const handleAddRegion = useCallback((r: number[]) => {
+    addRegion([...r])
   }, [])
 
   return (
@@ -94,6 +100,7 @@ export const ROIEditContent = ({
             imgUrl={roiImg.url}
             regions={regions}
             onRegionsChange={handleRegionsChange}
+            addRegion={handleAddRegion}
           />
         </Box>
       </Box>
