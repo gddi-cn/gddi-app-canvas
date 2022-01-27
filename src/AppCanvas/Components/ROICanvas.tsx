@@ -184,6 +184,7 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
         stopContextMenu: true,
         uniformScaling: false
       })
+      app.hoverCursor = 'default'
       app.on('mouse:wheel', handleCanvasWheel)
       app.on('mouse:down', handleCanvasDown)
       app.on('mouse:move', handleCanvasMove)
