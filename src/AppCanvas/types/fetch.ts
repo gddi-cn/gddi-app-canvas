@@ -12,6 +12,7 @@ export interface FetchModelRes {
 export interface ModelRes {
   mod_id: string
   mod_iter_id: string
+  mod_license: string
   mod_name: string
   mod_created_at: Date
   mod_version: string

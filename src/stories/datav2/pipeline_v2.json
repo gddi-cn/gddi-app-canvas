@@ -16,6 +16,7 @@
       "name": "目标检测模型推理",
       "runner": "default",
       "props": {
+        "mod_iter_id": "fe233333",
         "mod_result_id": "333",
         "mod_license": "",
         "mod_path": "",
