@@ -90,12 +90,7 @@ export const ROIEditContent = ({
       </Box>
       <Box className="canvas-and-control-area">
         <Box className="canvas-area">
-          <ROICanvas
-            imgUrl={roiImg.url}
-            imgWidth={roiImg.width}
-            imgHeight={roiImg.height}
-            defaultRegions={defaultRegions}
-          />
+          <ROICanvas imgUrl={roiImg.url} defaultRegions={defaultRegions} />
         </Box>
       </Box>
     </Box>

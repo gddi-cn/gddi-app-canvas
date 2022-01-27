@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { fabric } from 'fabric'
+import { DrawRectAssistant } from './graph'
 
 import Box from '@mui/material/Box'
+import Crop169Icon from '@mui/icons-material/Crop169'
+import ToggleButton from '@mui/material/ToggleButton'
 
 const ImageInitSetting = {
   shadow: new fabric.Shadow({
@@ -15,23 +18,29 @@ const ImageInitSetting = {
 
 export interface ROICanvasProps {
   imgUrl: string | undefined
-  imgWidth: number
-  imgHeight: number
   defaultRegions: number[][]
 }
 
-export function ROICanvas({
-  imgUrl,
-  imgWidth,
-  imgHeight,
-  defaultRegions
-}: ROICanvasProps) {
+export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
+  const [mode, setMode] = useState<string>('default')
+  const modeRef = useRef<string>('default')
   const appRef = useRef<fabric.Canvas | undefined>(undefined)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<fabric.Image | undefined>(undefined)
   const isDragging = useRef<boolean>(false)
   const lastPosX = useRef<number>(0)
   const lastPosY = useRef<number>(0)
+  const assistRef = useRef<DrawRectAssistant | undefined>(undefined)
+
+  const handleDrawBoxToggleChange = useCallback(() => {
+    if (mode === 'box') {
+      setMode('default')
+      modeRef.current = 'default'
+    } else {
+      setMode('box')
+      modeRef.current = 'box'
+    }
+  }, [mode, setMode])
 
   const handleCanvasWheel = useCallback(
     (opt: fabric.IEvent): void => {
@@ -50,54 +59,74 @@ export function ROICanvas({
     [appRef.current]
   )
 
-  const handleCanvasDown = useCallback((opt: fabric.IEvent): void => {
-    startPan(opt)
-    // if (toolType === 'drawBox' && this.canvasInstance && !panning) {
-    //   const pt = this.canvasInstance.getPointer(opt.e as any)
-    //   if (this.drawRectAssistant.Status === 'init') {
-    //     this.drawRectAssistant.setPoint(pt.x, pt.y)
-    //     this.drawRectAssistant.addToCanvas(this.canvasInstance)
-    //     this.canvasInstance.requestRenderAll()
-    //   } else if (this.drawRectAssistant.Status === 'pt1') {
-    //     // end draw -- create new box
-    //     this.drawRectAssistant.setPoint(pt.x, pt.y)
-    //     const { top, left, width, height } = this.drawRectAssistant.endDraw()
-    //     this.addNewBox(
-    //       Math.round(top),
-    //       Math.round(left),
-    //       Math.round(width),
-    //       Math.round(height)
-    //     )
-    //     this.drawRectAssistant.removeFromCanvas()
-    //   }
-    // }
-  }, [])
+  const handleCanvasDown = useCallback(
+    (opt: fabric.IEvent): void => {
+      console.log(appRef.current?.getObjects())
+      if (modeRef.current !== 'box') {
+        startPan(opt)
+      } else if (
+        appRef.current !== undefined &&
+        assistRef.current !== undefined
+      ) {
+        const pt = appRef.current.getPointer(opt.e as any)
+        if (assistRef.current.Status === 'init') {
+          assistRef.current.setPoint(pt.x, pt.y)
+          assistRef.current.addToCanvas(appRef.current)
+          appRef.current.requestRenderAll()
+        } else if (assistRef.current.Status === 'pt1') {
+          // end draw -- create new box
+          assistRef.current.setPoint(pt.x, pt.y)
+          const { top, left, width, height } = assistRef.current.endDraw()
+          // this.addNewBox(
+          //   Math.round(top),
+          //   Math.round(left),
+          //   Math.round(width),
+          //   Math.round(height)
+          // )
+          console.log('removeeeeeee')
+          assistRef.current.removeFromCanvas()
+        }
+      }
+    },
+    [modeRef.current, assistRef.current, appRef.current]
+  )
 
-  const handleCanvasMove = useCallback((opt: fabric.IEvent): void => {
-    panMoving(opt)
-    // if (this.canvasInstance) {
-    //   const evt = opt.e as any
-    //   const pt = this.canvasInstance.getPointer(evt)
-    //   onMouseMove(evt.offsetX, evt.offsetY, pt.x, pt.y)
-    //   if (toolType === 'drawBox' && this.drawRectAssistant.Status === 'pt1') {
-    //     this.drawRectAssistant.setPoint(pt.x, pt.y)
-    //     this.canvasInstance.requestRenderAll()
-    //   }
-    // }
-  }, [])
+  const handleCanvasMove = useCallback(
+    (opt: fabric.IEvent): void => {
+      if (modeRef.current !== 'box') {
+        panMoving(opt)
+      } else if (
+        appRef.current !== undefined &&
+        assistRef.current !== undefined
+      ) {
+        const evt = opt.e as any
+        const pt = appRef.current.getPointer(evt)
+        if (assistRef.current.Status === 'pt1') {
+          assistRef.current.setPoint(pt.x, pt.y)
+          appRef.current.requestRenderAll()
+        }
+      }
+    },
+    [modeRef.current, assistRef.current, appRef.current]
+  )
 
   const handleCanvasUp = useCallback((): void => {
-    endPan()
-  }, [])
-
-  const startPan = useCallback((opt: fabric.IEvent): void => {
-    const evt = opt.e as any
-    if (appRef.current) {
-      isDragging.current = true
-      lastPosX.current = evt.clientX
-      lastPosY.current = evt.clientY
+    if (modeRef.current !== 'box') {
+      endPan()
     }
-  }, [])
+  }, [modeRef.current])
+
+  const startPan = useCallback(
+    (opt: fabric.IEvent): void => {
+      const evt = opt.e as any
+      if (appRef.current) {
+        isDragging.current = true
+        lastPosX.current = evt.clientX
+        lastPosY.current = evt.clientY
+      }
+    },
+    [appRef.current, isDragging.current, lastPosX.current, lastPosY.current]
+  )
 
   const panMoving = useCallback((opt: fabric.IEvent): void => {
     if (isDragging.current && appRef.current) {
@@ -146,6 +175,7 @@ export function ROICanvas({
   }, [imgUrl])
 
   useEffect(() => {
+    console.log('inittttt')
     if (canvasRef.current && appRef.current === undefined) {
       const app = new fabric.Canvas(canvasRef.current, {
         width: canvasRef.current?.parentElement?.clientWidth,
@@ -160,6 +190,12 @@ export function ROICanvas({
       app.on('mouse:up', handleCanvasUp)
 
       appRef.current = app
+      // init DrawBoxAssistant
+      if (assistRef.current === undefined) {
+        assistRef.current = new DrawRectAssistant()
+      }
+
+      // init image
       if (imgUrl) {
         fabric.Image.fromURL(imgUrl, (img: fabric.Image) => {
           img.set({
@@ -184,5 +220,26 @@ export function ROICanvas({
     }
   }, [canvasRef.current])
 
-  return <canvas ref={canvasRef}></canvas>
+  return (
+    <>
+      <canvas ref={canvasRef}></canvas>
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '1rem',
+          left: '1rem',
+          backgroundColor: '#fbfbfbbd',
+          borderRadius: '4px'
+        }}
+      >
+        <ToggleButton
+          value="box"
+          selected={mode === 'box'}
+          onChange={handleDrawBoxToggleChange}
+        >
+          <Crop169Icon />
+        </ToggleButton>
+      </Box>
+    </>
+  )
 }
