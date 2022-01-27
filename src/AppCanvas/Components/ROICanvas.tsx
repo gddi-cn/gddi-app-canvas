@@ -31,6 +31,7 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
   const lastPosX = useRef<number>(0)
   const lastPosY = useRef<number>(0)
   const assistRef = useRef<DrawRectAssistant | undefined>(undefined)
+  const boxesRef = useRef<fabric.Rect[]>([])
 
   const handleDrawBoxToggleChange = useCallback(() => {
     if (mode === 'box') {
@@ -61,7 +62,7 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
 
   const handleCanvasDown = useCallback(
     (opt: fabric.IEvent): void => {
-      console.log(appRef.current?.getObjects())
+      // console.log(appRef.current?.getObjects())
       if (modeRef.current !== 'box') {
         startPan(opt)
       } else if (
@@ -151,8 +152,40 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
     }
   }, [])
 
+  // useEffect(() => {
+  //   // update boxes
+  //   // 1) clear old boxes
+  //   boxesRef.current.forEach((box) => {
+  //     appRef.current?.remove(box)
+  //   })
+  //   boxesRef.current = []
+  //   // 2) create new boxes
+  //   if (imgRef.current !== undefined && appRef.current !== undefined) {
+  //     const imgW = imgRef.current.width as number
+  //     const imgH = imgRef.current.height as number
+  //     defaultRegions.forEach((region, idx) => {
+  //       const newBox = new fabric.Rect({
+  //         name: `roi-${idx}`,
+  //         data: { id: idx, type: 'box', region: [...region] },
+  //         fill: 'rgba(68, 227, 110, 0.3)',
+  //         stroke: 'rgb(68, 227, 110)',
+  //         strokeWidth: 1,
+  //         strokeUniform: true,
+  //         top: Math.floor(region[0] * imgH),
+  //         left: Math.floor(region[1] * imgW),
+  //         width: Math.floor(region[2] * imgW),
+  //         height: Math.floor(region[3] * imgH),
+  //         selectable: false,
+  //         visible: true
+  //       })
+  //       appRef.current?.add(newBox)
+  //       boxesRef.current.push(newBox)
+  //     })
+  //   }
+  // }, [defaultRegions, imgRef.current?.width, imgRef.current?.height])
+
   useEffect(() => {
-    // init image
+    // update image and boxes
     if (
       appRef.current !== undefined &&
       imgUrl !== undefined &&
@@ -168,13 +201,42 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
           }
         })
         //TODO: fit image in center
+
+        // update boxes
+        // 1) clear old boxes
+        boxesRef.current.forEach((box) => {
+          appRef.current?.remove(box)
+        })
+        boxesRef.current = []
+        // 2) create new boxes
+        const imgW = img.width as number
+        const imgH = img.height as number
+        defaultRegions.forEach((region, idx) => {
+          const newBox = new fabric.Rect({
+            name: `roi-${idx}`,
+            data: { id: idx, type: 'box', region: [...region] },
+            fill: 'rgba(68, 227, 110, 0.3)',
+            stroke: 'rgb(68, 227, 110)',
+            strokeWidth: 1,
+            strokeUniform: true,
+            top: Math.floor(region[0] * imgH),
+            left: Math.floor(region[1] * imgW),
+            width: Math.floor(region[2] * imgW),
+            height: Math.floor(region[3] * imgH),
+            selectable: false,
+            visible: true
+          })
+          appRef.current?.add(newBox)
+          boxesRef.current.push(newBox)
+        })
+
         appRef.current?.requestRenderAll()
-        console.log(appRef.current)
       })
     }
   }, [imgUrl])
 
   useEffect(() => {
+    // init fabric.canvas
     console.log('inittttt')
     if (canvasRef.current && appRef.current === undefined) {
       const app = new fabric.Canvas(canvasRef.current, {
@@ -209,6 +271,28 @@ export function ROICanvas({ imgUrl, defaultRegions }: ROICanvasProps) {
           })
           imgRef.current = img
           app.add(img)
+
+          // init boxes
+          const imgW = img.width as number
+          const imgH = img.height as number
+          defaultRegions.forEach((region, idx) => {
+            const newBox = new fabric.Rect({
+              name: `roi-${idx}`,
+              data: { id: idx, type: 'box', region: [...region] },
+              fill: 'rgba(68, 227, 110, 0.3)',
+              stroke: 'rgb(68, 227, 110)',
+              strokeWidth: 1,
+              strokeUniform: true,
+              top: Math.floor(region[0] * imgH),
+              left: Math.floor(region[1] * imgW),
+              width: Math.floor(region[2] * imgW),
+              height: Math.floor(region[3] * imgH),
+              selectable: false,
+              visible: true
+            })
+            app.add(newBox)
+            boxesRef.current.push(newBox)
+          })
         })
       }
     }
