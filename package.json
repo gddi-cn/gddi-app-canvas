@@ -69,7 +69,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "sb": "start-storybook -p 6006",
+    "sb": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
     "build-sb": "build-storybook",
     "serve-sb": "npx http-server ./storybook-static",
     "lint": "eslint . --ext .ts",

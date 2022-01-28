@@ -258,7 +258,6 @@ export function ROICanvas({
         imgRef.current.height as number
       )
     }
-    // console.log(regions, 22)
   }, [regions])
 
   useEffect(() => {
@@ -281,6 +280,46 @@ export function ROICanvas({
 
         updateBoxes(regions, img.width as number, img.height as number)
         appRef.current?.requestRenderAll()
+      })
+    } else if (imgUrl !== undefined && appRef.current !== undefined) {
+      fabric.Image.fromURL(imgUrl, (img: fabric.Image) => {
+        img.set({
+          ...ImageInitSetting,
+          data: {
+            type: 'image',
+            url: imgUrl,
+            name: imgUrl
+          }
+        })
+        imgRef.current = img
+        appRef.current?.add(img)
+
+        // init boxes
+        const imgW = img.width as number
+        const imgH = img.height as number
+        regions.forEach((region, idx) => {
+          const { top, left, width, height } = getBoxDimensionFromRegion(
+            region,
+            imgW,
+            imgH
+          )
+          const newBox = new fabric.Rect({
+            name: `roi-${idx}`,
+            data: { id: idx, type: 'box', region: [...region] },
+            fill: 'rgba(68, 227, 110, 0.3)',
+            stroke: 'rgb(68, 227, 110)',
+            strokeWidth: 1,
+            strokeUniform: true,
+            top,
+            left,
+            width,
+            height,
+            selectable: false,
+            visible: true
+          })
+          appRef.current?.add(newBox)
+          boxesRef.current.push(newBox)
+        })
       })
     }
   }, [imgUrl])

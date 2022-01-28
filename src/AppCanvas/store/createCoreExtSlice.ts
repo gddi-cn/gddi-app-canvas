@@ -178,6 +178,13 @@ const createCoreExtSlice = (
           })
         )
       }
+    } else if (roiImgFetcher === undefined) {
+      set(
+        produce((draft: MyState) => {
+          const draft1 = draft
+          draft1.fetchROIImgLoading = false
+        })
+      )
     }
   },
   setROIImg: (url?: string, width?: number, height?: number) => {

@@ -15,9 +15,10 @@ export const ImgSourceLocal = (): JSX.Element => {
   const [images, setImages] = useState<ImageType[]>([])
   const [imgWH, setImgWH] = useState<number[]>([0, 0])
 
-  const { setROIImg } = useStore(
+  const { setROIImg, setFetchROIImgLoading } = useStore(
     (state) => ({
-      setROIImg: state.setROIImg
+      setROIImg: state.setROIImg,
+      setFetchROIImgLoading: state.setFetchROIImgLoading
     }),
     shallow
   )
@@ -32,6 +33,7 @@ export const ImgSourceLocal = (): JSX.Element => {
   const handleImgLoad = useCallback(
     (evt) => {
       setImgWH([evt.target.width, evt.target.height])
+      setFetchROIImgLoading(false)
     },
     [setImgWH]
   )
