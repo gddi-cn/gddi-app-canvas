@@ -59,9 +59,10 @@
     "react-dom": "16 || 17"
   },
   "dependencies": {
+    "@fontsource/roboto": "^4.5.2",
+    "@types/fabric": "^4.5.7",
     "elkjs": "^0.7.3-dev",
     "fabric": "^4.6.0",
-    "@types/fabric": "^4.5.7",
     "lodash": "^4.17.21",
     "react-flow-renderer": "^9.7.1",
     "react-images-uploading": "^3.1.3"
