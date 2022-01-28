@@ -1,0 +1,113 @@
+{
+  "version": "v0",
+  "nodes": [
+    {
+      "id": 0,
+      "type": "Demuxer_v2",
+      "name": "Demuxer_v2_0",
+      "runner": "Decoder_v2_1",
+      "props": { "stream_url": "" },
+      "propsInited": { "stream_url": "" }
+    },
+    {
+      "id": 1,
+      "type": "Decoder_v2",
+      "name": "Decoder_v2_1",
+      "runner": "Decoder_v2_1",
+      "props": { "hw_type": 2 },
+      "propsInited": { "hw_type": 2 }
+    },
+    {
+      "id": 2,
+      "type": "AvToCv_v2",
+      "name": "AvToCv_v2_2",
+      "runner": "default"
+    },
+    {
+      "id": 3,
+      "type": "Detection_v2",
+      "name": "Detection_v2_3",
+      "runner": "Detection",
+      "props": {
+        "mod_iter_id": 0,
+        "mod_license": "",
+        "mod_name": "自动训练-口罩佩戴样本-v0.0.1-模型",
+        "conf_path": "",
+        "mod_path": "",
+        "filter_labels": ["face"],
+        "mod_result_id": 694,
+        "mod_version": "自动训练-口罩佩戴样本-v0.0.1-模型",
+        "mod_created_at": "Wed Jan 26 2022 16:53:14 GMT+0800 (China Standard Time)"
+      },
+      "propsInited": {
+        "mod_iter_id": 0,
+        "mod_license": "",
+        "mod_name": "自动训练-口罩佩戴样本-v0.0.1-模型",
+        "conf_path": "",
+        "mod_path": "",
+        "filter_labels": ["face"],
+        "mod_result_id": 694,
+        "mod_version": "自动训练-口罩佩戴样本-v0.0.1-模型",
+        "mod_created_at": "Wed Jan 26 2022 16:53:14 GMT+0800 (China Standard Time)"
+      }
+    },
+    {
+      "id": 4,
+      "type": "ROI_v2",
+      "name": "ROI_v2_4",
+      "runner": "default",
+      "props": { "regions": [[]] },
+      "propsInited": { "regions": [[]] }
+    },
+    {
+      "id": 5,
+      "type": "Tracking_v2",
+      "name": "Tracking_v2_5",
+      "runner": "default"
+    },
+    {
+      "id": 6,
+      "type": "Graphics_v2",
+      "name": "Graphics_v2_6",
+      "runner": "Graphics",
+      "props": { "ttf_file": "/home/ttf/NotoSans-Regular.ttf" },
+      "propsInited": { "ttf_file": "/home/ttf/NotoSans-Regular.ttf" }
+    },
+    {
+      "id": 7,
+      "type": "Report_v2",
+      "name": "Report_v2_7",
+      "runner": "Report",
+      "props": { "report_url": "", "save_raw": true },
+      "propsInited": { "report_url": "", "save_raw": true }
+    },
+    {
+      "id": 8,
+      "type": "Bridge_v2",
+      "name": "Bridge_v2_8",
+      "runner": "Brigde",
+      "props": { "enable": false },
+      "propsInited": { "enable": false }
+    },
+    {
+      "id": 9,
+      "type": "VideoEncode_v2",
+      "name": "VideoEncode_v2_9",
+      "runner": "Brigde",
+      "props": { "output_stream_url": "" },
+      "propsInited": { "output_stream_url": "" }
+    }
+  ],
+  "pipe": [
+    [0, 0, 1, 0],
+    [0, 1, 1, 1],
+    [1, 1, 2, 0],
+    [2, 0, 3, 0],
+    [3, 0, 4, 0],
+    [4, 0, 5, 0],
+    [5, 0, 6, 0],
+    [6, 0, 7, 0],
+    [4, 0, 8, 0],
+    [8, 0, 9, 0]
+  ]
+}

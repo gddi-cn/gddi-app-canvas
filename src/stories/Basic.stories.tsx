@@ -12,8 +12,8 @@ import {
   FetchModelRes,
   FetchROIImgRes
 } from '../AppCanvas'
-import modDef from './datav2/md_v2.json'
-import pipeline from './datav2/pipeline_v2.json'
+import modDef from './datav2/md2.json'
+import pipeline from './datav2/pipeline2.json'
 import { fetchModelResult, modelLabels } from './datav2/fetchExample'
 
 const myPipeline: Pipeline = {
@@ -32,7 +32,7 @@ const handleCanvasLoad = (canvas: AIAppType): void => {
   canvas.layoutGraph()
 }
 const handleValueChange = (val: Pipeline): void => {
-  console.log(`value changed!`)
+  console.log(`🦍  value changed!`)
   console.log(val)
 }
 const fetchModelList = (

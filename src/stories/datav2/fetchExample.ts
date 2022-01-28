@@ -29,7 +29,7 @@ export const fetchModelResult: FetchModelRes = {
       mod_created_at: new Date(),
       mod_version: '1.2.1',
       mod_version_id: '1',
-      mod_license: '',
+      mod_license: 'MIT',
       mod_result_id: '233'
     },
     {
