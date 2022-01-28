@@ -14,14 +14,16 @@ import FormLabel from '@mui/material/FormLabel'
 export const ImgSourceCam = (): JSX.Element => {
   const [radioVal, setRadioVal] = useState<string>('720')
 
-  const { roiImgFetcher, setROIImg, fetchROIImgURL } = useStore(
-    (state) => ({
-      roiImgFetcher: state.roiImgFetcher,
-      setROIImg: state.setROIImg,
-      fetchROIImgURL: state.fetchROIImgURL
-    }),
-    shallow
-  )
+  const { roiImgFetcher, setROIImg, setFetchROIImgLoading, fetchROIImgURL } =
+    useStore(
+      (state) => ({
+        roiImgFetcher: state.roiImgFetcher,
+        setROIImg: state.setROIImg,
+        setFetchROIImgLoading: state.setFetchROIImgLoading,
+        fetchROIImgURL: state.fetchROIImgURL
+      }),
+      shallow
+    )
 
   const handleRadioValChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +50,7 @@ export const ImgSourceCam = (): JSX.Element => {
   )
 
   const handleUseImageClick = useCallback(() => {
+    setFetchROIImgLoading(true)
     fetchROIImgURL()
   }, [fetchROIImgURL])
 

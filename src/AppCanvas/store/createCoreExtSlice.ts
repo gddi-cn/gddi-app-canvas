@@ -19,11 +19,13 @@ export interface CoreExtSlice {
     width: number
     height: number
   }
+  fetchROIImgLoading: boolean
   fetchLoading: boolean
   fetchModelRes: FetchModelRes
   fetchLabelMemo: FetchLabelMemo
   fetchLabelRes: FetchLabelRes
   setFetchLoading: (loading: boolean) => void
+  setFetchROIImgLoading: (loading: boolean) => void
   modelListFetcher?: ModelListFetcher
   labelListFetcher?: LabelListFetcher
   roiImgFetcher?: ROIImgFetcher
@@ -48,6 +50,7 @@ const createCoreExtSlice = (
     height: 720
   },
   fetchLoading: false,
+  fetchROIImgLoading: false,
   fetchModelRes: {
     models: [],
     totalCnt: 0
@@ -64,6 +67,14 @@ const createCoreExtSlice = (
       produce((draft: MyState) => {
         const draft1 = draft
         draft1.fetchLoading = loading
+      })
+    )
+  },
+  setFetchROIImgLoading: (loading: boolean) => {
+    set(
+      produce((draft: MyState) => {
+        const draft1 = draft
+        draft1.fetchROIImgLoading = loading
       })
     )
   },
@@ -163,6 +174,7 @@ const createCoreExtSlice = (
           produce((draft: MyState) => {
             const draft1 = draft
             draft1.roiImg.url = res.url
+            draft1.fetchROIImgLoading = false
           })
         )
       }

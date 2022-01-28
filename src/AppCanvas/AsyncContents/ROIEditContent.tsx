@@ -9,6 +9,7 @@ import './ROIEditContent.scss'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -55,10 +56,11 @@ export const ROIEditContent = ({
   popRegion
 }: ROIEditContentProps): JSX.Element => {
   const [tabId, setTabId] = useState<number>(0)
-  const { propEditingDisabled, roiImg } = useStore(
+  const { propEditingDisabled, roiImg, fetchROIImgLoading } = useStore(
     (state) => ({
       propEditingDisabled: state.propEditingDisabled,
-      roiImg: state.roiImg
+      roiImg: state.roiImg,
+      fetchROIImgLoading: state.fetchROIImgLoading
     }),
     shallow
   )
@@ -100,16 +102,20 @@ export const ROIEditContent = ({
         </TabPanel>
       </Box>
       <Box className="canvas-and-control-area">
-        <Box className="canvas-area">
-          <ROICanvas
-            disable={propEditingDisabled}
-            imgUrl={roiImg.url}
-            regions={regions}
-            onRegionsChange={handleRegionsChange}
-            addRegion={handleAddRegion}
-            popRegion={handlePopRegion}
-          />
-        </Box>
+        {fetchROIImgLoading ? (
+          <CircularProgress />
+        ) : (
+          <Box className="canvas-area">
+            <ROICanvas
+              disable={propEditingDisabled}
+              imgUrl={roiImg.url}
+              regions={regions}
+              onRegionsChange={handleRegionsChange}
+              addRegion={handleAddRegion}
+              popRegion={handlePopRegion}
+            />
+          </Box>
+        )}
       </Box>
     </Box>
   )

@@ -26,6 +26,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
     modifyModuleProp,
     removeModule,
     propEditingDisabled,
+    setFetchROIImgLoading,
     fetchROIImgURL
   } = useStore(
     (state) => ({
@@ -34,6 +35,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
       modifyModuleProp: state.modifyModuleProp,
       removeModule: state.removeModule,
       propEditingDisabled: state.propEditingDisabled,
+      setFetchROIImgLoading: state.setFetchROIImgLoading,
       fetchROIImgURL: state.fetchROIImgURL
     }),
     shallow
@@ -89,6 +91,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
   // )
 
   useEffect(() => {
+    setFetchROIImgLoading(true)
     fetchROIImgURL()
   }, [fetchROIImgURL])
 
