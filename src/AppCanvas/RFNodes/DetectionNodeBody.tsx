@@ -88,6 +88,10 @@ export const DetectionNodeBody = ({
   )
 
   const propObj = nodeData.props as PropObject
+  const filterLabels =
+    propObj['filter_labels'] === undefined
+      ? undefined
+      : (propObj['filter_labels'] as string[])
 
   const renderModSelect = useCallback(() => {
     // const propObj = nodeData.props as PropObject
@@ -106,42 +110,6 @@ export const DetectionNodeBody = ({
     propObj['mod_result_id'],
     propObj['filter_labels']
   ])
-
-  const ModelSelector: JSX.Element = useMemo(() => {
-    const modName =
-      nodeData.props === undefined ? undefined : nodeData.props['mod_name']
-    if (modName === undefined) {
-      return (
-        <Box>
-          <Box>未指定具体模型</Box>
-          <Box>
-            <Button variant="contained" onClick={handleSelectModClick}>
-              Select Model
-            </Button>
-          </Box>
-        </Box>
-      )
-    }
-    return (
-      <Box className="model-specify">
-        <Box className="model-info">
-          <Box className="model-info-row modelname">{propObj['mod_name']}</Box>
-          <Box className="model-info-row">{`v${propObj['mod_version']}`}</Box>
-          {/* <Box className="model-info-row">{`created at: ${propObj['mod_created_at']}`}</Box> */}
-        </Box>
-        <Box className="model-select-button">
-          <Button
-            sx={{ width: '10rem' }}
-            variant="contained"
-            size="small"
-            onClick={handleSelectModClick}
-          >
-            Change
-          </Button>
-        </Box>
-      </Box>
-    )
-  }, [nodeData.props])
 
   useEffect(() => {
     setFetchLoading(true)
@@ -165,19 +133,25 @@ export const DetectionNodeBody = ({
           <NodeDropDown onDeleteClick={handleModDelete} />
         </Box>
       </Box>
-      <Box className="gddi-aiappcanvas__section module-type-display">
-        <Box component="span">{nodeData.type}</Box>
-        {modDef === undefined ? (
-          <Box className="error-undefined" component="span">
-            module type undefined
-          </Box>
-        ) : (
-          <Box className="module-version" component="span">
-            {modDef.version}
-          </Box>
-        )}
-        {ModelSelector}
-      </Box>
+      <Button
+        className="gddi-aiappcanvas__section model-select-button"
+        variant="outlined"
+        size="large"
+        onClick={handleSelectModClick}
+      >
+        <Box className="model-name" component="span">
+          {`${
+            propObj['mod_name'] === '' || propObj['mod_name'] === undefined
+              ? 'no model selected'
+              : propObj['mod_name']
+          }`}
+        </Box>
+        <Box className="filterlabel-display" component="span">
+          {`${
+            filterLabels === undefined ? 0 : filterLabels.length
+          } label(s) selected`}
+        </Box>
+      </Button>
       {/* <Box className="gddi-aiappcanvas__section module-runner">
         <NodeRunner
           runner={nodeData1.runner}

@@ -60,6 +60,20 @@
       border-radius: 4px;
       font-weight: 700;
     }
+    .model-select-button {
+      display: flex;
+      padding: 26px;
+      margin: 18px;
+      flex-direction: column;
+      text-align: center;
+      font-weight: 700;
+
+      .filterlabel-display {
+        font-weight: 500;
+        font-size: 0.8rem;
+        margin-top: 0.2rem;
+      }
+    }
     .module-type-type {
       font-size: 0.65em;
       color: var(--color-moduletype-title);
