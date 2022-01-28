@@ -109,15 +109,19 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
           <NodeDropDown onDeleteClick={handleModDelete} />
         </Box>
       </Box>
-      <Box className="gddi-aiappcanvas__section module-type-display">
-        <Box component="span">{nodeData.type}</Box>
-        <Box component="span">{`${regions.length} region${
-          regions.length > 1 ? 's' : ''
-        }`}</Box>
-        <Button variant="contained" onClick={handleEditROIClick}>
-          Edit ROI
-        </Button>
-      </Box>
+      <Button
+        className="gddi-aiappcanvas__section roi-edit-button"
+        variant="outlined"
+        size="large"
+        onClick={handleEditROIClick}
+      >
+        <Box className="model-name" component="span">
+          {nodeData.type}
+        </Box>
+        <Box className="filterlabel-display" component="span">
+          {`${regions.length} region${regions.length > 1 ? 's' : ''}`}
+        </Box>
+      </Button>
       {/* <Box className="gddi-aiappcanvas__section module-runner">
         <NodeRunner
           runner={nodeData1.runner}

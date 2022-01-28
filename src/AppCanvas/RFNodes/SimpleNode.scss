@@ -60,6 +60,7 @@
       border-radius: 4px;
       font-weight: 700;
     }
+    .roi-edit-button,
     .model-select-button {
       display: flex;
       padding: 26px;
@@ -74,6 +75,7 @@
         margin-top: 0.2rem;
       }
     }
+
     .module-type-type {
       font-size: 0.65em;
       color: var(--color-moduletype-title);
