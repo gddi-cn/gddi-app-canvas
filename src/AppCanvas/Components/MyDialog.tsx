@@ -59,7 +59,7 @@ export const MyDialog = ({
 
   return (
     <Dialog
-      fullWidth={true}
+      fullScreen={true}
       onClose={handleClose}
       aria-labelledby="customized-dialog-title"
       open={open}
