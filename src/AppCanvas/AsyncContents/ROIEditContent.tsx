@@ -45,17 +45,18 @@ export interface ROIEditContentProps {
   regions: number[][]
   onRegionsChange: (newRegions: number[][]) => void
   addRegion: (newRegions: number[]) => void
+  popRegion: () => void
 }
 
 export const ROIEditContent = ({
   regions,
   onRegionsChange,
-  addRegion
+  addRegion,
+  popRegion
 }: ROIEditContentProps): JSX.Element => {
   const [tabId, setTabId] = useState<number>(0)
-  const { modifyModuleProp, propEditingDisabled, roiImg } = useStore(
+  const { propEditingDisabled, roiImg } = useStore(
     (state) => ({
-      modifyModuleProp: state.modifyModuleProp,
       propEditingDisabled: state.propEditingDisabled,
       roiImg: state.roiImg
     }),
@@ -72,6 +73,10 @@ export const ROIEditContent = ({
 
   const handleAddRegion = useCallback((r: number[]) => {
     addRegion([...r])
+  }, [])
+
+  const handlePopRegion = useCallback(() => {
+    popRegion()
   }, [])
 
   return (
@@ -101,6 +106,7 @@ export const ROIEditContent = ({
             regions={regions}
             onRegionsChange={handleRegionsChange}
             addRegion={handleAddRegion}
+            popRegion={handlePopRegion}
           />
         </Box>
       </Box>

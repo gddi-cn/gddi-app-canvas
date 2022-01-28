@@ -69,6 +69,7 @@ export const DetectionNodeBody = ({
 
   const handleModelSelect = useCallback(
     (model: ModelRes) => {
+      //TODO: setModelRes in global store
       Object.keys(model).forEach((propName) => {
         modifyModuleProp(
           nodeData.id,

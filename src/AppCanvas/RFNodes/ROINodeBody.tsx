@@ -111,7 +111,9 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
       </Box>
       <Box className="gddi-aiappcanvas__section module-type-display">
         <Box component="span">{nodeData.type}</Box>
-        <Box component="span">{`${regions.length} regions`}</Box>
+        <Box component="span">{`${regions.length} region${
+          regions.length > 1 ? 's' : ''
+        }`}</Box>
         <Button variant="contained" onClick={handleEditROIClick}>
           Edit ROI
         </Button>

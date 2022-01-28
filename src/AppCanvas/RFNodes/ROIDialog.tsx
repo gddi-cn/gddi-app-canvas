@@ -49,14 +49,15 @@ export const ROIDialog = ({
     console.log(defaultRegions, 44)
     setRegions([...defaultRegions])
     onClose()
-  }, [])
+  }, [defaultRegions])
+
   const handleOk = useCallback(() => {
     onOK(regions)
   }, [regions])
 
   const handleRegionsChange = useCallback(
     (newR: number[][]) => {
-      setRegions([...newR])
+      setRegions((old) => [...newR])
     },
     [setRegions]
   )
@@ -64,6 +65,10 @@ export const ROIDialog = ({
   console.log(regions, 66)
   const handleAddRegion = useCallback((newEle: number[]) => {
     setRegions((oldR) => [...oldR, newEle])
+  }, [])
+
+  const handlePopRegion = useCallback(() => {
+    setRegions((oldR) => oldR.slice(0, oldR.length - 1))
   }, [])
 
   useEffect(() => {
@@ -99,6 +104,7 @@ export const ROIDialog = ({
         regions={regions}
         onRegionsChange={handleRegionsChange}
         addRegion={handleAddRegion}
+        popRegion={handlePopRegion}
       />
     </Dialog>
   )

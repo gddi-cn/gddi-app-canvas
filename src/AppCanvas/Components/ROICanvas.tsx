@@ -8,7 +8,10 @@ import {
 } from './graph'
 
 import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
 import Crop169Icon from '@mui/icons-material/Crop169'
+import DeleteIcon from '@mui/icons-material/Delete'
+import BackspaceIcon from '@mui/icons-material/Backspace'
 import ToggleButton from '@mui/material/ToggleButton'
 
 const ImageInitSetting = {
@@ -26,13 +29,15 @@ export interface ROICanvasProps {
   regions: number[][]
   onRegionsChange: (newRegions: number[][]) => void
   addRegion: (newRegion: number[]) => void
+  popRegion: () => void
 }
 
 export function ROICanvas({
   imgUrl,
   regions,
   onRegionsChange,
-  addRegion
+  addRegion,
+  popRegion
 }: ROICanvasProps) {
   const [mode, setMode] = useState<string>('default')
   const modeRef = useRef<string>('default')
@@ -47,6 +52,16 @@ export function ROICanvas({
 
   // console.log(`rrrr ROICanvas`)
   // console.log(regions)
+
+  const handleDeleteAll = useCallback(() => {
+    onRegionsChange([])
+  }, [])
+
+  const handleDeleteLast = useCallback(() => {
+    // onRegionsChange(regions.slice(0, regions.slice.length - 1))
+    popRegion()
+    console.log('delete last')
+  }, [])
 
   const addROIBox = ({
     top,
@@ -83,51 +98,6 @@ export function ROICanvas({
       }
     }
   }
-
-  // const addROIBox = useCallback(
-  //   ({ top, left, width, height }) => {
-  //     if (imgRef.current !== undefined) {
-  //       const imgW = imgRef.current.width as number
-  //       const imgH = imgRef.current.height as number
-  //       const cropRes = cropBox({
-  //         xtl: left,
-  //         ytl: top,
-  //         xbr: left + width,
-  //         ybr: top + height,
-  //         imgW,
-  //         imgH
-  //       })
-  //       // console.log(
-  //       //   `top: ${top} - left: ${left} - width: ${width} - height: ${height}`
-  //       // )
-  //       // console.log(`imgW: ${imgW}, imgH: ${imgH}`)
-  //       if (cropRes !== null) {
-  //         const newRegion = getRegionFromBoxCorner(cropRes, imgW, imgH)
-  //         // const idx = boxesRef.current.length
-  //         // const newBox = new fabric.Rect({
-  //         //   name: `roi-${idx}`,
-  //         //   data: { id: idx, type: 'box', region: [...region] },
-  //         //   fill: 'rgba(68, 227, 110, 0.3)',
-  //         //   stroke: 'rgb(68, 227, 110)',
-  //         //   strokeWidth: 1,
-  //         //   strokeUniform: true,
-  //         //   top: cropRes.ytl,
-  //         //   left: cropRes.xtl,
-  //         //   width: cropRes.xbr - cropRes.xtl,
-  //         //   height: cropRes.ybr - cropRes.ytl,
-  //         //   selectable: false,
-  //         //   visible: true
-  //         // })
-  //         // appRef.current?.add(newBox)
-  //         // boxesRef.current.push(newBox)
-  //         console.log(`🍊func`)
-  //         console.log(regions)
-  //         onRegionsChange([...regions, [...newRegion]])
-  //       }
-  //     }
-  //   },
-  //   [imgRef.current, boxesRef.current, appRef.current, regions.length]
-  // )
 
   const updateBoxes = useCallback(
     (regions: number[][], imgW: number, imgH: number) => {
@@ -397,18 +367,37 @@ export function ROICanvas({
         sx={{
           position: 'absolute',
           top: '1rem',
-          left: '1rem',
-          backgroundColor: '#fbfbfbbd',
-          borderRadius: '4px'
+          left: '1rem'
         }}
       >
         <ToggleButton
+          sx={{
+            backgroundColor: '#fbfbfbbd'
+          }}
           value="box"
           selected={mode === 'box'}
           onChange={handleDrawBoxToggleChange}
         >
           <Crop169Icon />
         </ToggleButton>
+        <IconButton
+          size="small"
+          sx={{ backgroundColor: '#ffffff9e', marginLeft: '4rem' }}
+          aria-label="delete all"
+          component="span"
+          onClick={handleDeleteAll}
+        >
+          <DeleteIcon />
+        </IconButton>
+        <IconButton
+          size="small"
+          sx={{ backgroundColor: '#ffffff9e', marginLeft: '0.8rem' }}
+          aria-label="remove last added"
+          component="span"
+          onClick={handleDeleteLast}
+        >
+          <BackspaceIcon />
+        </IconButton>
       </Box>
     </>
   )
