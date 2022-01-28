@@ -69,14 +69,13 @@ export const DetectionNodeBody = ({
 
   const handleModelSelect = useCallback(
     (model: ModelRes) => {
-      modifyModuleProp(nodeData.id, 'mod_result_id', model.mod_result_id)
-      modifyModuleProp(nodeData.id, 'mod_name', model.mod_name)
-      modifyModuleProp(nodeData.id, 'mod_version', model.mod_version)
-      modifyModuleProp(
-        nodeData.id,
-        'mod_created_at',
-        model.mod_created_at.toString()
-      )
+      Object.keys(model).forEach((propName) => {
+        modifyModuleProp(
+          nodeData.id,
+          propName,
+          (model as Record<string, any>)[propName]
+        )
+      })
     },
     [nodeData.id]
   )
