@@ -60,7 +60,6 @@ export const DetectionNodeBody = ({
   }, [nodeData.id, removeModule])
   const handleSelectModClick = useCallback(() => {
     setModelSelectDialogOpen(true)
-    console.log(`🐸 select model clicked`)
   }, [setModelSelectDialogOpen])
 
   const handleModSelectClose = useCallback(() => {

@@ -46,7 +46,6 @@ export const ROIDialog = ({
   const [regions, setRegions] = useState<number[][]>([])
 
   const handleClose = useCallback(() => {
-    console.log(defaultRegions, 44)
     setRegions([...defaultRegions])
     onClose()
   }, [defaultRegions])
@@ -62,7 +61,6 @@ export const ROIDialog = ({
     [setRegions]
   )
 
-  console.log(regions, 66)
   const handleAddRegion = useCallback((newEle: number[]) => {
     setRegions((oldR) => [...oldR, newEle])
   }, [])

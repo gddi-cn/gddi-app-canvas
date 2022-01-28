@@ -93,8 +93,6 @@ export function ROICanvas({
       // console.log(`imgW: ${imgW}, imgH: ${imgH}`)
       if (cropRes !== null) {
         const newRegion = getRegionFromBoxCorner(cropRes, imgW, imgH)
-        console.log(`🍊func`)
-        console.log(regions)
         // onRegionsChange([...regions, [...newRegion]])
         addRegion([...newRegion])
       }
@@ -103,8 +101,8 @@ export function ROICanvas({
 
   const updateBoxes = useCallback(
     (regions: number[][], imgW: number, imgH: number) => {
-      console.log('upate boxes')
-      console.log(boxesRef.current)
+      // console.log('upate boxes')
+      // console.log(boxesRef.current)
       // 1) clear old boxes
       boxesRef.current.forEach((box) => {
         appRef.current?.remove(box)
@@ -260,7 +258,7 @@ export function ROICanvas({
         imgRef.current.height as number
       )
     }
-    console.log(regions, 22)
+    // console.log(regions, 22)
   }, [regions])
 
   useEffect(() => {
@@ -289,7 +287,7 @@ export function ROICanvas({
 
   useEffect(() => {
     // init fabric.canvas
-    console.log('inittttt')
+    // console.log('inittttt')
     if (canvasRef.current && appRef.current === undefined) {
       const app = new fabric.Canvas(canvasRef.current, {
         width: canvasRef.current?.parentElement?.clientWidth,
@@ -354,7 +352,7 @@ export function ROICanvas({
       }
     }
     return () => {
-      console.log('dddddestroy')
+      // console.log('dddddestroy')
       if (appRef.current) {
         // appRef.current.off()
         // appRef.current.dispose()

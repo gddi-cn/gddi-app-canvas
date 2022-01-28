@@ -62,8 +62,6 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
 
   const handleDialogOk = useCallback(
     (okVal: number[][]) => {
-      console.log(`SAVE CHANGES click`)
-      console.log(okVal)
       setDialogOpen(false)
       modifyModuleProp(nodeData.id, 'regions', [...okVal])
     },
