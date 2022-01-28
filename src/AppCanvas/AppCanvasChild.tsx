@@ -205,15 +205,15 @@ export const AppCanvasChild = ({
 
   useEffect(() => {
     setModelListFetcher(fetchModelList)
-  }, [setModelListFetcher])
+  }, [setModelListFetcher, fetchModelList])
 
   useEffect(() => {
     setLabelListFetcher(fetchLabelList)
-  }, [setLabelListFetcher])
+  }, [setLabelListFetcher, fetchLabelList])
 
   useEffect(() => {
     setROIImgFetcher(fetchROIImg)
-  }, [setROIImgFetcher])
+  }, [setROIImgFetcher, fetchROIImg])
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Meta } from '@storybook/react/types-6-0'
 import { Story } from '@storybook/react'
 import {
@@ -76,12 +76,14 @@ const fetchROIImg = (
 }
 
 const Template: Story<AppCanvasProps> = (args) => (
-  <div
-    className="app-canvas-wrapper"
-    style={{ width: '1000px', height: '500px' }}
-  >
-    <AppCanvas {...args} />
-  </div>
+  <>
+    <div
+      className="app-canvas-wrapper"
+      style={{ width: '1000px', height: '500px' }}
+    >
+      <AppCanvas {...args} />
+    </div>
+  </>
 )
 
 // Reuse that template for creating different stories

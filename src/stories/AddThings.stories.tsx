@@ -20,6 +20,12 @@ import modDef from './datav2/md_v2.json'
 import pipeline from './datav2/pipeline_v2.json'
 import { fetchModelResult, modelLabels } from './datav2/fetchExample'
 
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormControl from '@mui/material/FormControl'
+import FormLabel from '@mui/material/FormLabel'
+
 import './AddThings.scss'
 
 const myPipeline: Pipeline = {
@@ -58,6 +64,7 @@ const Template: Story<AppCanvasProps> = (args) => {
     nodes: [],
     pipe: []
   })
+  const [roiAPI, setROIAPI] = useState<string>('https://place-puppy.com')
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
@@ -149,12 +156,13 @@ const Template: Story<AppCanvasProps> = (args) => {
   const fetchROIImg = useCallback(
     (width: number, height: number): Promise<FetchROIImgRes> => {
       return new Promise<FetchROIImgRes>((resolve, reject) => {
+        console.log(roiAPI)
         setTimeout(() => {
-          resolve({ url: `https://place-puppy.com/${width}x${height}` })
+          resolve({ url: `${roiAPI}/${width}x${height}` })
         }, 1100)
       })
     },
-    []
+    [roiAPI]
   )
 
   const appCanvas = useMemo(() => {
@@ -171,6 +179,7 @@ const Template: Story<AppCanvasProps> = (args) => {
   }, [
     args,
     appVal,
+    roiAPI,
     handleCanvasLoad,
     handleValueChange,
     fetchModelList,
@@ -197,6 +206,35 @@ const Template: Story<AppCanvasProps> = (args) => {
         <Button size="medium" onClick={handleClear}>
           Clear
         </Button>
+      </div>
+      <div>
+        <FormControl>
+          <FormLabel id="demo-radio-buttons-group-label">ROI API</FormLabel>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="puppy"
+            name="radio-buttons-group"
+            onChange={(evt, value) => {
+              console.log(value)
+              if (value === 'puppy') {
+                setROIAPI('https://place-puppy.com')
+              } else {
+                setROIAPI('https://dummyimage.com')
+              }
+            }}
+          >
+            <FormControlLabel
+              value="puppy"
+              control={<Radio />}
+              label="puppy api"
+            />
+            <FormControlLabel
+              value="kitten"
+              control={<Radio />}
+              label="kitten api"
+            />
+          </RadioGroup>
+        </FormControl>
       </div>
       <Tabs
         value={tabVal}
