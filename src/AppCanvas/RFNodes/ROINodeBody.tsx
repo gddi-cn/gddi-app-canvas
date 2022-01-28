@@ -58,16 +58,22 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
     setDialogOpen(false)
   }, [])
 
-  const handleDialogOk = useCallback((okVal: number[][]) => {
-    console.log(okVal)
-    setDialogOpen(false)
-  }, [])
+  const handleDialogOk = useCallback(
+    (okVal: number[][]) => {
+      console.log(`SAVE CHANGES click`)
+      console.log(okVal)
+      setDialogOpen(false)
+      modifyModuleProp(nodeData.id, 'regions', [...okVal])
+    },
+    [nodeData.id, modifyModuleProp]
+  )
 
   const handleEditROIClick = useCallback(() => {
     setDialogOpen(true)
   }, [])
 
   const propObj = nodeData.props as PropObject
+  const regions = propObj['regions'] as number[][]
 
   // const renderROIEditor = useCallback(
   //   ({ val, onValChange }) => {
@@ -105,6 +111,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
       </Box>
       <Box className="gddi-aiappcanvas__section module-type-display">
         <Box component="span">{nodeData.type}</Box>
+        <Box component="span">{`${regions.length} regions`}</Box>
         <Button variant="contained" onClick={handleEditROIClick}>
           Edit ROI
         </Button>
@@ -128,7 +135,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
         open={dialogOpen}
         title="画 ROI"
         okTitle="Save Changes"
-        defaultRegions={propObj['regions'] as number[][]}
+        defaultRegions={regions}
         onClose={handleDialogClose}
         onOK={handleDialogOk}
       />
