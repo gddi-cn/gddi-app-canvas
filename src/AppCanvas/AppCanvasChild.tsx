@@ -174,8 +174,6 @@ export const AppCanvasChild = ({
 
   useEffect(() => {
     // Set Default Value
-    // console.log(`EEEE ${name} - defaultValue`)
-    // console.log(defaultValue)
     if (defaultValue) {
       setValue(defaultValue)
     }
@@ -183,7 +181,19 @@ export const AppCanvasChild = ({
 
   useEffect(() => {
     if (onValueChange) {
-      onValueChange(value)
+      const nodesRe = value.nodes.map((node) => ({
+        id: node.id,
+        type: node.type,
+        name: node.name,
+        runner: node.runner,
+        props: { ...node.props }
+      }))
+
+      onValueChange({
+        version: value.version,
+        pipe: value.pipe,
+        nodes: nodesRe
+      })
     }
   }, [value, onValueChange])
 
