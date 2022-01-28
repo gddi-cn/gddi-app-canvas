@@ -102,6 +102,7 @@ export const ROIEditContent = ({
       <Box className="canvas-and-control-area">
         <Box className="canvas-area">
           <ROICanvas
+            disable={propEditingDisabled}
             imgUrl={roiImg.url}
             regions={regions}
             onRegionsChange={handleRegionsChange}

@@ -25,6 +25,7 @@ const ImageInitSetting = {
 }
 
 export interface ROICanvasProps {
+  disable?: boolean
   imgUrl: string | undefined
   regions: number[][]
   onRegionsChange: (newRegions: number[][]) => void
@@ -33,6 +34,7 @@ export interface ROICanvasProps {
 }
 
 export function ROICanvas({
+  disable,
   imgUrl,
   regions,
   onRegionsChange,
@@ -371,6 +373,7 @@ export function ROICanvas({
         }}
       >
         <ToggleButton
+          disabled={disable === true}
           sx={{
             backgroundColor: '#fbfbfbbd'
           }}
@@ -381,6 +384,7 @@ export function ROICanvas({
           <Crop169Icon />
         </ToggleButton>
         <IconButton
+          disabled={disable === true}
           size="small"
           sx={{ backgroundColor: '#ffffff9e', marginLeft: '4rem' }}
           aria-label="delete all"
@@ -390,6 +394,7 @@ export function ROICanvas({
           <DeleteIcon />
         </IconButton>
         <IconButton
+          disabled={disable === true}
           size="small"
           sx={{ backgroundColor: '#ffffff9e', marginLeft: '0.8rem' }}
           aria-label="remove last added"
