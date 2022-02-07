@@ -65,6 +65,7 @@ const Template: Story<AppCanvasProps> = (args) => {
     pipe: []
   })
   const [roiAPI, setROIAPI] = useState<string>('https://place-puppy.com')
+  const [modelAPI, setModelAPI] = useState<string>('https://place-puppy.com')
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
@@ -126,14 +127,21 @@ const Template: Story<AppCanvasProps> = (args) => {
       return new Promise<FetchModelRes>((resolve, reject) => {
         setTimeout(() => {
           const { models, totalCnt } = fetchModelResult
-          resolve({
-            models: models.slice(pageSize * page, pageSize * (page + 1)),
-            totalCnt
-          })
+          if (modelAPI === 'https://place-puppy.com') {
+            resolve({
+              models: models.slice(pageSize * page, pageSize * (page + 1)),
+              totalCnt
+            })
+          } else {
+            resolve({
+              models: [],
+              totalCnt: 0
+            })
+          }
         }, 2000)
       })
     },
-    [fetchModelResult]
+    [fetchModelResult, modelAPI]
   )
 
   const fetchLabelList = useCallback(
@@ -215,7 +223,6 @@ const Template: Story<AppCanvasProps> = (args) => {
             defaultValue="puppy"
             name="radio-buttons-group"
             onChange={(evt, value) => {
-              console.log(value)
               if (value === 'puppy') {
                 setROIAPI('https://place-puppy.com')
               } else {
@@ -232,6 +239,34 @@ const Template: Story<AppCanvasProps> = (args) => {
               value="kitten"
               control={<Radio />}
               label="kitten api"
+            />
+          </RadioGroup>
+        </FormControl>
+      </div>
+      <div>
+        <FormControl>
+          <FormLabel id="model-radio-buttons-group-label">Model API</FormLabel>
+          <RadioGroup
+            aria-labelledby="model-radio-buttons-group-label"
+            defaultValue="doge"
+            name="radio-buttons-group"
+            onChange={(evt, value) => {
+              if (value === 'doge') {
+                setModelAPI('https://place-puppy.com')
+              } else {
+                setModelAPI('https://dummyimage.com')
+              }
+            }}
+          >
+            <FormControlLabel
+              value="doge"
+              control={<Radio />}
+              label="doge model api"
+            />
+            <FormControlLabel
+              value="nyan"
+              control={<Radio />}
+              label="kitty model api"
             />
           </RadioGroup>
         </FormControl>

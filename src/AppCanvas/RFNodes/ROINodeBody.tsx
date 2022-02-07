@@ -91,6 +91,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
   // )
 
   useEffect(() => {
+    // console.log('aaaa - roiImgFetcher changes')
     setFetchROIImgLoading(true)
     fetchROIImgURL()
   }, [fetchROIImgURL, roiImgFetcher])

@@ -29,7 +29,9 @@ export const DetectionNodeBody = ({
     removeModule,
     propEditingDisabled,
     fetchModelsWithLabels,
-    setFetchLoading
+    setFetchLoading,
+    modelListFetcher,
+    labelListFetcher
   } = useStore(
     (state) => ({
       modDef: state.moduleDefinitions[nodeData.type],
@@ -38,7 +40,9 @@ export const DetectionNodeBody = ({
       removeModule: state.removeModule,
       propEditingDisabled: state.propEditingDisabled,
       fetchModelsWithLabels: state.fetchModelsWithLabels,
-      setFetchLoading: state.setFetchLoading
+      setFetchLoading: state.setFetchLoading,
+      modelListFetcher: state.modelListFetcher,
+      labelListFetcher: state.labelListFetcher
     }),
     shallow
   )
@@ -111,9 +115,10 @@ export const DetectionNodeBody = ({
   ])
 
   useEffect(() => {
+    // console.log('bbbb -  modelListFetcher or labelListFetcher changes')
     setFetchLoading(true)
     fetchModelsWithLabels(0)
-  }, [fetchModelsWithLabels])
+  }, [fetchModelsWithLabels, modelListFetcher, labelListFetcher])
 
   return (
     <Box
