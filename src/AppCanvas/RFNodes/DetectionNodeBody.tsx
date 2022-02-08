@@ -8,6 +8,7 @@ import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText, MyDialog } from '../Components'
 import { ModelSelectContent } from './../AsyncContents'
+import { ModelInfoDisplay } from './ModelInfoDisplay'
 import './DetectionNodeBody.scss'
 
 import Box from '@mui/material/Box'
@@ -98,9 +99,20 @@ export const DetectionNodeBody = ({
 
   const renderModSelect = useCallback(() => {
     // const propObj = nodeData.props as PropObject
+    // TODO: when propEditingDisabled -- only show selected value
+    if (propEditingDisabled) {
+      return (
+        <ModelInfoDisplay
+          modelName={propObj['mod_name'] as string}
+          modelVersion={propObj['mod_version'] as string}
+          modelCreated={propObj['mod_created_at'] as string}
+          labels={propObj['filter_labels'] as string[]}
+        />
+      )
+    }
     return (
       <ModelSelectContent
-        disable={propEditingDisabled}
+        disabled={propEditingDisabled}
         checkedLabels={propObj['filter_labels'] as string[]}
         selectedModId={propObj['mod_result_id'] as string}
         onSelect={handleModelSelect}

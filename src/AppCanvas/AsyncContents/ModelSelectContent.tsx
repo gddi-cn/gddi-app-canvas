@@ -20,7 +20,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import './ModelSelectContent.scss'
 
 export interface ModelSelectContentProps {
-  disable?: boolean
+  disabled?: boolean
   selectedModId: string
   checkedLabels: string[]
   onSelect: (selectedMod: ModelRes) => void
@@ -28,7 +28,7 @@ export interface ModelSelectContentProps {
 }
 
 export const ModelSelectContent = ({
-  disable,
+  disabled,
   selectedModId,
   checkedLabels,
   onSelect,
@@ -86,7 +86,7 @@ export const ModelSelectContent = ({
       return (
         <ListItem key={label} disablePadding>
           <ListItemButton
-            disabled={disable}
+            disabled={disabled}
             role={undefined}
             onClick={handleToggle}
             dense
@@ -110,7 +110,7 @@ export const ModelSelectContent = ({
   if (fetchModelRes === undefined) {
     return <Box>🐸 呱~</Box>
   }
-  //TODO: style pagenation and totalCnt
+
   return (
     <Box className="model-select-content">
       <Box className="model-and-labels">
@@ -130,7 +130,7 @@ export const ModelSelectContent = ({
                   return (
                     <ListItemButton
                       key={`${modInfo.mod_id}}`}
-                      disabled={disable}
+                      disabled={disabled}
                       selected={selectedModId === modInfo.mod_result_id}
                       onClick={handleClick}
                     >

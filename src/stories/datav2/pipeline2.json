@@ -45,7 +45,7 @@
         "mod_name": "自动训练-口罩佩戴样本-v0.0.1-模型",
         "conf_path": "",
         "mod_path": "",
-        "filter_labels": ["face"],
+        "filter_labels": ["face", "neck", "hand", "shoulder", "feet"],
         "mod_result_id": 694,
         "mod_version": "自动训练-口罩佩戴样本-v0.0.1-模型",
         "mod_created_at": "Wed Jan 26 2022 16:53:14 GMT+0800 (China Standard Time)"
