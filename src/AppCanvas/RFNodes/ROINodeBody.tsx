@@ -1,13 +1,12 @@
 // custom node: https://reactflow.dev/examples/custom-node/
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { Module, PropObject } from '../types'
 import { useStore } from '../store/useStore'
 import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
-import { EditableText, MyFullScreenDialog } from '../Components'
-import { ROIEditContent } from './../AsyncContents'
+import { EditableText } from '../Components'
 import { ROIDialog } from './ROIDialog'
 import './ROINodeBody.scss'
 
@@ -19,9 +18,8 @@ interface ROINodeBodyProps {
 }
 
 export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+  const [dialogOpen, setDialogOpen] = useState<boolean>(true)
   const {
-    modDef,
     modifyModuleName,
     modifyModuleProp,
     removeModule,

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
 import { ROICanvas } from './../Components'
+import { DrawROI } from './../../DrawROI'
 import { ImgSourceCam } from './ImgSourceCam'
 import { ImgSourceLocal } from './ImgSourceLocal'
 import './ROIEditContent.scss'
@@ -106,14 +107,15 @@ export const ROIEditContent = ({
           <CircularProgress />
         ) : (
           <Box className="canvas-area">
-            <ROICanvas
+            {/* <ROICanvas
               disable={propEditingDisabled}
               imgUrl={roiImg.url}
               regions={regions}
               onRegionsChange={handleRegionsChange}
               addRegion={handleAddRegion}
               popRegion={handlePopRegion}
-            />
+            /> */}
+            <DrawROI imgUrl={roiImg.url} ROIs={[]} />
           </Box>
         )}
       </Box>
