@@ -3,12 +3,12 @@ import createContext from 'zustand/context'
 
 import createDRCoreSlice, { DRCoreSlice } from './createDRCoreSlice'
 
-export type MyState = DRCoreSlice
+export type MyDRState = DRCoreSlice
 
-const { Provider, useStore } = createContext<MyState>()
+const { Provider, useStore } = createContext<MyDRState>()
 
 const createStore = () =>
-  create<MyState>((set, get) => ({
+  create<MyDRState>((set, get) => ({
     ...createDRCoreSlice(set, get)
   }))
 

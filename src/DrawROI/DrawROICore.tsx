@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { fabric } from 'fabric'
 import { useEventListener } from './hooks'
+import { useStore } from './store/useStore'
+import shallow from 'zustand/shallow'
 
 const ImageInitSetting = {
   shadow: new fabric.Shadow({
@@ -17,15 +19,32 @@ export interface DrawROICoreProps {
   imgUrl: string | undefined
   ROIs: string[]
   onROIsChange?: (newROIs: string[]) => void
+  children?: React.ReactNode
 }
 
 export function DrawROICore({
   readonly,
   imgUrl,
   ROIs,
-  onROIsChange
+  onROIsChange,
+  children
 }: DrawROICoreProps) {
-  const [fCanvas, setFCanvas] = useState<fabric.Canvas | undefined>()
+  const {
+    fabCanvas,
+    setFabCanvas,
+    mouseDownHandler,
+    mouseUpHandler,
+    mouseMoveHandler
+  } = useStore(
+    (state) => ({
+      fabCanvas: state.fabCanvas,
+      setFabCanvas: state.setFabCanvas,
+      mouseDownHandler: state.mouseDownHandler,
+      mouseUpHandler: state.mouseUpHandler,
+      mouseMoveHandler: state.mouseMoveHandler
+    }),
+    shallow
+  )
   const appRef = useRef<fabric.Canvas | undefined>(undefined)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<fabric.Image | undefined>(undefined)
@@ -55,9 +74,13 @@ export function DrawROICore({
 
   const handleCanvasDown = useCallback(
     (opt: fabric.IEvent): void => {
-      startPan(opt)
+      if (mouseDownHandler === undefined) {
+        startPan(opt)
+      } else {
+        mouseDownHandler(opt)
+      }
     },
-    [appRef.current]
+    [appRef.current, mouseDownHandler]
   )
 
   const handleCanvasMove = useCallback(
@@ -108,7 +131,7 @@ export function DrawROICore({
 
   useEffect(() => {
     // init fabric.canvas
-    // console.log('[effect] init fabric.canvas', 1)
+    console.log('[effect] init fabric.canvas', 1)
     if (canvasRef.current && appRef.current === undefined) {
       const app = new fabric.Canvas(canvasRef.current, {
         width: canvasRef.current?.parentElement?.clientWidth,
@@ -118,12 +141,7 @@ export function DrawROICore({
         uniformScaling: false
       })
       app.hoverCursor = 'default'
-      //   useEventListener('mouse:wheel', handleCanvasWheel, app)
-      //   useEventListener('mouse:down', handleCanvasDown, app)
-      //   useEventListener('mouse:move', handleCanvasMove, app)
-      //   useEventListener('mouse:up', handleCanvasUp, app)
-
-      setFCanvas(app)
+      setFabCanvas(app)
       appRef.current = app
 
       // init image
@@ -143,22 +161,24 @@ export function DrawROICore({
       }
     }
     return () => {
-      // console.log('[effect] destroy fabric.canvas', 1)
-      if (appRef.current) {
-        // appRef.current.dispose()
+      console.log('[effect] destroy fabric.canvas', 1)
+      if (canvasRef.current === null && appRef.current) {
+        appRef.current.dispose()
+        setFabCanvas(undefined)
       }
     }
-  }, [canvasRef.current, setFCanvas])
+  }, [canvasRef.current, setFabCanvas])
 
-  console.log(fCanvas, 11)
-  useEventListener('mouse:wheel', handleCanvasWheel, fCanvas)
-  useEventListener('mouse:down', handleCanvasDown, fCanvas)
-  useEventListener('mouse:move', handleCanvasMove, fCanvas)
-  useEventListener('mouse:up', handleCanvasUp, fCanvas)
+  console.log(fabCanvas, 11)
+  useEventListener('mouse:wheel', handleCanvasWheel, fabCanvas)
+  useEventListener('mouse:down', handleCanvasDown, fabCanvas)
+  useEventListener('mouse:move', handleCanvasMove, fabCanvas)
+  useEventListener('mouse:up', handleCanvasUp, fabCanvas)
 
   return (
     <>
       <canvas ref={canvasRef}></canvas>
+      {fabCanvas !== undefined && children}
     </>
   )
 }

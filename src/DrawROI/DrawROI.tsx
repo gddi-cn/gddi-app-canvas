@@ -19,6 +19,7 @@ export interface DrawROIProps {
    * Callback function when ROIs change
    */
   onROIsChange?: (newROIs: string[]) => void
+  children?: React.ReactNode
 }
 
 /**
