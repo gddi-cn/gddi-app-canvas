@@ -72,6 +72,8 @@ export function DrawROICore({
     [appRef.current]
   )
 
+  //TODO: default control -- selectMove; press space to startPan
+
   const handleCanvasDown = useCallback(
     (opt: fabric.IEvent): void => {
       if (mouseDownHandler === undefined) {
@@ -85,13 +87,21 @@ export function DrawROICore({
 
   const handleCanvasMove = useCallback(
     (opt: fabric.IEvent): void => {
-      panMoving(opt)
+      if (mouseMoveHandler === undefined) {
+        panMoving(opt)
+      } else {
+        mouseMoveHandler(opt)
+      }
     },
-    [appRef.current]
+    [appRef.current, mouseMoveHandler]
   )
 
-  const handleCanvasUp = useCallback((): void => {
-    endPan()
+  const handleCanvasUp = useCallback((opt: fabric.IEvent): void => {
+    if (mouseUpHandler === undefined) {
+      endPan()
+    } else {
+      mouseUpHandler(opt)
+    }
   }, [])
 
   const startPan = useCallback(
@@ -138,7 +148,8 @@ export function DrawROICore({
         height: canvasRef.current?.parentElement?.clientHeight,
         fireRightClick: true,
         stopContextMenu: true,
-        uniformScaling: false
+        uniformScaling: false,
+        selection: false
       })
       app.hoverCursor = 'default'
       setFabCanvas(app)
