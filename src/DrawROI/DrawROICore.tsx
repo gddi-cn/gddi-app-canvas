@@ -32,6 +32,7 @@ export function DrawROICore({
   const {
     fabCanvas,
     setFabCanvas,
+    setMainImage,
     mouseDownHandler,
     mouseUpHandler,
     mouseMoveHandler
@@ -39,6 +40,7 @@ export function DrawROICore({
     (state) => ({
       fabCanvas: state.fabCanvas,
       setFabCanvas: state.setFabCanvas,
+      setMainImage: state.setMainImage,
       mouseDownHandler: state.mouseDownHandler,
       mouseUpHandler: state.mouseUpHandler,
       mouseMoveHandler: state.mouseMoveHandler
@@ -167,12 +169,13 @@ export function DrawROICore({
           img.set({
             ...ImageInitSetting,
             data: {
-              type: 'image',
+              type: 'mainImage',
               url: imgUrl,
               name: imgUrl
             }
           })
           imgRef.current = img
+          setMainImage(img)
           app.add(img)
         })
       }
@@ -184,7 +187,7 @@ export function DrawROICore({
         setFabCanvas(undefined)
       }
     }
-  }, [canvasRef.current, setFabCanvas])
+  }, [canvasRef.current, setFabCanvas, setMainImage])
 
   console.log(fabCanvas, 11)
   useEventListener('mouse:wheel', handleCanvasWheel, fabCanvas)

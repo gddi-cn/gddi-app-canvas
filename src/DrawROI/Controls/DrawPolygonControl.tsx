@@ -23,9 +23,17 @@ type Point = {
 
 export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   const [controlOn, setControlOn] = useState<boolean>(false)
-  const { fabCanvas, setMouseDownHandler, setMouseMoveHandler } = useStore(
+  const {
+    fabCanvas,
+    imgWidth,
+    imgHeight,
+    setMouseDownHandler,
+    setMouseMoveHandler
+  } = useStore(
     (state) => ({
       fabCanvas: state.fabCanvas,
+      imgWidth: state.mainImage?.width || 0,
+      imgHeight: state.mainImage?.height || 0,
       setMouseDownHandler: state.setMouseDownHandler,
       setMouseMoveHandler: state.setMouseMoveHandler
     }),
@@ -87,13 +95,11 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   ])
 
   const addPoint = useCallback(
-    (opt: fabric.IEvent) => {
+    (pos: Point) => {
       if (fabCanvas === undefined) {
         return
       }
       const fabCanvas1 = fabCanvas as fabric.Canvas
-      const evt = opt.e as any
-      const pos = fabCanvas1.getPointer(evt)
       const circles = circleArrayRef.current
       const id = getRandomId()
       // const circle = new fabric.Circle({
@@ -225,8 +231,8 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
 
   const onMouseDown = useCallback(
     (opt: fabric.IEvent) => {
-      console.log(`🍑`)
-      console.log(opt.target)
+      // console.log(`🍑`)
+      // console.log(opt.target)
       if (opt.target && opt.target.data && opt.target.data.id) {
         // close to the first point
         if (
@@ -234,8 +240,10 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
           circleArrayRef.current[0].data.id === opt.target.data.id
         )
           generatePolygon()
-      } else {
-        addPoint(opt)
+      } else if (fabCanvas !== undefined) {
+        const pos = fabCanvas.getPointer(opt.e)
+        boundPointer(pos, imgWidth, imgHeight)
+        addPoint(pos)
       }
     },
     [generatePolygon, addPoint, circleArrayRef.current[0]]
@@ -246,10 +254,21 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
       // console.log(`move 🍑`)
       if (fabCanvas) {
         const pointer = fabCanvas.getPointer(opt.e)
+        boundPointer(pointer, imgWidth, imgHeight)
         updateActive(pointer)
       }
     },
-    [fabCanvas]
+    [fabCanvas, imgWidth, imgHeight]
+  )
+
+  const boundPointer = useCallback(
+    (pointer: Point, boundWidth: number, boundHeight: number) => {
+      const x = Math.max(Math.min(pointer.x, boundWidth), 0)
+      const y = Math.max(Math.min(pointer.y, boundHeight), 0)
+      pointer.x = x
+      pointer.y = y
+    },
+    []
   )
 
   useEffect(() => {

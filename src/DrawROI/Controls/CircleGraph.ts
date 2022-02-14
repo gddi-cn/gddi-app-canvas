@@ -29,15 +29,13 @@ export class MyCircle extends fabric.Circle {
       top,
       data: {
         id,
-        class: 'circle',
+        type: 'circle',
         ignoreZoom: true
       }
     })
 
     if (this.canvas) {
       const zoom = this.canvas.getZoom()
-      console.log('aaaa')
-      console.log(zoom)
       const zoomInverse = 1 / zoom
       this.scale(zoomInverse)
     }
@@ -46,8 +44,6 @@ export class MyCircle extends fabric.Circle {
   adjustScaleByZoom() {
     if (this.canvas) {
       const zoom = this.canvas.getZoom()
-      console.log('aaaa')
-      console.log(zoom)
       const zoomInverse = 1 / zoom
       this.scale(zoomInverse)
     }

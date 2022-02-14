@@ -9,7 +9,9 @@ export interface DRCoreSlice {
   dinner: string
   //   setDinner: (d: string) => void
   fabCanvas?: fabric.Canvas
+  mainImage?: fabric.Image
   setFabCanvas: (c: fabric.Canvas | undefined) => void
+  setMainImage: (c: fabric.Image | undefined) => void
   mouseDownHandler?: FabCanvasEventListener
   mouseUpHandler?: FabCanvasEventListener
   mouseMoveHandler?: FabCanvasEventListener
@@ -33,6 +35,9 @@ const createDRCoreSlice = (
   //   },
   setFabCanvas: (c: fabric.Canvas | undefined) => {
     set({ fabCanvas: c })
+  },
+  setMainImage: (img: fabric.Image | undefined) => {
+    set({ mainImage: img })
   },
   setMouseDownHandler: (handler: FabCanvasEventListener | undefined) => {
     set({
