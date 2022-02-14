@@ -3,6 +3,7 @@ import { fabric } from 'fabric'
 import { useStore } from './../store/useStore'
 import shallow from 'zustand/shallow'
 import { getRandomId } from './utils'
+import { MyCircle } from './CircleGraph'
 
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
@@ -32,7 +33,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   )
   const activeLineRef = useRef<fabric.Line | undefined>(undefined)
   const activeShapeRef = useRef<fabric.Polygon | undefined>(undefined)
-  const circleArrayRef = useRef<fabric.Circle[]>([])
+  const circleArrayRef = useRef<MyCircle[]>([])
   const lineArrayRef = useRef<fabric.Line[]>([])
 
   const handleToggleChange = useCallback(() => {
@@ -61,10 +62,10 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
       fabCanvas1.remove(activeShapeRef.current)
     }
     const polygon = new fabric.Polygon(points, {
-      stroke: '#333333',
+      stroke: '#ffd000',
       strokeWidth: 0.5,
-      fill: 'red',
-      opacity: 1,
+      fill: '#fff200',
+      opacity: 0.5,
       hasBorders: false,
       hasControls: false,
       selectable: false
@@ -95,23 +96,24 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
       const pos = fabCanvas1.getPointer(evt)
       const circles = circleArrayRef.current
       const id = getRandomId()
-      const circle = new fabric.Circle({
-        radius: 5,
-        fill: '#ffffff',
-        stroke: '#333333',
-        strokeWidth: 0.5,
-        left: pos.x,
-        top: pos.y,
-        selectable: false,
-        hasBorders: false,
-        hasControls: false,
-        originX: 'center',
-        originY: 'center',
-        objectCaching: false,
-        data: {
-          id: id
-        }
-      })
+      // const circle = new fabric.Circle({
+      //   radius: 5,
+      //   fill: '#ffffff',
+      //   stroke: '#333333',
+      //   strokeWidth: 0.5,
+      //   left: pos.x,
+      //   top: pos.y,
+      //   selectable: false,
+      //   hasBorders: false,
+      //   hasControls: false,
+      //   originX: 'center',
+      //   originY: 'center',
+      //   objectCaching: false,
+      //   data: {
+      //     id: id
+      //   }
+      // })
+      const circle = new MyCircle({ id, left: pos.x, top: pos.y })
       if (circles.length === 0) {
         circle.set({ fill: 'red' })
       }
@@ -180,6 +182,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
 
       fabCanvas1.add(line)
       fabCanvas1.add(circle)
+      circle.adjustScaleByZoom()
       // fabCanvas1.selection = false
     },
     [

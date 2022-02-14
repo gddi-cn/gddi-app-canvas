@@ -65,6 +65,12 @@ export function DrawROICore({
         if (zoom > 20) zoom = 20
         if (zoom < 0.05) zoom = 0.05
         appRef.current?.zoomToPoint({ x: evt.offsetX, y: evt.offsetY }, zoom)
+        const zoomInverse = 1 / zoom
+        appRef.current?.getObjects().forEach((obj) => {
+          if (obj.data && obj.data.ignoreZoom === true) {
+            obj.scale(zoomInverse)
+          }
+        })
       }
       opt.e.preventDefault()
       opt.e.stopPropagation()
