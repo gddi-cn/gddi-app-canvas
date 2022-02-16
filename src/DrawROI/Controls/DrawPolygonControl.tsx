@@ -102,23 +102,6 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
       const fabCanvas1 = fabCanvas as fabric.Canvas
       const circles = circleArrayRef.current
       const id = getRandomId()
-      // const circle = new fabric.Circle({
-      //   radius: 5,
-      //   fill: '#ffffff',
-      //   stroke: '#333333',
-      //   strokeWidth: 0.5,
-      //   left: pos.x,
-      //   top: pos.y,
-      //   selectable: false,
-      //   hasBorders: false,
-      //   hasControls: false,
-      //   originX: 'center',
-      //   originY: 'center',
-      //   objectCaching: false,
-      //   data: {
-      //     id: id
-      //   }
-      // })
       const circle = new MyCircle({ id, left: pos.x, top: pos.y })
       if (circles.length === 0) {
         circle.set({ fill: 'red' })
