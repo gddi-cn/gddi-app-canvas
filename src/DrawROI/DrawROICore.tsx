@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { fabric } from 'fabric'
 import { useEventListener } from './hooks'
 import { useStore } from './store/useStore'
 import shallow from 'zustand/shallow'
+import { PolygonComponent } from './ObjectComponents'
 
 const ImageInitSetting = {
   shadow: new fabric.Shadow({
@@ -31,6 +32,7 @@ export function DrawROICore({
 }: DrawROICoreProps) {
   const {
     fabCanvas,
+    polygons,
     setFabCanvas,
     setMainImage,
     mouseDownHandler,
@@ -39,6 +41,7 @@ export function DrawROICore({
   } = useStore(
     (state) => ({
       fabCanvas: state.fabCanvas,
+      polygons: state.polygons,
       setFabCanvas: state.setFabCanvas,
       setMainImage: state.setMainImage,
       mouseDownHandler: state.mouseDownHandler,
@@ -189,6 +192,12 @@ export function DrawROICore({
     }
   }, [canvasRef.current, setFabCanvas, setMainImage])
 
+  const polygonComponentList = useMemo(() => {
+    return polygons.map((polygon) => (
+      <PolygonComponent key={polygon.id} polygon={polygon} />
+    ))
+  }, [polygons.length, polygons])
+
   useEventListener('mouse:wheel', handleCanvasWheel, fabCanvas)
   useEventListener('mouse:down', handleCanvasDown, fabCanvas)
   useEventListener('mouse:move', handleCanvasMove, fabCanvas)
@@ -198,6 +207,7 @@ export function DrawROICore({
     <>
       <canvas ref={canvasRef}></canvas>
       {fabCanvas !== undefined && children}
+      {fabCanvas !== undefined && polygonComponentList}
     </>
   )
 }

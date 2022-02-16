@@ -4,7 +4,7 @@ import { useStore } from './../store/useStore'
 import shallow from 'zustand/shallow'
 import { getRandomId } from './utils'
 import { MyCircle } from './CircleGraph'
-import { Point, MyPolygon } from './PolygonGraph'
+import { Point, Polygon } from './../types'
 
 import Box from '@mui/material/Box'
 import EditIcon from '@mui/icons-material/Edit'
@@ -22,6 +22,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     fabCanvas,
     imgWidth,
     imgHeight,
+    addPolygons,
     setMouseDownHandler,
     setMouseMoveHandler
   } = useStore(
@@ -29,6 +30,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
       fabCanvas: state.fabCanvas,
       imgWidth: state.mainImage?.width || 0,
       imgHeight: state.mainImage?.height || 0,
+      addPolygons: state.addPolygons,
       setMouseDownHandler: state.setMouseDownHandler,
       setMouseMoveHandler: state.setMouseMoveHandler
     }),
@@ -77,18 +79,20 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     if (fabCanvas === undefined) {
       return
     }
-    const fabCanvas1 = fabCanvas as fabric.Canvas
     const points: Point[] = []
     const circles = circleArrayRef.current
     circles.forEach((circle) => {
       points.push({ x: circle.left || 0, y: circle.top || 0 })
     })
-    const polygon = new MyPolygon({ id: getRandomId(), points })
-    fabCanvas1.add(polygon)
+    const newPolygon: Polygon = {
+      id: getRandomId(),
+      points,
+      lastUpdated: new Date().toISOString()
+    }
+    addPolygons([newPolygon])
 
     clearUpHelpers()
   }, [
-    fabCanvas,
     circleArrayRef.current,
     lineArrayRef.current,
     activeLineRef.current,
@@ -229,8 +233,11 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
           generatePolygon()
       } else if (fabCanvas !== undefined) {
         const pos = fabCanvas.getPointer(opt.e)
-        boundPointer(pos, imgWidth, imgHeight)
-        addPoint(pos)
+        if (imgWidth > 0 && imgHeight > 0) {
+          // draw points when image unloaded -- not allowed
+          boundPointer(pos, imgWidth, imgHeight)
+          addPoint(pos)
+        }
       }
     },
     [generatePolygon, addPoint, circleArrayRef.current[0]]
@@ -239,7 +246,8 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   const onMouseMove = useCallback(
     (opt: fabric.IEvent) => {
       // console.log(`move 🍑`)
-      if (fabCanvas) {
+      if (fabCanvas && imgWidth > 0 && imgHeight > 0) {
+        // draw points when image unloaded -- not allowed
         const pointer = fabCanvas.getPointer(opt.e)
         boundPointer(pointer, imgWidth, imgHeight)
         updateActive(pointer)
