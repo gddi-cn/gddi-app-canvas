@@ -189,7 +189,6 @@ export function DrawROICore({
     }
   }, [canvasRef.current, setFabCanvas, setMainImage])
 
-  console.log(fabCanvas, 11)
   useEventListener('mouse:wheel', handleCanvasWheel, fabCanvas)
   useEventListener('mouse:down', handleCanvasDown, fabCanvas)
   useEventListener('mouse:move', handleCanvasMove, fabCanvas)

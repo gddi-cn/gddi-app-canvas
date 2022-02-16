@@ -16,9 +16,7 @@ const defaultOption: fabric.ICircleOptions = {
   hasControls: false,
   originX: 'center',
   originY: 'center',
-  objectCaching: false,
-  lockScalingX: true,
-  lockScalingY: true
+  objectCaching: false
 }
 
 export class MyCircle extends fabric.Circle {

@@ -4,10 +4,10 @@ import { useStore } from './../store/useStore'
 import shallow from 'zustand/shallow'
 import { getRandomId } from './utils'
 import { MyCircle } from './CircleGraph'
+import { Point, MyPolygon } from './PolygonGraph'
 
 import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
-import Crop169Icon from '@mui/icons-material/Crop169'
+import EditIcon from '@mui/icons-material/Edit'
 import ToggleButton from '@mui/material/ToggleButton'
 
 export interface ControlsProps {
@@ -15,11 +15,6 @@ export interface ControlsProps {
 }
 
 export type ControlsElementType = (props: ControlsProps) => JSX.Element
-
-type Point = {
-  x: number
-  y: number
-}
 
 export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   const [controlOn, setControlOn] = useState<boolean>(false)
@@ -48,19 +43,16 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     setControlOn(!controlOn)
   }, [controlOn, setControlOn])
 
-  const generatePolygon = useCallback(() => {
+  const clearUpHelpers = useCallback(() => {
     if (fabCanvas === undefined) {
       return
     }
     const fabCanvas1 = fabCanvas as fabric.Canvas
-    const points: Point[] = []
-    const circles = circleArrayRef.current
-    const lines = lineArrayRef.current
-    circles.forEach((circle) => {
-      points.push({ x: circle.left || 0, y: circle.top || 0 })
+    // clear up the helpers
+    circleArrayRef.current.forEach((circle) => {
       fabCanvas1.remove(circle)
     })
-    lines.forEach((line) => {
+    lineArrayRef.current.forEach((line) => {
       fabCanvas1.remove(line)
     })
     if (activeLineRef.current) {
@@ -69,23 +61,32 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     if (activeShapeRef.current) {
       fabCanvas1.remove(activeShapeRef.current)
     }
-    const polygon = new fabric.Polygon(points, {
-      stroke: '#ffd000',
-      strokeWidth: 0.5,
-      fill: '#fff200',
-      opacity: 0.5,
-      hasBorders: false,
-      hasControls: false,
-      selectable: false
-    })
-    fabCanvas1.add(polygon)
-
-    // clear up the helpers
     activeLineRef.current = undefined
     activeShapeRef.current = undefined
     circleArrayRef.current = []
     lineArrayRef.current = []
-    // canvas.selection = true
+  }, [
+    fabCanvas,
+    activeLineRef.current,
+    activeShapeRef.current,
+    circleArrayRef.current,
+    lineArrayRef.current
+  ])
+
+  const generatePolygon = useCallback(() => {
+    if (fabCanvas === undefined) {
+      return
+    }
+    const fabCanvas1 = fabCanvas as fabric.Canvas
+    const points: Point[] = []
+    const circles = circleArrayRef.current
+    circles.forEach((circle) => {
+      points.push({ x: circle.left || 0, y: circle.top || 0 })
+    })
+    const polygon = new MyPolygon({ id: getRandomId(), points })
+    fabCanvas1.add(polygon)
+
+    clearUpHelpers()
   }, [
     fabCanvas,
     circleArrayRef.current,
@@ -193,8 +194,6 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
       if (activeShapeRef.current) {
         const points = activeShapeRef.current.get('points') as fabric.Point[]
         if (points.length > 1) {
-          // points[circleArrayRef.current.length].setX(pointer.x)
-          // points[circleArrayRef.current.length].setY(pointer.y)
           points[points.length - 1].setX(pointer.x)
           points[points.length - 1].setY(pointer.y)
           activeShapeRef.current.set({ points: points })
@@ -216,7 +215,12 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     (opt: fabric.IEvent) => {
       // console.log(`🍑`)
       // console.log(opt.target)
-      if (opt.target && opt.target.data && opt.target.data.id) {
+      if (
+        opt.target &&
+        opt.target.data &&
+        opt.target.data.id &&
+        opt.target.data.type === 'circle'
+      ) {
         // close to the first point
         if (
           circleArrayRef.current[0] &&
@@ -259,11 +263,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
       setMouseDownHandler(onMouseDown)
       setMouseMoveHandler(onMouseMove)
     } else {
-      // clear up the helpers
-      activeLineRef.current = undefined
-      activeShapeRef.current = undefined
-      circleArrayRef.current = []
-      lineArrayRef.current = []
+      clearUpHelpers()
       setMouseDownHandler(undefined)
       setMouseMoveHandler(undefined)
     }
@@ -292,7 +292,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
         selected={controlOn}
         onChange={handleToggleChange}
       >
-        <Crop169Icon />
+        <EditIcon />
       </ToggleButton>
     </Box>
   )
