@@ -1,13 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { fabric } from 'fabric'
 import { useStore } from './../store/useStore'
 import shallow from 'zustand/shallow'
 import { ControlsElementType } from './ControlType'
-import { Point, Polygon } from './../types'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ToggleButton from '@mui/material/ToggleButton'
+import DeleteIcon from '@mui/icons-material/Delete'
+import IconButton from '@mui/material/IconButton'
 import { MyPolygon } from './PolygonGraph'
 
 export const SelectControl: ControlsElementType = ({ disabled }) => {
@@ -16,14 +17,16 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     controlMode,
     setControlMode,
     setMouseDownHandler,
-    setMouseMoveHandler
+    setMouseMoveHandler,
+    deletePolygons
   } = useStore(
     (state) => ({
       fabCanvas: state.fabCanvas,
       controlMode: state.controlMode,
       setControlMode: state.setControlMode,
       setMouseDownHandler: state.setMouseDownHandler,
-      setMouseMoveHandler: state.setMouseMoveHandler
+      setMouseMoveHandler: state.setMouseMoveHandler,
+      deletePolygons: state.deletePolygons
     }),
     shallow
   )
@@ -51,6 +54,23 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     }
   }, [fabCanvas])
 
+  const handleDeleteClick = useCallback(() => {
+    if (fabCanvas) {
+      if (
+        fabCanvas.getActiveObject() &&
+        fabCanvas.getActiveObject().data &&
+        fabCanvas.getActiveObject().data.type === 'polygon'
+      ) {
+        const selectedPolygon = fabCanvas.getActiveObject() as MyPolygon
+        console.log(`delete- ${selectedPolygon.data.id}`)
+        deletePolygons([selectedPolygon.data.id])
+        // selectedPolygon.editing = false
+        // fabCanvas.discardActiveObject()
+        // fabCanvas.renderAll()
+      }
+    }
+  }, [fabCanvas, deletePolygons])
+
   const onMouseDown = useCallback((opt: fabric.IEvent) => {
     console.log(`down 🍟`)
     // console.log(opt.target)
@@ -76,7 +96,6 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
   const clearUp = useCallback(() => {
     if (fabCanvas) {
       fabCanvas.discardActiveObject()
-      console.log(fabCanvas.getActiveObjects())
       fabCanvas.getObjects().forEach((obj) => {
         obj.selectable = false
       })
@@ -129,6 +148,14 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
           >
             Done
           </Button>
+          <IconButton
+            sx={{ backgroundColor: '#ffffff5c' }}
+            aria-label="delete"
+            color="error"
+            onClick={handleDeleteClick}
+          >
+            <DeleteIcon />
+          </IconButton>
         </Box>
       )}
     </>

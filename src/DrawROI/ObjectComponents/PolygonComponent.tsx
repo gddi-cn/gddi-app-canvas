@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useStore } from '../store/useStore'
 import shallow from 'zustand/shallow'
 import { MyPolygon } from './../Controls/PolygonGraph'
@@ -22,6 +22,11 @@ export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
     if (objRef.current === undefined) {
       objRef.current = new MyPolygon({ id: polygon.id, points: polygon.points })
       fabCanvas.add(objRef.current)
+    }
+    return () => {
+      if (fabCanvas && objRef.current) {
+        fabCanvas.remove(objRef.current)
+      }
     }
   }, [polygon])
 

@@ -202,6 +202,7 @@ export function DrawROICore({
       <PolygonComponent key={polygon.id} polygon={polygon} />
     ))
   }, [polygons.length, polygons])
+  console.log(polygons)
 
   useEventListener('mouse:wheel', handleCanvasWheel, fabCanvas)
   useEventListener('mouse:down', handleCanvasDown, fabCanvas)
