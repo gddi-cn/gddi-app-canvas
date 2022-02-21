@@ -1,15 +1,18 @@
-import produce from 'immer'
 import { GetState, SetState } from 'zustand'
 import { MyDRState } from './useStore'
 import { fabric } from 'fabric'
 
 type FabCanvasEventListener = (opt: fabric.IEvent) => void
 
+type ControlModeType = 'default' | 'select' | 'drawPolygon'
+
 export interface DRCoreSlice {
   dinner: string
   //   setDinner: (d: string) => void
+  controlMode: ControlModeType
   fabCanvas?: fabric.Canvas
   mainImage?: fabric.Image
+  setControlMode: (mode: string) => void
   setFabCanvas: (c: fabric.Canvas | undefined) => void
   setMainImage: (c: fabric.Image | undefined) => void
   mouseDownHandler?: FabCanvasEventListener
@@ -33,6 +36,10 @@ const createDRCoreSlice = (
   //       })
   //     )
   //   },
+  controlMode: 'default',
+  setControlMode: (mode: string) => {
+    set({ controlMode: mode as ControlModeType })
+  },
   setFabCanvas: (c: fabric.Canvas | undefined) => {
     set({ fabCanvas: c })
   },

@@ -1,7 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { fabric } from 'fabric'
 import { useStore } from './../store/useStore'
 import shallow from 'zustand/shallow'
+import { ControlsElementType } from './ControlType'
 import { getRandomId } from './utils'
 import { MyCircle } from './CircleGraph'
 import { Point, Polygon } from './../types'
@@ -10,15 +17,10 @@ import Box from '@mui/material/Box'
 import EditIcon from '@mui/icons-material/Edit'
 import ToggleButton from '@mui/material/ToggleButton'
 
-export interface ControlsProps {
-  disabled?: boolean
-}
-
-export type ControlsElementType = (props: ControlsProps) => JSX.Element
-
 export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
-  const [controlOn, setControlOn] = useState<boolean>(false)
   const {
+    controlMode,
+    setControlMode,
     fabCanvas,
     imgWidth,
     imgHeight,
@@ -27,6 +29,8 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     setMouseMoveHandler
   } = useStore(
     (state) => ({
+      controlMode: state.controlMode,
+      setControlMode: state.setControlMode,
       fabCanvas: state.fabCanvas,
       imgWidth: state.mainImage?.width || 0,
       imgHeight: state.mainImage?.height || 0,
@@ -42,8 +46,12 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   const lineArrayRef = useRef<fabric.Line[]>([])
 
   const handleToggleChange = useCallback(() => {
-    setControlOn(!controlOn)
-  }, [controlOn, setControlOn])
+    if (controlMode !== 'drawPolygon') {
+      setControlMode('drawPolygon')
+    } else {
+      setControlMode('default')
+    }
+  }, [setControlMode, controlMode])
 
   const clearUpHelpers = useCallback(() => {
     if (fabCanvas === undefined) {
@@ -144,6 +152,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
           evented: false,
           objectCaching: false
         })
+        console.log(polygon)
         // everytime -- remove the former polygon, add the new one as activeShape
         fabCanvas1.remove(activeShapeRef.current)
         fabCanvas1.add(polygon)
@@ -267,16 +276,19 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   )
 
   useEffect(() => {
-    if (controlOn) {
+    if (controlMode === 'drawPolygon') {
       setMouseDownHandler(onMouseDown)
       setMouseMoveHandler(onMouseMove)
     } else {
       clearUpHelpers()
-      setMouseDownHandler(undefined)
-      setMouseMoveHandler(undefined)
+      if (controlMode === 'default') {
+        console.log('remove drawpolygon handler')
+        setMouseDownHandler(undefined)
+        setMouseMoveHandler(undefined)
+      }
     }
   }, [
-    controlOn,
+    controlMode,
     onMouseDown,
     onMouseMove,
     setMouseDownHandler,
@@ -284,20 +296,14 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   ])
 
   return (
-    <Box
-      sx={{
-        position: 'absolute',
-        top: '1rem',
-        left: '1rem'
-      }}
-    >
+    <Box className="DR-control1">
       <ToggleButton
         disabled={disabled === true}
         sx={{
-          backgroundColor: '#fbfbfbbd'
+          backgroundColor: 'white'
         }}
         value="drawPolygon"
-        selected={controlOn}
+        selected={controlMode === 'drawPolygon'}
         onChange={handleToggleChange}
       >
         <EditIcon />

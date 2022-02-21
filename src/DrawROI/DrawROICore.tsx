@@ -3,7 +3,12 @@ import { fabric } from 'fabric'
 import { useEventListener } from './hooks'
 import { useStore } from './store/useStore'
 import shallow from 'zustand/shallow'
+import { SelectControl } from './Controls'
 import { PolygonComponent } from './ObjectComponents'
+
+import Box from '@mui/material/Box'
+
+import './DrawROICore.scss'
 
 const ImageInitSetting = {
   shadow: new fabric.Shadow({
@@ -206,7 +211,10 @@ export function DrawROICore({
   return (
     <>
       <canvas ref={canvasRef}></canvas>
-      {fabCanvas !== undefined && children}
+      <Box className="DR-controls-wrapper">
+        {fabCanvas !== undefined && <SelectControl />}
+        {fabCanvas !== undefined && children}
+      </Box>
       {fabCanvas !== undefined && polygonComponentList}
     </>
   )
