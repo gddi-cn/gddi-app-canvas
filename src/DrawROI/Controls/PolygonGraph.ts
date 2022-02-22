@@ -32,6 +32,7 @@ export class MyPolygon extends fabric.Polygon {
     this._editing = false
     this._selected = false
     this.on('mousedblclick', this.handleDoubleClick)
+    // this.on('modified', this.handleModified)
   }
 
   private _createPolygonVertexControl(
@@ -208,6 +209,10 @@ export class MyPolygon extends fabric.Polygon {
       return false
     }
     return true
+  }
+
+  handleModified() {
+    console.log('mmmmmodified')
   }
 
   handleDoubleClick() {

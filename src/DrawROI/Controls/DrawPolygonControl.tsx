@@ -94,8 +94,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     })
     const newPolygon: Polygon = {
       id: getRandomId(),
-      points,
-      lastUpdated: new Date().toISOString()
+      points
     }
     addPolygons([newPolygon])
 
@@ -152,7 +151,6 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
           evented: false,
           objectCaching: false
         })
-        console.log(polygon)
         // everytime -- remove the former polygon, add the new one as activeShape
         fabCanvas1.remove(activeShapeRef.current)
         fabCanvas1.add(polygon)

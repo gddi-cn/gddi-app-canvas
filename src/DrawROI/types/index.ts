@@ -6,5 +6,4 @@ export type Point = {
 export type Polygon = {
   id: number
   points: Point[]
-  lastUpdated: string
 }

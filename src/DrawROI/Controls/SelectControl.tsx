@@ -3,6 +3,7 @@ import { fabric } from 'fabric'
 import { useStore } from './../store/useStore'
 import shallow from 'zustand/shallow'
 import { ControlsElementType } from './ControlType'
+import { Point } from './../types'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -18,7 +19,8 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     setControlMode,
     setMouseDownHandler,
     setMouseMoveHandler,
-    deletePolygons
+    deletePolygons,
+    modifyPolygonPoints
   } = useStore(
     (state) => ({
       fabCanvas: state.fabCanvas,
@@ -26,7 +28,8 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
       setControlMode: state.setControlMode,
       setMouseDownHandler: state.setMouseDownHandler,
       setMouseMoveHandler: state.setMouseMoveHandler,
-      deletePolygons: state.deletePolygons
+      deletePolygons: state.deletePolygons,
+      modifyPolygonPoints: state.modifyPolygonPoints
     }),
     shallow
   )
@@ -64,15 +67,12 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
         const selectedPolygon = fabCanvas.getActiveObject() as MyPolygon
         console.log(`delete- ${selectedPolygon.data.id}`)
         deletePolygons([selectedPolygon.data.id])
-        // selectedPolygon.editing = false
-        // fabCanvas.discardActiveObject()
-        // fabCanvas.renderAll()
       }
     }
   }, [fabCanvas, deletePolygons])
 
   const onMouseDown = useCallback((opt: fabric.IEvent) => {
-    console.log(`down 🍟`)
+    // console.log(`down 🍟`)
     // console.log(opt.target)
   }, [])
 
@@ -86,12 +86,29 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
   const init = useCallback(() => {
     if (fabCanvas) {
       fabCanvas.getObjects().forEach((obj) => {
+        const handleObjModified = () => {
+          console.log('mmmmmodified')
+          const polygonObj = obj as MyPolygon
+          if (polygonObj.points) {
+            const newPoints = polygonObj.points.map(
+              (pt) =>
+                ({
+                  x: pt.x,
+                  y: pt.y
+                } as Point)
+            )
+            modifyPolygonPoints(polygonObj.data.id, newPoints)
+          }
+        }
         if (obj.data && obj.data.type && obj.data.type !== 'mainImage') {
           obj.selectable = true
+          if (obj.data.type === 'polygon') {
+            obj.on('modified', handleObjModified)
+          }
         }
       })
     }
-  }, [fabCanvas])
+  }, [fabCanvas, modifyPolygonPoints])
 
   const clearUp = useCallback(() => {
     if (fabCanvas) {
