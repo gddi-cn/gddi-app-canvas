@@ -4,10 +4,6 @@ import { DrawROICore } from './DrawROICore'
 
 export interface DrawROIProps {
   /**
-   * Set if ROIs are readonly
-   */
-  readonly?: boolean
-  /**
    * Image to drawROI on
    */
   imgUrl: string | undefined

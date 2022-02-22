@@ -22,7 +22,6 @@ const ImageInitSetting = {
 }
 
 export interface DrawROICoreProps {
-  readonly?: boolean
   imgUrl: string | undefined
   defaultROIs: number[][][]
   onROIsChange?: (newROIs: number[][][]) => void
@@ -30,7 +29,6 @@ export interface DrawROICoreProps {
 }
 
 export function DrawROICore({
-  readonly,
   imgUrl,
   defaultROIs,
   onROIsChange,

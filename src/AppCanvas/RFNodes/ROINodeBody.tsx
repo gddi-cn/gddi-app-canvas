@@ -140,6 +140,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
         renderContent={renderROIEditor}
       /> */}
       <ROIDialog
+        readonly={propEditingDisabled}
         open={dialogOpen}
         title="画 ROI"
         okTitle="Save Changes"

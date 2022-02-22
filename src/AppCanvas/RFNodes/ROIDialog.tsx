@@ -27,6 +27,7 @@ export interface ContentProps {
 }
 
 export interface ROIDialogProps {
+  readonly?: boolean
   open: boolean
   title: string
   okTitle: string
@@ -36,6 +37,7 @@ export interface ROIDialogProps {
 }
 
 export const ROIDialog = ({
+  readonly,
   open,
   title,
   okTitle,
@@ -93,7 +95,12 @@ export const ROIDialog = ({
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             {title}
           </Typography>
-          <Button autoFocus color="inherit" onClick={handleOk}>
+          <Button
+            autoFocus
+            disabled={readonly === true}
+            color="inherit"
+            onClick={handleOk}
+          >
             {okTitle}
           </Button>
         </Toolbar>
