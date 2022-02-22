@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
-import { ROICanvas } from './../Components'
 import { DrawROI, DrawPolygonControl } from './../../DrawROI'
 import { ImgSourceCam } from './ImgSourceCam'
 import { ImgSourceLocal } from './ImgSourceLocal'
@@ -43,20 +42,19 @@ function a11yProps(index: number) {
 }
 
 export interface ROIEditContentProps {
-  // [topx, topy, width, heigh] all in percentage
   // [[[polygon1_x, polygon1_y], [polygon1_x, polygon1_y], [polygon1_x, polygon1_y]]] in percentage
   regions: number[][][]
   onRegionsChange: (newRegions: number[][][]) => void
-  addRegion: (newRegions: number[]) => void
-  popRegion: () => void
+  // addRegion: (newRegions: number[]) => void
+  // popRegion: () => void
 }
 
 export const ROIEditContent = ({
   regions,
-  onRegionsChange,
-  addRegion,
-  popRegion
-}: ROIEditContentProps): JSX.Element => {
+  onRegionsChange
+}: // addRegion,
+// popRegion
+ROIEditContentProps): JSX.Element => {
   const [tabId, setTabId] = useState<number>(0)
   const { propEditingDisabled, roiImg, fetchROIImgLoading } = useStore(
     (state) => ({
@@ -75,13 +73,13 @@ export const ROIEditContent = ({
     onRegionsChange([...r])
   }, [])
 
-  const handleAddRegion = useCallback((r: number[]) => {
-    addRegion([...r])
-  }, [])
+  // const handleAddRegion = useCallback((r: number[]) => {
+  //   addRegion([...r])
+  // }, [])
 
-  const handlePopRegion = useCallback(() => {
-    popRegion()
-  }, [])
+  // const handlePopRegion = useCallback(() => {
+  //   popRegion()
+  // }, [])
 
   return (
     <Box className="editor-content">
@@ -118,7 +116,7 @@ export const ROIEditContent = ({
             /> */}
             <DrawROI
               imgUrl={roiImg.url}
-              ROIs={[]}
+              defaultROIs={regions}
               onROIsChange={handleRegionsChange}
             >
               <DrawPolygonControl />

@@ -4,6 +4,7 @@ import { useEventListener } from './hooks'
 import { useStore } from './store/useStore'
 import shallow from 'zustand/shallow'
 import { SelectControl } from './Controls'
+import { ROIsToPolygons } from './helpers'
 import { PolygonComponent } from './ObjectComponents'
 
 import Box from '@mui/material/Box'
@@ -23,7 +24,7 @@ const ImageInitSetting = {
 export interface DrawROICoreProps {
   readonly?: boolean
   imgUrl: string | undefined
-  ROIs: string[]
+  defaultROIs: number[][][]
   onROIsChange?: (newROIs: number[][][]) => void
   children?: React.ReactNode
 }
@@ -31,7 +32,7 @@ export interface DrawROICoreProps {
 export function DrawROICore({
   readonly,
   imgUrl,
-  ROIs,
+  defaultROIs,
   onROIsChange,
   children
 }: DrawROICoreProps) {
@@ -41,6 +42,7 @@ export function DrawROICore({
     imgWidth,
     imgHeight,
     setFabCanvas,
+    setPolygons,
     setMainImage,
     mouseDownHandler,
     mouseUpHandler,
@@ -52,6 +54,7 @@ export function DrawROICore({
       imgWidth: state.mainImage === undefined ? 0 : state.mainImage.width || 0,
       imgHeight:
         state.mainImage === undefined ? 0 : state.mainImage.height || 0,
+      setPolygons: state.setPolygons,
       setFabCanvas: state.setFabCanvas,
       setMainImage: state.setMainImage,
       mouseDownHandler: state.mouseDownHandler,
@@ -159,6 +162,14 @@ export function DrawROICore({
       isDragging.current = false
     }
   }, [])
+
+  useEffect(() => {
+    console.log(`ROIs changed - use Effect`)
+    if (imgWidth > 0 && imgHeight > 0) {
+      const polys = ROIsToPolygons(defaultROIs, imgWidth, imgHeight)
+      setPolygons(polys)
+    }
+  }, [setPolygons, defaultROIs, imgWidth, imgHeight])
 
   useEffect(() => {
     console.log('polygon changed - useEffect')

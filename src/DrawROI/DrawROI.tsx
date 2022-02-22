@@ -14,7 +14,7 @@ export interface DrawROIProps {
   /**
    * ROI array; Each region is described in SVG path
    */
-  ROIs: string[]
+  defaultROIs: number[][][]
   /**
    * Callback function when ROIs change
    */

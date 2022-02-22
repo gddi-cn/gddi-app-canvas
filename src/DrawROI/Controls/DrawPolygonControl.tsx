@@ -9,7 +9,7 @@ import { fabric } from 'fabric'
 import { useStore } from './../store/useStore'
 import shallow from 'zustand/shallow'
 import { ControlsElementType } from './ControlType'
-import { getRandomId } from './utils'
+import { getRandomId } from './../helpers'
 import { MyCircle } from './CircleGraph'
 import { Point, Polygon } from './../types'
 

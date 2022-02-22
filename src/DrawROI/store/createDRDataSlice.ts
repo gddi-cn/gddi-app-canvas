@@ -5,6 +5,7 @@ import { Polygon, Point } from './../types'
 
 export interface DRDataSlice {
   polygons: Polygon[]
+  setPolygons: (polygons: Polygon[]) => void
   addPolygons: (polygons: Polygon[]) => void
   deletePolygons: (ids: number[]) => void
   modifyPolygonPoints: (id: number, points: Point[]) => void
@@ -15,6 +16,13 @@ const createDRDataSlice = (
   get: GetState<MyDRState>
 ): DRDataSlice => ({
   polygons: [],
+  setPolygons: (polygons: Polygon[]) => {
+    set(
+      produce((draft: MyDRState) => {
+        draft.polygons = polygons
+      })
+    )
+  },
   addPolygons: (polygons: Polygon[]) => {
     set(
       produce((draft: MyDRState) => {
