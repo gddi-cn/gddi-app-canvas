@@ -24,5 +24,6 @@ export type PropValue =
   | PropValueBaiscType
   | PropValueBaiscType[]
   | PropValueBaiscType[][]
+  | PropValueBaiscType[][][]
 
 export type PropValueBaiscType = string | number | boolean

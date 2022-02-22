@@ -61,7 +61,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
   }, [])
 
   const handleDialogOk = useCallback(
-    (okVal: number[][]) => {
+    (okVal: number[][][]) => {
       setDialogOpen(false)
       modifyModuleProp(nodeData.id, 'regions', [...okVal])
     },
@@ -73,7 +73,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
   }, [])
 
   const propObj = nodeData.props as PropObject
-  const regions = propObj['regions'] as number[][]
+  const regions = propObj['regions'] as number[][][]
 
   // const renderROIEditor = useCallback(
   //   ({ val, onValChange }) => {

@@ -24,7 +24,7 @@ export interface DrawROICoreProps {
   readonly?: boolean
   imgUrl: string | undefined
   ROIs: string[]
-  onROIsChange?: (newROIs: string[]) => void
+  onROIsChange?: (newROIs: number[][][]) => void
   children?: React.ReactNode
 }
 
@@ -38,6 +38,8 @@ export function DrawROICore({
   const {
     fabCanvas,
     polygons,
+    imgWidth,
+    imgHeight,
     setFabCanvas,
     setMainImage,
     mouseDownHandler,
@@ -47,6 +49,9 @@ export function DrawROICore({
     (state) => ({
       fabCanvas: state.fabCanvas,
       polygons: state.polygons,
+      imgWidth: state.mainImage === undefined ? 0 : state.mainImage.width || 0,
+      imgHeight:
+        state.mainImage === undefined ? 0 : state.mainImage.height || 0,
       setFabCanvas: state.setFabCanvas,
       setMainImage: state.setMainImage,
       mouseDownHandler: state.mouseDownHandler,
@@ -154,6 +159,16 @@ export function DrawROICore({
       isDragging.current = false
     }
   }, [])
+
+  useEffect(() => {
+    console.log('polygon changed - useEffect')
+    if (onROIsChange && imgWidth > 0 && imgHeight > 0) {
+      const newROIs: number[][][] = polygons.map((poly) =>
+        poly.points.map((pt) => [pt.x / imgWidth, pt.y / imgHeight])
+      )
+      onROIsChange(newROIs)
+    }
+  }, [onROIsChange, polygons, imgWidth, imgHeight])
 
   useEffect(() => {
     // init fabric.canvas

@@ -44,8 +44,9 @@ function a11yProps(index: number) {
 
 export interface ROIEditContentProps {
   // [topx, topy, width, heigh] all in percentage
-  regions: number[][]
-  onRegionsChange: (newRegions: number[][]) => void
+  // [[[polygon1_x, polygon1_y], [polygon1_x, polygon1_y], [polygon1_x, polygon1_y]]] in percentage
+  regions: number[][][]
+  onRegionsChange: (newRegions: number[][][]) => void
   addRegion: (newRegions: number[]) => void
   popRegion: () => void
 }
@@ -70,7 +71,7 @@ export const ROIEditContent = ({
     setTabId(newVal)
   }, [])
 
-  const handleRegionsChange = useCallback((r: number[][]) => {
+  const handleRegionsChange = useCallback((r: number[][][]) => {
     onRegionsChange([...r])
   }, [])
 
@@ -115,7 +116,11 @@ export const ROIEditContent = ({
               addRegion={handleAddRegion}
               popRegion={handlePopRegion}
             /> */}
-            <DrawROI imgUrl={roiImg.url} ROIs={[]}>
+            <DrawROI
+              imgUrl={roiImg.url}
+              ROIs={[]}
+              onROIsChange={handleRegionsChange}
+            >
               <DrawPolygonControl />
             </DrawROI>
           </Box>

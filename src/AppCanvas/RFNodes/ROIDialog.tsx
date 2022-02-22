@@ -30,9 +30,9 @@ export interface ROIDialogProps {
   open: boolean
   title: string
   okTitle: string
-  defaultRegions: number[][]
+  defaultRegions: number[][][]
   onClose: () => void
-  onOK: (newRegions: number[][]) => void
+  onOK: (newRegions: number[][][]) => void
 }
 
 export const ROIDialog = ({
@@ -43,7 +43,7 @@ export const ROIDialog = ({
   onClose,
   onOK
 }: ROIDialogProps): JSX.Element => {
-  const [regions, setRegions] = useState<number[][]>([])
+  const [regions, setRegions] = useState<number[][][]>([])
 
   const handleClose = useCallback(() => {
     setRegions([...defaultRegions])
@@ -55,14 +55,14 @@ export const ROIDialog = ({
   }, [regions])
 
   const handleRegionsChange = useCallback(
-    (newR: number[][]) => {
+    (newR: number[][][]) => {
       setRegions((old) => [...newR])
     },
     [setRegions]
   )
 
   const handleAddRegion = useCallback((newEle: number[]) => {
-    setRegions((oldR) => [...oldR, newEle])
+    // setRegions((oldR) => [...oldR, newEle])
   }, [])
 
   const handlePopRegion = useCallback(() => {
