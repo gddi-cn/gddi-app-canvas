@@ -175,9 +175,12 @@ export function DrawROICore({
   useEffect(() => {
     // console.log('polygon changed - useEffect')
     if (onROIsChange && imgWH.width > 0 && imgWH.height > 0) {
-      const newROIs: number[][][] = polygons.map((poly) =>
-        poly.points.map((pt) => [pt.x / imgWH.width, pt.y / imgWH.height])
-      )
+      const newROIs: number[][][] = polygons.map((poly) => {
+        return poly.points.map((pt) => [
+          pt.x / imgWH.width,
+          pt.y / imgWH.height
+        ])
+      })
       onROIsChange(newROIs)
     }
   }, [onROIsChange, polygons, imgWH])

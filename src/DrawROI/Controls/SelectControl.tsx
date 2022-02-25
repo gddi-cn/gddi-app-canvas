@@ -90,13 +90,24 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
           console.log('mmmmmodified')
           const polygonObj = obj as MyPolygon
           if (polygonObj.points) {
-            const newPoints = polygonObj.points.map(
-              (pt) =>
-                ({
+            const matrix = polygonObj.calcTransformMatrix()
+            const newPoints = polygonObj.points
+              .map((p) => {
+                return new fabric.Point(
+                  p.x - polygonObj.pathOffset.x,
+                  p.y - polygonObj.pathOffset.y
+                )
+              })
+              .map((p) => {
+                return fabric.util.transformPoint(p, matrix)
+              })
+              .map((pt) => {
+                // console.log(`pt: (${pt.x}, ${pt.y})`)
+                return {
                   x: pt.x,
                   y: pt.y
-                } as Point)
-            )
+                } as Point
+              })
             modifyPolygonPoints(polygonObj.data.id, newPoints)
           }
         }
