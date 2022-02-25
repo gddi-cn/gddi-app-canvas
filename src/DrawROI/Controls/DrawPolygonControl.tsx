@@ -22,8 +22,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     controlMode,
     setControlMode,
     fabCanvas,
-    imgWidth,
-    imgHeight,
+    imgWH,
     addPolygons,
     setMouseDownHandler,
     setMouseMoveHandler
@@ -32,8 +31,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
       controlMode: state.controlMode,
       setControlMode: state.setControlMode,
       fabCanvas: state.fabCanvas,
-      imgWidth: state.mainImage?.width || 0,
-      imgHeight: state.mainImage?.height || 0,
+      imgWH: state.imgWH,
       addPolygons: state.addPolygons,
       setMouseDownHandler: state.setMouseDownHandler,
       setMouseMoveHandler: state.setMouseMoveHandler
@@ -240,9 +238,9 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
           generatePolygon()
       } else if (fabCanvas !== undefined) {
         const pos = fabCanvas.getPointer(opt.e)
-        if (imgWidth > 0 && imgHeight > 0) {
+        if (imgWH.width > 0 && imgWH.height > 0) {
           // draw points when image unloaded -- not allowed
-          boundPointer(pos, imgWidth, imgHeight)
+          boundPointer(pos, imgWH.width, imgWH.height)
           addPoint(pos)
         }
       }
@@ -253,14 +251,14 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   const onMouseMove = useCallback(
     (opt: fabric.IEvent) => {
       // console.log(`move 🍑`)
-      if (fabCanvas && imgWidth > 0 && imgHeight > 0) {
+      if (fabCanvas && imgWH.width > 0 && imgWH.height > 0) {
         // draw points when image unloaded -- not allowed
         const pointer = fabCanvas.getPointer(opt.e)
-        boundPointer(pointer, imgWidth, imgHeight)
+        boundPointer(pointer, imgWH.width, imgWH.height)
         updateActive(pointer)
       }
     },
-    [fabCanvas, imgWidth, imgHeight]
+    [fabCanvas, imgWH]
   )
 
   const boundPointer = useCallback(

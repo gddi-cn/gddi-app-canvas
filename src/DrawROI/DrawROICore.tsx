@@ -37,9 +37,14 @@ export function DrawROICore({
   const {
     fabCanvas,
     polygons,
+    // mainImage,
+    imgWH,
+    // imgWidth,
+    // imgHeight,
     setFabCanvas,
     setPolygons,
-    setMainImage,
+    // setMainImage,
+    setImgWH,
     mouseDownHandler,
     mouseUpHandler,
     mouseMoveHandler
@@ -47,9 +52,15 @@ export function DrawROICore({
     (state) => ({
       fabCanvas: state.fabCanvas,
       polygons: state.polygons,
+      // mainImage: state.mainImage,
+      imgWH: state.imgWH,
+      setImgWH: state.setImgWH,
+      // imgWidth: state.mainImage === undefined ? 0 : state.mainImage.width || 0,
+      // imgHeight:
+      //   state.mainImage === undefined ? 0 : state.mainImage.height || 0,
       setPolygons: state.setPolygons,
       setFabCanvas: state.setFabCanvas,
-      setMainImage: state.setMainImage,
+      // setMainImage: state.setMainImage,
       mouseDownHandler: state.mouseDownHandler,
       mouseUpHandler: state.mouseUpHandler,
       mouseMoveHandler: state.mouseMoveHandler
@@ -62,16 +73,6 @@ export function DrawROICore({
   const isDragging = useRef<boolean>(false)
   const lastPosX = useRef<number>(0)
   const lastPosY = useRef<number>(0)
-
-  const imgWidth = useMemo(
-    () => (imgRef.current === undefined ? 0 : imgRef.current.width || 0),
-    [imgRef.current?.width]
-  )
-
-  const imgHeight = useMemo(
-    () => (imgRef.current === undefined ? 0 : imgRef.current.height || 0),
-    [imgRef.current?.height]
-  )
 
   const handleCanvasWheel = useCallback(
     (opt: fabric.IEvent): void => {
@@ -164,31 +165,29 @@ export function DrawROICore({
   }, [])
 
   useEffect(() => {
-    console.log(`ROIs changed - use Effect`)
-    if (imgWidth > 0 && imgHeight > 0) {
-      const polys = ROIsToPolygons(defaultROIs, imgWidth, imgHeight)
-      console.log(`img: ${imgWidth} - ${imgHeight}`)
-      console.log(polys, 22)
+    // console.log(`ROIs changed - use Effect`)
+    if (imgWH.width > 0 && imgWH.height > 0) {
+      const polys = ROIsToPolygons(defaultROIs, imgWH.width, imgWH.height)
       setPolygons(polys)
     }
-  }, [setPolygons, defaultROIs, imgWidth, imgHeight])
+  }, [setPolygons, defaultROIs, imgWH])
 
   useEffect(() => {
-    console.log('polygon changed - useEffect')
-    if (onROIsChange && imgWidth > 0 && imgHeight > 0) {
+    // console.log('polygon changed - useEffect')
+    if (onROIsChange && imgWH.width > 0 && imgWH.height > 0) {
       const newROIs: number[][][] = polygons.map((poly) =>
-        poly.points.map((pt) => [pt.x / imgWidth, pt.y / imgHeight])
+        poly.points.map((pt) => [pt.x / imgWH.width, pt.y / imgWH.height])
       )
       onROIsChange(newROIs)
     }
-  }, [onROIsChange, polygons, imgWidth, imgHeight])
+  }, [onROIsChange, polygons, imgWH])
 
   useEffect(() => {
     // image changed -> update image and regions
     if (
       appRef.current !== undefined &&
       imgUrl !== undefined &&
-      imgRef.current !== undefined
+      imgRef.current
     ) {
       imgRef.current.setSrc(imgUrl, (img: fabric.Image) => {
         img.set({
@@ -199,8 +198,7 @@ export function DrawROICore({
             name: imgUrl
           }
         })
-        setMainImage(img)
-
+        setImgWH(img.width || 0, img.height || 0)
         appRef.current?.requestRenderAll()
       })
     } else if (imgUrl !== undefined && appRef.current !== undefined) {
@@ -215,14 +213,14 @@ export function DrawROICore({
         })
         imgRef.current = img
         appRef.current?.add(img)
-        setMainImage(img)
+        setImgWH(img.width || 0, img.height || 0)
       })
     }
-  }, [imgUrl])
+  }, [imgUrl, setImgWH])
 
   useEffect(() => {
     // init fabric.canvas
-    console.log('[effect] init fabric.canvas', 1)
+    // console.log('[effect] init fabric.canvas')
     if (canvasRef.current && appRef.current === undefined) {
       const app = new fabric.Canvas(canvasRef.current, {
         width: canvasRef.current?.parentElement?.clientWidth,
@@ -248,21 +246,22 @@ export function DrawROICore({
             }
           })
           imgRef.current = img
-          setMainImage(img)
+          setImgWH(img.width || 0, img.height || 0)
           app.add(img)
         })
       }
     }
     return () => {
-      console.log('[effect] destroy fabric.canvas', 1)
+      // console.log('[effect] destroy fabric.canvas')
       if (canvasRef.current === null && appRef.current) {
         appRef.current.dispose()
         setFabCanvas(undefined)
       }
     }
-  }, [canvasRef.current, setFabCanvas, setMainImage])
+  }, [canvasRef.current, setFabCanvas, setImgWH])
 
   const polygonComponentList = useMemo(() => {
+    // console.log(polygons, 296)
     return polygons.map((polygon) => (
       <PolygonComponent key={polygon.id} polygon={polygon} />
     ))

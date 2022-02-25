@@ -16,16 +16,17 @@ export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
   const objRef = useRef<MyPolygon | undefined>()
 
   useEffect(() => {
-    console.log(`polygon useEffect`)
+    // console.log(`polygonComponent useEffect`)
     if (fabCanvas === undefined) {
       return
     }
     if (objRef.current === undefined) {
       objRef.current = new MyPolygon({ id: polygon.id, points: polygon.points })
       fabCanvas.add(objRef.current)
+      fabCanvas.requestRenderAll()
     }
     return () => {
-      console.log(`polygon useEffect - return`)
+      // console.log(`polygonComponent useEffect - return`)
       if (fabCanvas && objRef.current) {
         fabCanvas.remove(objRef.current)
         objRef.current = undefined

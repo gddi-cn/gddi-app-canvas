@@ -11,10 +11,12 @@ export interface DRCoreSlice {
   //   setDinner: (d: string) => void
   controlMode: ControlModeType
   fabCanvas?: fabric.Canvas
-  mainImage?: fabric.Image
+  imgWH: { width: number; height: number }
+  // mainImage?: fabric.Image
   setControlMode: (mode: string) => void
   setFabCanvas: (c: fabric.Canvas | undefined) => void
-  setMainImage: (c: fabric.Image | undefined) => void
+  // setMainImage: (c: fabric.Image | undefined) => void
+  setImgWH: (width: number, height: number) => void
   mouseDownHandler?: FabCanvasEventListener
   mouseUpHandler?: FabCanvasEventListener
   mouseMoveHandler?: FabCanvasEventListener
@@ -43,9 +45,12 @@ const createDRCoreSlice = (
   setFabCanvas: (c: fabric.Canvas | undefined) => {
     set({ fabCanvas: c })
   },
-  setMainImage: (img: fabric.Image | undefined) => {
-    console.log(`set mainimage: ${img?.width} - ${img?.height}`)
-    set({ mainImage: img })
+  imgWH: { width: 0, height: 0 },
+  // setMainImage: (img: fabric.Image | undefined) => {
+  //   set({ mainImage: img })
+  // },
+  setImgWH: (width: number, height: number) => {
+    set({ imgWH: { width, height } })
   },
   setMouseDownHandler: (handler: FabCanvasEventListener | undefined) => {
     set({
