@@ -44,6 +44,7 @@ const createDRCoreSlice = (
     set({ fabCanvas: c })
   },
   setMainImage: (img: fabric.Image | undefined) => {
+    console.log(`set mainimage: ${img?.width} - ${img?.height}`)
     set({ mainImage: img })
   },
   setMouseDownHandler: (handler: FabCanvasEventListener | undefined) => {

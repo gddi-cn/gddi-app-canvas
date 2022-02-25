@@ -37,8 +37,6 @@ export function DrawROICore({
   const {
     fabCanvas,
     polygons,
-    imgWidth,
-    imgHeight,
     setFabCanvas,
     setPolygons,
     setMainImage,
@@ -49,9 +47,6 @@ export function DrawROICore({
     (state) => ({
       fabCanvas: state.fabCanvas,
       polygons: state.polygons,
-      imgWidth: state.mainImage === undefined ? 0 : state.mainImage.width || 0,
-      imgHeight:
-        state.mainImage === undefined ? 0 : state.mainImage.height || 0,
       setPolygons: state.setPolygons,
       setFabCanvas: state.setFabCanvas,
       setMainImage: state.setMainImage,
@@ -68,8 +63,15 @@ export function DrawROICore({
   const lastPosX = useRef<number>(0)
   const lastPosY = useRef<number>(0)
 
-  // console.log(`rrrr DrawROICore`)
-  // console.log(ROIs)
+  const imgWidth = useMemo(
+    () => (imgRef.current === undefined ? 0 : imgRef.current.width || 0),
+    [imgRef.current?.width]
+  )
+
+  const imgHeight = useMemo(
+    () => (imgRef.current === undefined ? 0 : imgRef.current.height || 0),
+    [imgRef.current?.height]
+  )
 
   const handleCanvasWheel = useCallback(
     (opt: fabric.IEvent): void => {
@@ -165,6 +167,8 @@ export function DrawROICore({
     console.log(`ROIs changed - use Effect`)
     if (imgWidth > 0 && imgHeight > 0) {
       const polys = ROIsToPolygons(defaultROIs, imgWidth, imgHeight)
+      console.log(`img: ${imgWidth} - ${imgHeight}`)
+      console.log(polys, 22)
       setPolygons(polys)
     }
   }, [setPolygons, defaultROIs, imgWidth, imgHeight])
@@ -178,6 +182,43 @@ export function DrawROICore({
       onROIsChange(newROIs)
     }
   }, [onROIsChange, polygons, imgWidth, imgHeight])
+
+  useEffect(() => {
+    // image changed -> update image and regions
+    if (
+      appRef.current !== undefined &&
+      imgUrl !== undefined &&
+      imgRef.current !== undefined
+    ) {
+      imgRef.current.setSrc(imgUrl, (img: fabric.Image) => {
+        img.set({
+          ...ImageInitSetting,
+          data: {
+            type: 'image',
+            url: imgUrl,
+            name: imgUrl
+          }
+        })
+        setMainImage(img)
+
+        appRef.current?.requestRenderAll()
+      })
+    } else if (imgUrl !== undefined && appRef.current !== undefined) {
+      fabric.Image.fromURL(imgUrl, (img: fabric.Image) => {
+        img.set({
+          ...ImageInitSetting,
+          data: {
+            type: 'image',
+            url: imgUrl,
+            name: imgUrl
+          }
+        })
+        imgRef.current = img
+        appRef.current?.add(img)
+        setMainImage(img)
+      })
+    }
+  }, [imgUrl])
 
   useEffect(() => {
     // init fabric.canvas
@@ -226,7 +267,6 @@ export function DrawROICore({
       <PolygonComponent key={polygon.id} polygon={polygon} />
     ))
   }, [polygons.length, polygons])
-  console.log(polygons)
 
   useEventListener('mouse:wheel', handleCanvasWheel, fabCanvas)
   useEventListener('mouse:down', handleCanvasDown, fabCanvas)
