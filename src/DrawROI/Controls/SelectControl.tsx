@@ -139,7 +139,7 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     } else {
       clearUp()
       if (controlMode === 'default') {
-        console.log('remove select handler')
+        // console.log('remove select handler')
         setMouseDownHandler(undefined)
         setMouseMoveHandler(undefined)
       }

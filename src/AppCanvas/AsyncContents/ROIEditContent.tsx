@@ -45,16 +45,12 @@ export interface ROIEditContentProps {
   // [[[polygon1_x, polygon1_y], [polygon1_x, polygon1_y], [polygon1_x, polygon1_y]]] in percentage
   regions: number[][][]
   onRegionsChange: (newRegions: number[][][]) => void
-  // addRegion: (newRegions: number[]) => void
-  // popRegion: () => void
 }
 
 export const ROIEditContent = ({
   regions,
   onRegionsChange
-}: // addRegion,
-// popRegion
-ROIEditContentProps): JSX.Element => {
+}: ROIEditContentProps): JSX.Element => {
   const [tabId, setTabId] = useState<number>(0)
   const { propEditingDisabled, roiImg, fetchROIImgLoading } = useStore(
     (state) => ({
@@ -73,13 +69,7 @@ ROIEditContentProps): JSX.Element => {
     onRegionsChange([...r])
   }, [])
 
-  // const handleAddRegion = useCallback((r: number[]) => {
-  //   addRegion([...r])
-  // }, [])
-
-  // const handlePopRegion = useCallback(() => {
-  //   popRegion()
-  // }, [])
+  // console.log(fetchROIImgLoading)
 
   return (
     <Box className="editor-content">
@@ -95,7 +85,7 @@ ROIEditContentProps): JSX.Element => {
           </Tabs>
         </Box>
         <TabPanel value={tabId} index={0}>
-          <ImgSourceCam />
+          {/* <ImgSourceCam /> */}
         </TabPanel>
         <TabPanel value={tabId} index={1}>
           <ImgSourceLocal />

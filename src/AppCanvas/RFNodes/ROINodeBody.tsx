@@ -18,7 +18,7 @@ interface ROINodeBodyProps {
 }
 
 export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
-  const [dialogOpen, setDialogOpen] = useState<boolean>(true)
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const {
     modifyModuleName,
     modifyModuleProp,

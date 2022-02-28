@@ -278,7 +278,7 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     } else {
       clearUpHelpers()
       if (controlMode === 'default') {
-        console.log('remove drawpolygon handler')
+        // console.log('remove drawpolygon handler')
         setMouseDownHandler(undefined)
         setMouseMoveHandler(undefined)
       }
