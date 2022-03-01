@@ -68,6 +68,14 @@
       flex-direction: column;
       text-align: center;
       font-weight: 700;
+      // width: 300px;
+
+      .model-name {
+        width: 300px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
 
       .filterlabel-display {
         font-weight: 500;

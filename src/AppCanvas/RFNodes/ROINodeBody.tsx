@@ -117,9 +117,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
         size="large"
         onClick={handleEditROIClick}
       >
-        <Box className="model-name" component="span">
-          {nodeData.type}
-        </Box>
+        <Box component="span">{nodeData.type}</Box>
         <Box className="filterlabel-display" component="span">
           {`${regions.length} region${regions.length > 1 ? 's' : ''}`}
         </Box>

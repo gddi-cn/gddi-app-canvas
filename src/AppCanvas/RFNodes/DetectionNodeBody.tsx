@@ -13,6 +13,7 @@ import './DetectionNodeBody.scss'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Tooltip from '@mui/material/Tooltip'
 
 interface DetectionNodeBodyProps {
   nodeData: Module
@@ -24,7 +25,6 @@ export const DetectionNodeBody = ({
   const [modelSelectDialogOpen, setModelSelectDialogOpen] =
     useState<boolean>(false)
   const {
-    modDef,
     modifyModuleName,
     modifyModuleProp,
     removeModule,
@@ -35,7 +35,6 @@ export const DetectionNodeBody = ({
     labelListFetcher
   } = useStore(
     (state) => ({
-      modDef: state.moduleDefinitions[nodeData.type],
       modifyModuleName: state.modifyModuleName,
       modifyModuleProp: state.modifyModuleProp,
       removeModule: state.removeModule,
@@ -149,25 +148,33 @@ export const DetectionNodeBody = ({
           <NodeDropDown onDeleteClick={handleModDelete} />
         </Box>
       </Box>
-      <Button
-        className="gddi-aiappcanvas__section model-select-button"
-        variant="outlined"
-        size="large"
-        onClick={handleSelectModClick}
+      <Tooltip
+        title={`${
+          propObj['mod_name'] === '' || propObj['mod_name'] === undefined
+            ? 'no model selected'
+            : propObj['mod_name']
+        }`}
       >
-        <Box className="model-name" component="span">
-          {`${
-            propObj['mod_name'] === '' || propObj['mod_name'] === undefined
-              ? 'no model selected'
-              : propObj['mod_name']
-          }`}
-        </Box>
-        <Box className="filterlabel-display" component="span">
-          {`${
-            filterLabels === undefined ? 0 : filterLabels.length
-          } label(s) selected`}
-        </Box>
-      </Button>
+        <Button
+          className="gddi-aiappcanvas__section model-select-button"
+          variant="outlined"
+          size="large"
+          onClick={handleSelectModClick}
+        >
+          <Box className="model-name" component="span">
+            {`${
+              propObj['mod_name'] === '' || propObj['mod_name'] === undefined
+                ? 'no model selected'
+                : propObj['mod_name']
+            }`}
+          </Box>
+          <Box className="filterlabel-display" component="span">
+            {`${
+              filterLabels === undefined ? 0 : filterLabels.length
+            } label(s) selected`}
+          </Box>
+        </Button>
+      </Tooltip>
       {/* <Box className="gddi-aiappcanvas__section module-runner">
         <NodeRunner
           runner={nodeData1.runner}
