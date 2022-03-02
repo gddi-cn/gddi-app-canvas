@@ -60,7 +60,7 @@ const fetchLabelList = (mod_result_id: string): Promise<FetchLabelRes> => {
   return new Promise<FetchLabelRes>((resolve, reject) => {
     setTimeout(() => {
       resolve(fetchLabelRes)
-    }, 2000)
+    }, 200)
   })
 }
 

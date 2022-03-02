@@ -25,12 +25,15 @@
         padding-left: 1rem;
       }
     }
-  
     .pagination-area {
       margin-top: 0.6rem;
       display: flex;
       flex-direction: row;
       align-items: center;
     }
+  }
+
+  .searchbar-wrapper {
+    margin-bottom: 1.5rem;
   }
 }

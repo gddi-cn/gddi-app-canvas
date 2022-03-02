@@ -3,6 +3,7 @@ import shallow from 'zustand/shallow'
 import { useStore, pageSize } from '../store/useStore'
 import { ModelRes } from '../types'
 import { debounce } from 'lodash'
+import { SearchBar } from './../Components'
 
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
@@ -16,7 +17,6 @@ import Checkbox from '@mui/material/Checkbox'
 import FolderIcon from '@mui/icons-material/Folder'
 import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
-import SearchIcon from '@mui/icons-material/Search'
 
 import './ModelSelectContent.scss'
 
@@ -67,6 +67,14 @@ export const ModelSelectContent = ({
     [handlePageChange]
   )
 
+  const handleReqSearch = useCallback((searchVal) => {
+    console.log(`req search on value - ${searchVal}`)
+  }, [])
+
+  const handleCancelSearch = useCallback(() => {
+    console.log(`cancel search....`)
+  }, [])
+
   const LabelList = useMemo(() => {
     if (fetchLabelMemo[selectedModId] === undefined) {
       return null
@@ -108,10 +116,6 @@ export const ModelSelectContent = ({
     })
   }, [fetchLabelMemo[selectedModId], checkedLabels])
 
-  if (fetchModelRes === undefined) {
-    return <Box>🐸 呱~</Box>
-  }
-
   const LoadingElem = useMemo(
     () => (
       <Box sx={{ width: '100%' }}>
@@ -124,7 +128,6 @@ export const ModelSelectContent = ({
   const ModelListElem = useMemo(
     () => (
       <Box className="model-list-wrapper">
-        <Box className="searchbar-wrapper">Search Bar</Box>
         <Box className="model-and-labels">
           <Box className="model-list">
             <List dense={true}>
@@ -187,6 +190,13 @@ export const ModelSelectContent = ({
 
   return (
     <Box className="model-select-content">
+      <Box className="searchbar-wrapper">
+        <SearchBar
+          disabled={fetchLoading}
+          onRequestSearch={handleReqSearch}
+          onCancelSearch={handleCancelSearch}
+        />
+      </Box>
       {fetchLoading ? LoadingElem : ModelListElem}
     </Box>
   )
