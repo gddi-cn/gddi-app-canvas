@@ -16,6 +16,7 @@ import Checkbox from '@mui/material/Checkbox'
 import FolderIcon from '@mui/icons-material/Folder'
 import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
+import SearchIcon from '@mui/icons-material/Search'
 
 import './ModelSelectContent.scss'
 
@@ -111,63 +112,82 @@ export const ModelSelectContent = ({
     return <Box>🐸 呱~</Box>
   }
 
+  const LoadingElem = useMemo(
+    () => (
+      <Box sx={{ width: '100%' }}>
+        <LinearProgress />
+      </Box>
+    ),
+    []
+  )
+
+  const ModelListElem = useMemo(
+    () => (
+      <Box className="model-list-wrapper">
+        <Box className="searchbar-wrapper">Search Bar</Box>
+        <Box className="model-and-labels">
+          <Box className="model-list">
+            <List dense={true}>
+              {fetchModelRes.models.map((modInfo) => {
+                const handleClick = () => {
+                  onSelect(modInfo)
+                  onCheckedLabelsChange([])
+                }
+                return (
+                  <ListItemButton
+                    key={`${modInfo.mod_id}}`}
+                    disabled={disabled}
+                    selected={selectedModId === modInfo.mod_result_id}
+                    onClick={handleClick}
+                  >
+                    <ListItemAvatar>
+                      <Avatar>
+                        <FolderIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`${modInfo.mod_name} - v${modInfo.mod_version}`}
+                      secondary={`${modInfo.mod_created_at.toLocaleDateString()} ${modInfo.mod_created_at.getHours()}:${modInfo.mod_created_at.getMinutes()}:${modInfo.mod_created_at.getSeconds()}`}
+                    />
+                  </ListItemButton>
+                )
+              })}
+            </List>
+          </Box>
+          <Box className="label-list">
+            {fetchLabelMemo[selectedModId] === undefined ||
+            fetchLabelMemo[selectedModId].length >= 0 ? (
+              LabelList
+            ) : (
+              <Box>该模型无labels可选</Box>
+            )}
+          </Box>
+        </Box>
+        <Box className="pagination-area">
+          <Pagination
+            page={page}
+            count={Math.ceil(fetchModelRes.totalCnt / pageSize)}
+            size="small"
+            onChange={debouncedHandlePageChange}
+          />
+          <Box>{`total: ${fetchModelRes.totalCnt}`}</Box>
+        </Box>
+      </Box>
+    ),
+    [
+      selectedModId,
+      fetchModelRes,
+      fetchLabelMemo,
+      LabelList,
+      page,
+      pageSize,
+      debouncedHandlePageChange
+    ]
+  )
+
   return (
     <Box className="model-select-content">
-      <Box className="model-and-labels">
-        {fetchLoading ? (
-          <Box sx={{ width: '100%' }}>
-            <LinearProgress />
-          </Box>
-        ) : (
-          <>
-            <Box className="model-list">
-              <List dense={true}>
-                {fetchModelRes.models.map((modInfo) => {
-                  const handleClick = () => {
-                    onSelect(modInfo)
-                    onCheckedLabelsChange([])
-                  }
-                  return (
-                    <ListItemButton
-                      key={`${modInfo.mod_id}}`}
-                      disabled={disabled}
-                      selected={selectedModId === modInfo.mod_result_id}
-                      onClick={handleClick}
-                    >
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FolderIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={`${modInfo.mod_name} - v${modInfo.mod_version}`}
-                        secondary={`${modInfo.mod_created_at.toLocaleDateString()} ${modInfo.mod_created_at.getHours()}:${modInfo.mod_created_at.getMinutes()}:${modInfo.mod_created_at.getSeconds()}`}
-                      />
-                    </ListItemButton>
-                  )
-                })}
-              </List>
-            </Box>
-            <Box className="label-list">
-              {fetchLabelMemo[selectedModId] === undefined ||
-              fetchLabelMemo[selectedModId].length >= 0 ? (
-                LabelList
-              ) : (
-                <Box>该模型无labels可选</Box>
-              )}
-            </Box>
-          </>
-        )}
-      </Box>
-      <Box className="pagination-area">
-        <Pagination
-          page={page}
-          count={Math.ceil(fetchModelRes.totalCnt / pageSize)}
-          size="small"
-          onChange={debouncedHandlePageChange}
-        />
-        <Box>{`total: ${fetchModelRes.totalCnt}`}</Box>
-      </Box>
+      {fetchLoading ? LoadingElem : ModelListElem}
     </Box>
   )
 }

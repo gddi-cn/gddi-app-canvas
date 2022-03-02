@@ -2,30 +2,35 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-
-  .model-and-labels {
+  .model-list-wrapper {
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    flex-grow: 1;
-    overflow-y: auto;
+    flex-direction: column;
+    height: 100%;
 
-    .model-list {
+    .model-and-labels {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
       flex-grow: 1;
       overflow-y: auto;
+  
+      .model-list {
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+      .label-list {
+        width: 40%;
+        overflow-y: auto;
+        border-left: solid 1px #d9d9d9;
+        padding-left: 1rem;
+      }
     }
-    .label-list {
-      width: 40%;
-      overflow-y: auto;
-      border-left: solid 1px #d9d9d9;
-      padding-left: 1rem;
+  
+    .pagination-area {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
-  }
-
-  .pagination-area {
-    margin-top: 0.6rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
   }
 }

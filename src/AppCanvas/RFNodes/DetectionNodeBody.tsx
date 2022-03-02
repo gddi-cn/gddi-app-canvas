@@ -185,7 +185,6 @@ export const DetectionNodeBody = ({
       <MyDialog
         open={modelSelectDialogOpen}
         title="选择模型和模型的具体标签"
-        okTitle="OK"
         onClose={handleModSelectClose}
         renderContent={renderModSelect}
       />

@@ -41,7 +41,7 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
 export interface MyDialogProps {
   open: boolean
   title: string
-  okTitle: string
+  okTitle?: string
   onClose: () => void
   renderContent: () => JSX.Element
 }
@@ -70,11 +70,11 @@ export const MyDialog = ({
       <DialogContent sx={{ overflow: 'hidden' }} dividers>
         {renderContent()}
       </DialogContent>
-      <DialogActions>
+      {/* <DialogActions>
         <Button autoFocus onClick={handleClose}>
           {okTitle}
         </Button>
-      </DialogActions>
+      </DialogActions> */}
     </Dialog>
   )
 }
