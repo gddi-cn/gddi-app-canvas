@@ -5,7 +5,8 @@
   .model-list-wrapper {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 380px;
+    flex: 1;
 
     .model-and-labels {
       display: flex;
@@ -34,6 +35,6 @@
   }
 
   .searchbar-wrapper {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.3rem;
   }
 }

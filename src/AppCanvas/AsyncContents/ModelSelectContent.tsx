@@ -67,13 +67,22 @@ export const ModelSelectContent = ({
     [handlePageChange]
   )
 
-  const handleReqSearch = useCallback((searchVal) => {
-    console.log(`req search on value - ${searchVal}`)
-  }, [])
+  const handleReqSearch = useCallback(
+    (searchVal) => {
+      console.log(`req search on value - ${searchVal}`)
+      setPage(0)
+      setFetchLoading(true)
+      fetchModelsWithLabels(0, searchVal)
+    },
+    [fetchModelsWithLabels, setFetchLoading, setPage]
+  )
 
   const handleCancelSearch = useCallback(() => {
     console.log(`cancel search....`)
-  }, [])
+    setPage(0)
+    setFetchLoading(true)
+    fetchModelsWithLabels(0)
+  }, [fetchModelsWithLabels, setFetchLoading, setPage])
 
   const LabelList = useMemo(() => {
     if (fetchLabelMemo[selectedModId] === undefined) {

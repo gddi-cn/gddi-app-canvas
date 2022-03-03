@@ -1,7 +1,10 @@
 // model list
 export type ModelListFetcher = (
   pageOffset: number,
-  pageSize: number
+  pageSize: number,
+  // if queryModelName !== undefined && queryModelName !== ''
+  // seach by model name
+  queryModelName?: string
 ) => Promise<FetchModelRes>
 
 export interface FetchModelRes {

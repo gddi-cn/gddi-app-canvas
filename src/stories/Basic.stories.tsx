@@ -37,15 +37,27 @@ const handleValueChange = (val: Pipeline): void => {
 }
 const fetchModelList = (
   page: number,
-  pageSize: number
+  pageSize: number,
+  queryModelName?: string
 ): Promise<FetchModelRes> => {
   return new Promise<FetchModelRes>((resolve, reject) => {
     setTimeout(() => {
       const { models, totalCnt } = fetchModelResult
-      resolve({
-        models: models.slice(pageSize * page, pageSize * (page + 1)),
-        totalCnt
-      })
+      if (queryModelName === undefined || queryModelName === '') {
+        resolve({
+          models: models.slice(pageSize * page, pageSize * (page + 1)),
+          totalCnt
+        })
+      } else {
+        // search by model name
+        const searchRes = models.filter((mod) =>
+          mod.mod_name.includes(queryModelName)
+        )
+        resolve({
+          models: searchRes.slice(pageSize * page, pageSize * (page + 1)),
+          totalCnt: searchRes.length
+        })
+      }
     }, 2000)
   })
 }

@@ -11,7 +11,7 @@ import {
   ROIImgFetcher
 } from '../types'
 
-export const pageSize = 20
+export const pageSize = 10
 
 export interface CoreExtSlice {
   roiImg: {
@@ -35,7 +35,7 @@ export interface CoreExtSlice {
   resetModuleProps: () => void
   setFetchModelRes: (res: FetchModelRes) => void
   setFetchLabelRes: (res: FetchLabelRes) => void
-  fetchModelsWithLabels: (pageOffset: number) => void
+  fetchModelsWithLabels: (pageOffset: number, queryModelName?: string) => void
   fetchROIImgURL: () => void
   setROIImg: (url?: string, width?: number, height?: number) => void
 }
@@ -135,14 +135,21 @@ const createCoreExtSlice = (
       })
     )
   },
-  fetchModelsWithLabels: async (pageOffset: number) => {
+  fetchModelsWithLabels: async (
+    pageOffset: number,
+    queryModelName?: string
+  ) => {
     if (pageOffset < 0) {
       return
     }
     const { modelListFetcher, labelListFetcher } = get()
     if (modelListFetcher) {
       try {
-        const modRes = await modelListFetcher(pageOffset, pageSize)
+        const modRes = await modelListFetcher(
+          pageOffset,
+          pageSize,
+          queryModelName
+        )
         const labelMemo = new Map<string, string[]>()
         if (labelListFetcher) {
           for (const mod of modRes.models) {
