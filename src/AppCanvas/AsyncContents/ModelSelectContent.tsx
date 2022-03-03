@@ -1,7 +1,7 @@
-import React, { useMemo, useCallback, useState } from 'react'
+import React, { useMemo, useCallback, useState, useRef, useEffect } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore, pageSize } from '../store/useStore'
-import { ModelRes } from '../types'
+import { ModelRes, FetchModelRes, FetchLabelMemo } from '../types'
 import { debounce } from 'lodash'
 import { SearchBar } from './../Components'
 
@@ -40,6 +40,8 @@ export const ModelSelectContent = ({
     fetchModelRes,
     fetchLabelMemo,
     fetchLoading,
+    searchModelRes,
+    searchModelResLabelMemo,
     fetchModelsWithLabels,
     setFetchLoading
   } = useStore(
@@ -47,11 +49,14 @@ export const ModelSelectContent = ({
       fetchModelRes: state.fetchModelRes,
       fetchLabelMemo: state.fetchLabelMemo,
       fetchLoading: state.fetchLoading,
+      searchModelRes: state.searchModelRes,
+      searchModelResLabelMemo: state.searchModelResLabelMemo,
       fetchModelsWithLabels: state.fetchModelsWithLabels,
       setFetchLoading: state.setFetchLoading
     }),
     shallow
   )
+  const [showSearchResult, setShowSearchResult] = useState<boolean>(false)
 
   const handlePageChange = useCallback(
     (evt, pageNum) => {
@@ -69,26 +74,36 @@ export const ModelSelectContent = ({
 
   const handleReqSearch = useCallback(
     (searchVal) => {
-      console.log(`req search on value - ${searchVal}`)
-      setPage(0)
+      // console.log(`req search on value - ${searchVal}`)
+      setShowSearchResult(true)
+      setPage(1)
       setFetchLoading(true)
       fetchModelsWithLabels(0, searchVal)
     },
-    [fetchModelsWithLabels, setFetchLoading, setPage]
+    [setShowSearchResult, fetchModelsWithLabels, setFetchLoading, setPage]
   )
 
-  const handleCancelSearch = useCallback(() => {
-    console.log(`cancel search....`)
-    setPage(0)
-    setFetchLoading(true)
-    fetchModelsWithLabels(0)
-  }, [fetchModelsWithLabels, setFetchLoading, setPage])
+  const handleCancelSearch = () => {
+    // console.log(`cancel search....`)
+    setPage(1)
+    setFetchLoading(false)
+    setShowSearchResult(false)
+  }
+
+  const dispLabelMemo = useMemo(
+    () => (showSearchResult ? searchModelResLabelMemo : fetchLabelMemo),
+    [showSearchResult, searchModelResLabelMemo, fetchLabelMemo]
+  )
+  const dispModels = useMemo(
+    () => (showSearchResult ? searchModelRes : fetchModelRes),
+    [showSearchResult, fetchModelRes, searchModelRes]
+  )
 
   const LabelList = useMemo(() => {
-    if (fetchLabelMemo[selectedModId] === undefined) {
+    if (dispLabelMemo[selectedModId] === undefined) {
       return null
     }
-    return fetchLabelMemo[selectedModId].map((label) => {
+    return dispLabelMemo[selectedModId].map((label) => {
       const handleToggle = () => {
         const currentIndex = checkedLabels.indexOf(label)
         const newChecked = [...checkedLabels]
@@ -123,7 +138,7 @@ export const ModelSelectContent = ({
         </ListItem>
       )
     })
-  }, [fetchLabelMemo[selectedModId], checkedLabels])
+  }, [dispLabelMemo[selectedModId], checkedLabels])
 
   const LoadingElem = useMemo(
     () => (
@@ -140,7 +155,7 @@ export const ModelSelectContent = ({
         <Box className="model-and-labels">
           <Box className="model-list">
             <List dense={true}>
-              {fetchModelRes.models.map((modInfo) => {
+              {dispModels.models.map((modInfo) => {
                 const handleClick = () => {
                   onSelect(modInfo)
                   onCheckedLabelsChange([])
@@ -167,8 +182,8 @@ export const ModelSelectContent = ({
             </List>
           </Box>
           <Box className="label-list">
-            {fetchLabelMemo[selectedModId] === undefined ||
-            fetchLabelMemo[selectedModId].length >= 0 ? (
+            {dispLabelMemo[selectedModId] === undefined ||
+            dispLabelMemo[selectedModId].length >= 0 ? (
               LabelList
             ) : (
               <Box>该模型无labels可选</Box>
@@ -178,18 +193,19 @@ export const ModelSelectContent = ({
         <Box className="pagination-area">
           <Pagination
             page={page}
-            count={Math.ceil(fetchModelRes.totalCnt / pageSize)}
+            count={Math.ceil(dispModels.totalCnt / pageSize)}
             size="small"
             onChange={debouncedHandlePageChange}
           />
-          <Box>{`total: ${fetchModelRes.totalCnt}`}</Box>
+          <Box>{`total: ${dispModels.totalCnt}`}</Box>
         </Box>
       </Box>
     ),
     [
       selectedModId,
-      fetchModelRes,
-      fetchLabelMemo,
+      dispModels,
+      dispLabelMemo,
+      showSearchResult,
       LabelList,
       page,
       pageSize,

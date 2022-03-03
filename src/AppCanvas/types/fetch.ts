@@ -2,8 +2,7 @@
 export type ModelListFetcher = (
   pageOffset: number,
   pageSize: number,
-  // if queryModelName !== undefined && queryModelName !== ''
-  // seach by model name
+  // if queryModelName !== undefined: seach by model name
   queryModelName?: string
 ) => Promise<FetchModelRes>
 
