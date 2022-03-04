@@ -5,7 +5,11 @@ import React, {
   useContext,
   useMemo
 } from 'react'
-import ReactFlow, { Controls, OnLoadParams } from 'react-flow-renderer'
+import ReactFlow, {
+  Controls,
+  OnLoadParams,
+  ReactFlowProvider
+} from 'react-flow-renderer'
 import shallow from 'zustand/shallow'
 import {
   Pipeline,
@@ -93,6 +97,7 @@ export const AppCanvasChild = ({
   const {
     value,
     rfElements,
+    setRfInstance,
     setModuleDefinitions,
     setValue,
     layoutGraph,
@@ -109,6 +114,7 @@ export const AppCanvasChild = ({
     (state) => ({
       value: state.value,
       rfElements: state.rfElements,
+      setRfInstance: state.setRfInstance,
       setModuleDefinitions: state.setModuleDefinitions,
       setValue: state.setValue,
       layoutGraph: state.layoutGraph,
@@ -146,16 +152,17 @@ export const AppCanvasChild = ({
   }, [addModule, addPipeline, layoutGraph, fitView])
   const handleLoaded = useCallback(
     (params: OnLoadParams<any>) => {
-      console.log('[gddi-aiappcanvas] loaded')
+      // console.log('[gddi-aiappcanvas] loaded')
       params.fitView()
       loadParaRef.current = params
+      setRfInstance(params)
       layoutGraph()
       initAppRef()
       if (onLoad && appRef.current) {
         onLoad(appRef.current)
       }
     },
-    [layoutGraph, initAppRef, onLoad]
+    [layoutGraph, initAppRef, onLoad, setRfInstance]
   )
 
   const style = useMemo(
@@ -226,7 +233,7 @@ export const AppCanvasChild = ({
   }, [setROIImgFetcher, fetchROIImg])
 
   return (
-    <>
+    <ReactFlowProvider>
       <ReactFlow
         className={theme.palette.mode}
         style={style}
@@ -234,9 +241,9 @@ export const AppCanvasChild = ({
         nodeTypes={rfNodeTypes}
         edgeTypes={rfEdgeTypes}
         onLoad={handleLoaded}
-        snapToGrid
-        snapGrid={[15, 15]}
-        minZoom={0.2}
+        // snapToGrid
+        // snapGrid={[15, 15]}
+        minZoom={0.1}
         nodesDraggable={!graphEditingDisabled}
         nodesConnectable={!graphEditingDisabled}
       >
@@ -258,6 +265,6 @@ export const AppCanvasChild = ({
         <Controls className={theme.palette.mode} showInteractive={false} />
         <ExtendedControls />
       </ReactFlow>
-    </>
+    </ReactFlowProvider>
   )
 }
