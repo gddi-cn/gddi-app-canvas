@@ -1,5 +1,5 @@
 import produce from 'immer'
-import { Elements, Node } from 'react-flow-renderer'
+import { Elements, Node, OnLoadParams } from 'react-flow-renderer'
 import { GetState, SetState } from 'zustand'
 import {
   ModuleDefinitions,
@@ -26,6 +26,8 @@ export interface CoreSlice {
   value: Pipeline
   moduleDefinitions: ModuleDefinitions
   rfElements: Elements
+  rfInstance?: OnLoadParams<any>
+  setRfInstance: (inst: OnLoadParams<any> | undefined) => void
   setModuleDefinitions: (newMDs: ModuleDefinitions) => void
   setValue: (newValue: Pipeline) => void
   addModule: (module: RawModule) => void
@@ -56,11 +58,17 @@ const createCoreSlice = (
   value: initValue,
   moduleDefinitions: {},
   rfElements: [],
+  setRfInstance: (inst: OnLoadParams<any> | undefined) => {
+    set(
+      produce((draft: MyState) => {
+        draft.rfInstance = inst
+      })
+    )
+  },
   setModuleDefinitions: (newMDs: ModuleDefinitions) => {
     set(
       produce((draft: MyState) => {
-        const draft1 = draft
-        draft1.moduleDefinitions = { ...newMDs }
+        draft.moduleDefinitions = { ...newMDs }
       })
     )
   },
@@ -93,7 +101,7 @@ const createCoreSlice = (
     }
   },
   addPipeline: async (modules: Module[], connections: Connection[]) => {
-    const { value, rfElements } = get()
+    const { value, rfElements, rfInstance } = get()
     // update modules and connections IDs
     const [mods1, conns1] = updateIds(modules, connections, value.nodes)
     // update positions
