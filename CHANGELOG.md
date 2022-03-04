@@ -10,8 +10,15 @@
 
 ## v0.1.10
 - 🐛 fix: `fetchModelList` 和 `fetchLabelList` 改变时并没有重新fetch API
-- feature: 当 `propEditingDisabled === true` 时，点击「模型」节点，看到的是已选择的模型名称、版本、创建时间、标签列表等信息
+- 🍗 feature: 当 `propEditingDisabled === true` 时，点击「模型」节点，看到的是已选择的模型名称、版本、创建时间、标签列表等信息
 
 ## v1.1.2
 - **🚨Breaking Change**: 对于ROI module的 `props.regions`, 改为多边形 (见：https://vme0c7akap.feishu.cn/docs/doccnZgaLeaOfL55jHn1H2F01Gh)。
 - ROI module去除对摄像头分辨率的选择.
+
+## v1.1.3
+- 🐛 fix: addPipeline() 后，第一次点击「缩小按钮」有可能会放大
+- 🐛 fix: 对于 detection model node, 限制node的宽度 ---- 以避免model name过长导致
+node过长。model name在cursor hover时用tooltip显示。
+- 🍗 feature: 选择detection model时按 model name搜索.
+  - prop `fetchModelList: ModelListFetcher`, 新增一个参数`queryModelName?: string`. 当 `queryModelName === undefined` 时，get所有model; 当 `queryModelName ！== undefined` 时，按queryModelName匹配搜索，仅返回搜索结果的model.
