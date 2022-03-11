@@ -29,6 +29,7 @@
       "name": "Detection_v2_3",
       "runner": "Detection",
       "props": {
+        "mod_id": 233,
         "mod_iter_id": 0,
         "mod_license": "",
         "mod_name": "自动训练-口罩佩戴样本-v0.0.1-模型",

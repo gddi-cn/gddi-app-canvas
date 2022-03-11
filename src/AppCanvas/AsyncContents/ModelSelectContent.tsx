@@ -1,7 +1,7 @@
-import React, { useMemo, useCallback, useState, useRef, useEffect } from 'react'
+import React, { useMemo, useCallback, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore, pageSize } from '../store/useStore'
-import { ModelRes, FetchModelRes, FetchLabelMemo } from '../types'
+import { ModelRes } from '../types'
 import { debounce } from 'lodash'
 import { SearchBar } from './../Components'
 
@@ -21,7 +21,6 @@ import LinearProgress from '@mui/material/LinearProgress'
 import './ModelSelectContent.scss'
 
 export interface ModelSelectContentProps {
-  disabled?: boolean
   selectedModId: string
   checkedLabels: string[]
   onSelect: (selectedMod: ModelRes) => void
@@ -29,7 +28,6 @@ export interface ModelSelectContentProps {
 }
 
 export const ModelSelectContent = ({
-  disabled,
   selectedModId,
   checkedLabels,
   onSelect,
@@ -118,12 +116,7 @@ export const ModelSelectContent = ({
       }
       return (
         <ListItem key={label} disablePadding>
-          <ListItemButton
-            disabled={disabled}
-            role={undefined}
-            onClick={handleToggle}
-            dense
-          >
+          <ListItemButton role={undefined} onClick={handleToggle} dense>
             <ListItemIcon>
               <Checkbox
                 edge="start"
@@ -163,7 +156,6 @@ export const ModelSelectContent = ({
                 return (
                   <ListItemButton
                     key={`${modInfo.mod_id}}`}
-                    disabled={disabled}
                     selected={selectedModId === modInfo.mod_result_id}
                     onClick={handleClick}
                   >

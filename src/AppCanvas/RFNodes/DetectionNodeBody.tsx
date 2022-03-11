@@ -7,6 +7,7 @@ import { useStore } from '../store/useStore'
 import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText, MyDialog } from '../Components'
+import { ModelConfigDialog } from './ModelConfigDialog'
 import { ModelSelectContent } from './../AsyncContents'
 import { ModelInfoDisplay } from './ModelInfoDisplay'
 import './DetectionNodeBody.scss'
@@ -23,7 +24,7 @@ export const DetectionNodeBody = ({
   nodeData
 }: DetectionNodeBodyProps): JSX.Element => {
   const [modelSelectDialogOpen, setModelSelectDialogOpen] =
-    useState<boolean>(false)
+    useState<boolean>(true)
   const {
     modifyModuleName,
     modifyModuleProp,
@@ -70,6 +71,11 @@ export const DetectionNodeBody = ({
     setModelSelectDialogOpen(false)
   }, [])
 
+  const handleModConfigChange = useCallback((newProp: PropObject) => {
+    console.log(`🍓🍓 propObj changed!`)
+    console.log(newProp)
+  }, [])
+
   const handleModelSelect = useCallback(
     (model: ModelRes) => {
       //TODO: setModelRes in global store
@@ -97,8 +103,6 @@ export const DetectionNodeBody = ({
       : (propObj['filter_labels'] as string[])
 
   const renderModSelect = useCallback(() => {
-    // const propObj = nodeData.props as PropObject
-    // TODO: when propEditingDisabled -- only show selected value
     if (propEditingDisabled) {
       return (
         <ModelInfoDisplay
@@ -111,7 +115,6 @@ export const DetectionNodeBody = ({
     }
     return (
       <ModelSelectContent
-        disabled={propEditingDisabled}
         checkedLabels={propObj['filter_labels'] as string[]}
         selectedModId={propObj['mod_result_id'] as string}
         onSelect={handleModelSelect}
@@ -124,6 +127,16 @@ export const DetectionNodeBody = ({
     propObj['mod_result_id'],
     propObj['filter_labels']
   ])
+
+  const modelNameDisplay = useMemo(
+    () =>
+      `${
+        propObj['mod_name'] === '' || propObj['mod_name'] === undefined
+          ? 'no model selected'
+          : propObj['mod_name']
+      }`,
+    [propObj['mod_name']]
+  )
 
   useEffect(() => {
     // console.log('bbbb -  modelListFetcher or labelListFetcher changes')
@@ -148,13 +161,7 @@ export const DetectionNodeBody = ({
           <NodeDropDown onDeleteClick={handleModDelete} />
         </Box>
       </Box>
-      <Tooltip
-        title={`${
-          propObj['mod_name'] === '' || propObj['mod_name'] === undefined
-            ? 'no model selected'
-            : propObj['mod_name']
-        }`}
-      >
+      <Tooltip title={modelNameDisplay}>
         <Button
           className="gddi-aiappcanvas__section model-select-button"
           variant="outlined"
@@ -162,11 +169,7 @@ export const DetectionNodeBody = ({
           onClick={handleSelectModClick}
         >
           <Box className="model-name" component="span">
-            {`${
-              propObj['mod_name'] === '' || propObj['mod_name'] === undefined
-                ? 'no model selected'
-                : propObj['mod_name']
-            }`}
+            {modelNameDisplay}
           </Box>
           <Box className="filterlabel-display" component="span">
             {`${
@@ -182,11 +185,20 @@ export const DetectionNodeBody = ({
           onChange={handleRunnerChange}
         />
       </Box> */}
-      <MyDialog
+      {/* <MyDialog
         open={modelSelectDialogOpen}
-        title="选择模型和模型的具体标签"
+        title="模型和模型的标签配置"
         onClose={handleModSelectClose}
         renderContent={renderModSelect}
+      /> */}
+      <ModelConfigDialog
+        readonly={propEditingDisabled}
+        open={modelSelectDialogOpen}
+        title="模型和标签配置"
+        okTitle="保存修改"
+        defaultValue={propObj}
+        onClose={handleModSelectClose}
+        onOK={handleModConfigChange}
       />
     </Box>
   )
