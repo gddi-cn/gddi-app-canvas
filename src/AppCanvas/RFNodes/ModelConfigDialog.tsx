@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { ModelRes, PropObject } from '../types'
-import { ModelConfigTool } from './ModelConfigTool'
+import { PropObject } from '../types'
+import {
+  ModelConfigTool,
+  ModelValueType,
+  FilterLabelsType
+} from './ModelConfigTool'
 
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -20,9 +24,6 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />
 })
-
-type ModelValueType = ModelRes
-type FilterLabelsType = string[]
 
 export interface ModelConfigDialogProps {
   readonly?: boolean
@@ -67,29 +68,11 @@ export const ModelConfigDialog = ({
           ({
             ...old,
             ...newModelConvert,
-            filter_labels: [...newLabels]
+            filter_labels: { ...newLabels }
           } as PropObject)
       )
     },
     [setValue]
-  )
-
-  const defaultModel = useMemo(
-    () => ({
-      mod_id: defaultValue['mod_id'].toString(),
-      mod_iter_id: defaultValue['mod_iter_id'].toString(),
-      mod_license: defaultValue['mod_license'] as string,
-      mod_name: defaultValue['mod_name'] as string,
-      mod_created_at: new Date(defaultValue['mod_created_at'] as string),
-      mod_version: defaultValue['mod_version'] as string,
-      mod_version_id: defaultValue['mod_version_id'] as string,
-      mod_result_id: defaultValue['mod_result_id'] as string
-    }),
-    [defaultValue]
-  )
-  const defaultLabels = useMemo(
-    () => defaultValue['filter_labels'] as string[],
-    [defaultValue]
   )
 
   const modelVal = useMemo(
@@ -105,7 +88,10 @@ export const ModelConfigDialog = ({
     }),
     [value]
   )
-  const labelsVal = useMemo(() => value['filter_labels'] as string[], [value])
+  const labelsVal = useMemo(
+    () => value['filter_labels'] as FilterLabelsType,
+    [value]
+  )
 
   useEffect(() => {
     setValue({ ...defaultValue })

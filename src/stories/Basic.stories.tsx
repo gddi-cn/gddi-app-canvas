@@ -13,7 +13,7 @@ import {
   FetchROIImgRes
 } from '../AppCanvas'
 import modDef from './datav2/md2.json'
-import pipeline from './datav2/pipeline2.json'
+import pipeline from './datav2/pipeline3.json'
 import { fetchModelResult, modelLabels } from './datav2/fetchExample'
 
 const myPipeline: Pipeline = {

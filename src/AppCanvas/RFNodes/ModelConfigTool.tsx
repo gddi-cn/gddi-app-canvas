@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
-import { ModelRes } from '../types'
+import { ModelRes, FilterLabelsValueType } from '../types'
 import { ModelDisplay } from './ModelDisplay'
+import { FilterLabelsDisplay } from './FilterLabelsDisplay'
 import './ModelConfigTool.scss'
 
 import Box from '@mui/material/Box'
@@ -13,8 +14,8 @@ const body2Styles: React.CSSProperties = {
   marginLeft: '0.6rem'
 }
 
-type ModelValueType = ModelRes
-type FilterLabelsType = string[]
+export type ModelValueType = ModelRes
+export type FilterLabelsType = FilterLabelsValueType
 
 export interface ModelConfigToolProps {
   modelValue: ModelValueType
@@ -33,10 +34,21 @@ export const ModelConfigTool = ({
       console.log(newModel.mod_name)
       if (onChange) {
         // clear filter_labels when selecting new model
-        onChange(newModel, [])
+        onChange(newModel, {})
       }
     },
     [onChange]
+  )
+
+  const handleLabelsChange = useCallback(
+    (newLabels: FilterLabelsType) => {
+      console.log(`labels changed`)
+      console.log(newLabels)
+      if (onChange) {
+        onChange(modelValue, newLabels)
+      }
+    },
+    [modelValue, onChange]
   )
 
   return (
@@ -60,9 +72,13 @@ export const ModelConfigTool = ({
           direction={{ xs: 'column', sm: 'row' }}
           spacing={{ xs: 1, sm: 2, md: 2 }}
         >
-          {filterLabelsValue.map((label) => (
+          {/* {Object.keys(filterLabelsValue).map((label) => (
             <Chip key={label} label={label} />
-          ))}
+          ))} */}
+          <FilterLabelsDisplay
+            labels={filterLabelsValue}
+            onLabelsChange={handleLabelsChange}
+          />
         </Stack>
       </Box>
     </Box>
