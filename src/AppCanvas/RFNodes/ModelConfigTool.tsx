@@ -29,6 +29,8 @@ export const ModelConfigTool = ({
 }: ModelConfigToolProps): JSX.Element => {
   const handleModelChange = useCallback(
     (newModel: ModelValueType) => {
+      console.log(`model changed`)
+      console.log(newModel.mod_name)
       if (onChange) {
         // clear filter_labels when selecting new model
         onChange(newModel, [])

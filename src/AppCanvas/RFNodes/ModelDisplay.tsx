@@ -65,8 +65,8 @@ export const ModelDisplay = ({
     setOpenD(false)
   }, [])
 
-  const handleSaveSelect = useCallback(() => {
-    console.log(`save selected model`)
+  const handleConfirmSelect = useCallback(() => {
+    console.log(`confirm model selected`)
     setOpenD(false)
     if (onModelChange) {
       onModelChange(selectedModel)
@@ -126,7 +126,7 @@ export const ModelDisplay = ({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSaveSelect}>确认</Button>
+          <Button onClick={handleConfirmSelect}>确认</Button>
           <Button color="secondary" onClick={handleCloseD}>
             取消
           </Button>

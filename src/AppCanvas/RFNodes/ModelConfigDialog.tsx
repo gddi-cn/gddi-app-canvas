@@ -60,6 +60,8 @@ export const ModelConfigDialog = ({
         ...newModel,
         mod_created_at: newModel.mod_created_at.toISOString()
       }
+      console.log('handle value change')
+      console.log(newModel.mod_name)
       setValue(
         (old) =>
           ({
@@ -89,6 +91,21 @@ export const ModelConfigDialog = ({
     () => defaultValue['filter_labels'] as string[],
     [defaultValue]
   )
+
+  const modelVal = useMemo(
+    () => ({
+      mod_id: value['mod_id'].toString(),
+      mod_iter_id: value['mod_iter_id'].toString(),
+      mod_license: value['mod_license'] as string,
+      mod_name: value['mod_name'] as string,
+      mod_created_at: new Date(value['mod_created_at'] as string),
+      mod_version: value['mod_version'] as string,
+      mod_version_id: value['mod_version_id'] as string,
+      mod_result_id: value['mod_result_id'] as string
+    }),
+    [value]
+  )
+  const labelsVal = useMemo(() => value['filter_labels'] as string[], [value])
 
   useEffect(() => {
     setValue({ ...defaultValue })
@@ -125,8 +142,8 @@ export const ModelConfigDialog = ({
         </Toolbar>
       </AppBar>
       <ModelConfigTool
-        modelValue={defaultModel}
-        filterLabelsValue={defaultLabels}
+        modelValue={modelVal}
+        filterLabelsValue={labelsVal}
         onChange={handleValueChange}
       />
     </Dialog>
