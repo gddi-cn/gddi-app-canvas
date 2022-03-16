@@ -24,6 +24,8 @@ import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import DeleteIcon from '@mui/icons-material/Delete'
+import ShuffleOnIcon from '@mui/icons-material/ShuffleOn'
+import ShuffleOnTwoToneIcon from '@mui/icons-material/ShuffleOnTwoTone'
 
 interface Data {
   labelKey: string
@@ -265,6 +267,18 @@ export const FilterLabelsDisplay = ({
                     onLabelsChange(newLabels)
                   }
                 }
+                const handleSetDefaultColor = () => {
+                  const newColor = hexToRgb(randomColorHex)
+                  if (onLabelsChange && newColor !== null) {
+                    const newLabels = produce(labels, (draft) => {
+                      draft[row.labelKey] = {
+                        ...labels[row.labelKey],
+                        color: [newColor.r, newColor.g, newColor.b]
+                      }
+                    })
+                    onLabelsChange(newLabels)
+                  }
+                }
 
                 return (
                   <TableRow
@@ -310,7 +324,17 @@ export const FilterLabelsDisplay = ({
                           color={hexColor}
                           onChange={handleHexChange}
                         />
-                        {randomColorHex}
+                        <IconButton
+                          aria-label="default-color"
+                          size="small"
+                          onClick={handleSetDefaultColor}
+                          sx={{ padding: '0px', marginLeft: '0.4rem' }}
+                        >
+                          <ShuffleOnTwoToneIcon
+                            color="primary"
+                            fontSize="inherit"
+                          />
+                        </IconButton>
                       </Box>
                     </TableCell>
                   </TableRow>

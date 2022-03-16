@@ -13,9 +13,9 @@ export function hexToRgb(hex: string) {
     : null
 }
 
-export function stringToHex(str: string) {
+export function stringToHex(str: string): string {
   let hash = 0
-  if (str.length === 0) return hash
+  if (str.length === 0) return '#000000'
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash)
     hash = hash & hash
