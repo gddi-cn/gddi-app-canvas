@@ -63,6 +63,7 @@ export const ModelConfigDialog = ({
       }
       console.log('handle value change')
       console.log(newModel.mod_name)
+      console.log(newLabels)
       setValue(
         (old) =>
           ({

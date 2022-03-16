@@ -2,6 +2,12 @@ import React, { useMemo } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
 import { FilterLabelsValueType } from '../types'
+import { RgbColor, HexColorInput } from 'react-colorful'
+import produce from 'immer'
+import { PopoverColorPicker } from './../Components'
+import { stringToHex, rgbToHex, hexToRgb } from './../helpers'
+
+import './FilterLabelsDisplay.scss'
 
 import Box from '@mui/material/Box'
 import { alpha } from '@mui/material/styles'
@@ -58,10 +64,11 @@ interface EnhancedTableProps {
   numSelected: number
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
   rowCount: number
+  checkDisabled?: boolean
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, numSelected, rowCount } = props
+  const { onSelectAllClick, numSelected, rowCount, checkDisabled } = props
 
   return (
     <TableHead>
@@ -72,6 +79,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
+            disabled={checkDisabled}
             inputProps={{
               'aria-label': 'select all labels'
             }}
@@ -93,10 +101,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number
+  deleteDisabled?: boolean
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props
+  const { numSelected, deleteDisabled } = props
 
   return (
     <Toolbar
@@ -131,7 +140,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           模型标签（Filter Labels）
         </Typography>
       )}
-      {numSelected > 0 ? (
+      {numSelected > 0 && !deleteDisabled ? (
         <Tooltip title="Delete">
           <IconButton>
             <DeleteIcon />
@@ -201,12 +210,16 @@ export const FilterLabelsDisplay = ({
     }
     setSelected([])
   }
+  console.log(labels, 211)
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          deleteDisabled={propEditingDisabled}
+        />
+        <TableContainer sx={{ overflow: 'unset' }}>
           <Table
             sx={{ minWidth: 460 }}
             aria-labelledby="tableTitle"
@@ -216,11 +229,42 @@ export const FilterLabelsDisplay = ({
               numSelected={selected.length}
               onSelectAllClick={handleSelectAllClick}
               rowCount={rows.length}
+              checkDisabled={propEditingDisabled}
             />
             <TableBody>
               {rows.map((row, index) => {
                 const isItemSelected = isSelected(row.labelKey)
                 const labelId = `enhanced-table-checkbox-${index}`
+                const rgbColor: RgbColor = {
+                  r: row.color[0],
+                  g: row.color[1],
+                  b: row.color[2]
+                }
+                const hexColor = rgbToHex(rgbColor.r, rgbColor.g, rgbColor.b)
+                const randomColorHex = stringToHex(row.map_label)
+                const handleColorChange = (newColor: RgbColor) => {
+                  const newLabels = produce(labels, (draft) => {
+                    draft[row.labelKey] = {
+                      ...labels[row.labelKey],
+                      color: [newColor.r, newColor.g, newColor.b]
+                    }
+                  })
+                  if (onLabelsChange) {
+                    onLabelsChange(newLabels)
+                  }
+                }
+                const handleHexChange = (newHex: string) => {
+                  const newColor = hexToRgb(newHex)
+                  if (onLabelsChange && newColor !== null) {
+                    const newLabels = produce(labels, (draft) => {
+                      draft[row.labelKey] = {
+                        ...labels[row.labelKey],
+                        color: [newColor.r, newColor.g, newColor.b]
+                      }
+                    })
+                    onLabelsChange(newLabels)
+                  }
+                }
 
                 return (
                   <TableRow
@@ -238,6 +282,7 @@ export const FilterLabelsDisplay = ({
                         inputProps={{
                           'aria-labelledby': labelId
                         }}
+                        disabled={propEditingDisabled}
                         onClick={(event) =>
                           handleCheckboxClick(event, row.labelKey)
                         }
@@ -255,7 +300,18 @@ export const FilterLabelsDisplay = ({
                       {row.map_label}
                     </TableCell>
                     <TableCell id={`${labelId}-color`} align="left">
-                      {row.color.toString()}
+                      <Box className="tablecell-color">
+                        <PopoverColorPicker
+                          color={rgbColor}
+                          onChange={handleColorChange}
+                        />
+                        <HexColorInput
+                          className="hex-color-input"
+                          color={hexColor}
+                          onChange={handleHexChange}
+                        />
+                        {randomColorHex}
+                      </Box>
                     </TableCell>
                   </TableRow>
                 )

@@ -29,7 +29,7 @@ export type FilterLabelsValueType = {
   [label: string]: {
     checked: boolean
     map_label: string
-    color: [number, number, number]
+    color: number[]
   }
 }
 

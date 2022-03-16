@@ -9424,6 +9424,11 @@ react-colorful@^5.1.2:
   resolved "https://registry.npmmirror.com/react-colorful/download/react-colorful-5.5.1.tgz#29d9c4e496f2ca784dd2bb5053a3a4340cfaf784"
   integrity sha512-M1TJH2X3RXEt12sWkpa6hLc/bbYS0H6F4rIqjQZ+RxNBstpY67d9TrFXtqdZwhpmBXcCwEi7stKqFue3ZRkiOg==
 
+react-colorful@^5.5.1:
+  version "5.5.1"
+  resolved "https://registry.npmmirror.com/react-colorful/-/react-colorful-5.5.1.tgz#29d9c4e496f2ca784dd2bb5053a3a4340cfaf784"
+  integrity sha512-M1TJH2X3RXEt12sWkpa6hLc/bbYS0H6F4rIqjQZ+RxNBstpY67d9TrFXtqdZwhpmBXcCwEi7stKqFue3ZRkiOg==
+
 react-docgen-typescript@^2.0.0:
   version "2.2.2"
   resolved "https://registry.npmmirror.com/react-docgen-typescript/download/react-docgen-typescript-2.2.2.tgz#4611055e569edc071204aadb20e1c93e1ab1659c"

@@ -1,0 +1,19 @@
+.tablecell-color {
+    display: flex;
+    flex-direction: row;
+    .hex-color-input {
+        width: 3.8rem;
+        margin-left: 0.4rem;
+        // border-radius: 4px;
+        // border-width: 1px;
+        // border-style: solid;
+        // border-color: #c8c8c8;
+
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #eee;
+        outline: none;
+        text-transform: uppercase;
+        text-align: center;
+    }
+}
