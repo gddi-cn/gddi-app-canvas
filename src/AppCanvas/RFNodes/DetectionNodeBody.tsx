@@ -2,14 +2,12 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
-import { Module, PropObject, ModelRes } from '../types'
+import { Module, PropObject, FilterLabelsValueType } from '../types'
 import { useStore } from '../store/useStore'
 import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText } from '../Components'
 import { ModelConfigDialog } from './ModelConfigDialog'
-import { ModelSelectContent } from './../AsyncContents'
-import { ModelInfoDisplay } from './ModelInfoDisplay'
 import './DetectionNodeBody.scss'
 
 import Box from '@mui/material/Box'
@@ -85,57 +83,10 @@ export const DetectionNodeBody = ({
     setModelSelectDialogOpen(false)
   }, [])
 
-  const handleModelSelect = useCallback(
-    (model: ModelRes) => {
-      //TODO: setModelRes in global store
-      Object.keys(model).forEach((propName) => {
-        modifyModuleProp(
-          nodeData.id,
-          propName,
-          (model as Record<string, any>)[propName]
-        )
-      })
-    },
-    [nodeData.id]
-  )
-  const handleCheckedLabelsChange = useCallback(
-    (checkedLabels: string[]) => {
-      modifyModuleProp(nodeData.id, 'filter_labels', checkedLabels)
-    },
-    [nodeData.id]
-  )
-
   const propObj = nodeData.props as PropObject
-  const filterLabels =
-    propObj['filter_labels'] === undefined
-      ? undefined
-      : (propObj['filter_labels'] as string[])
-
-  const renderModSelect = useCallback(() => {
-    if (propEditingDisabled) {
-      return (
-        <ModelInfoDisplay
-          modelName={propObj['mod_name'] as string}
-          modelVersion={propObj['mod_version'] as string}
-          modelCreated={propObj['mod_created_at'] as string}
-          labels={propObj['filter_labels'] as string[]}
-        />
-      )
-    }
-    return (
-      <ModelSelectContent
-        checkedLabels={propObj['filter_labels'] as string[]}
-        selectedModId={propObj['mod_result_id'] as string}
-        onSelect={handleModelSelect}
-        onCheckedLabelsChange={handleCheckedLabelsChange}
-      />
-    )
-  }, [
-    propEditingDisabled,
-    handleModelSelect,
-    propObj['mod_result_id'],
-    propObj['filter_labels']
-  ])
+  const numLabelsChecked = Object.values(
+    propObj['filter_labels'] as FilterLabelsValueType
+  ).filter((label) => label.checked).length
 
   const modelNameDisplay = useMemo(
     () =>
@@ -181,9 +132,7 @@ export const DetectionNodeBody = ({
             {modelNameDisplay}
           </Box>
           <Box className="filterlabel-display" component="span">
-            {`${
-              filterLabels === undefined ? 0 : filterLabels.length
-            } label(s) selected`}
+            {`${numLabelsChecked} label(s) selected`}
           </Box>
         </Button>
       </Tooltip>
@@ -194,12 +143,6 @@ export const DetectionNodeBody = ({
           onChange={handleRunnerChange}
         />
       </Box> */}
-      {/* <MyDialog
-        open={modelSelectDialogOpen}
-        title="模型和模型的标签配置"
-        onClose={handleModSelectClose}
-        renderContent={renderModSelect}
-      /> */}
       <ModelConfigDialog
         readonly={propEditingDisabled}
         open={modelSelectDialogOpen}
