@@ -17,10 +17,6 @@
   "private": false,
   "devDependencies": {
     "@babel/core": "^7.16.0",
-    "@emotion/react": "^11.7.1",
-    "@emotion/styled": "^11.6.0",
-    "@mui/icons-material": "^5.2.5",
-    "@mui/material": "^5.2.6",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@storybook/addon-actions": "^6.4.19",
@@ -60,6 +56,10 @@
     "react-dom": "16 || 17"
   },
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.2.5",
+    "@mui/material": "^5.2.6",
     "@fontsource/roboto": "^4.5.2",
     "@types/fabric": "^4.5.7",
     "elkjs": "^0.7.3-dev",
