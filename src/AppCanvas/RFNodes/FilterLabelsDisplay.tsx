@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
 import { FilterLabelsValueType } from '../types'
@@ -167,8 +167,16 @@ export const FilterLabelsDisplay = ({
     }),
     shallow
   )
-  const [selected, setSelected] = React.useState<readonly string[]>([])
-  const isSelected = (name: string) => selected.indexOf(name) !== -1
+  const isSelected = useCallback(
+    (labelKey: string) => labels[labelKey].checked,
+    [labels]
+  )
+
+  const numSelected = useMemo(
+    () => Object.values(labels).filter((label) => label.checked).length,
+    [labels]
+  )
+
   const rows = useMemo(
     () =>
       Object.keys(labels).map(
@@ -183,41 +191,36 @@ export const FilterLabelsDisplay = ({
 
   const handleCheckboxClick = (
     event: React.MouseEvent<unknown>,
-    name: string
+    labelKey: string
   ) => {
-    const selectedIndex = selected.indexOf(name)
-    let newSelected: readonly string[] = []
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name)
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1))
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      )
+    const checked0 = labels[labelKey].checked
+    const newLabels = produce(labels, (draft) => {
+      draft[labelKey] = {
+        ...labels[labelKey],
+        checked: !checked0
+      }
+    })
+    if (onLabelsChange) {
+      onLabelsChange(newLabels)
     }
-    setSelected(newSelected)
   }
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.labelKey)
-      setSelected(newSelecteds)
-      return
+    const newLabels = produce(labels, (draft) => {
+      Object.values(draft).forEach((label) => {
+        label.checked = event.target.checked
+      })
+    })
+    if (onLabelsChange) {
+      onLabelsChange(newLabels)
     }
-    setSelected([])
   }
-  console.log(labels, 211)
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
-          numSelected={selected.length}
+          numSelected={numSelected}
           deleteDisabled={propEditingDisabled}
         />
         <TableContainer sx={{ overflow: 'unset' }}>
@@ -228,7 +231,7 @@ export const FilterLabelsDisplay = ({
             size="small"
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              numSelected={numSelected}
               onSelectAllClick={handleSelectAllClick}
               rowCount={rows.length}
               checkDisabled={propEditingDisabled}
