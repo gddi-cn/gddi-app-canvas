@@ -6,10 +6,8 @@ import { ModelSelectSearch } from './ModelSelectSearch'
 
 import Box from '@mui/material/Box'
 import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import ListItemText from '@mui/material/ListItemText'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
@@ -38,17 +36,9 @@ export const ModelDisplay = ({
   model,
   onModelChange
 }: ModelDisplayProps): JSX.Element => {
-  const {
-    propEditingDisabled,
-    fetchModelsWithLabels,
-    setFetchLoading,
-    modelListFetcher,
-    labelListFetcher
-  } = useStore(
+  const { propEditingDisabled, modelListFetcher, labelListFetcher } = useStore(
     (state) => ({
       propEditingDisabled: state.propEditingDisabled,
-      fetchModelsWithLabels: state.fetchModelsWithLabels,
-      setFetchLoading: state.setFetchLoading,
       modelListFetcher: state.modelListFetcher,
       labelListFetcher: state.labelListFetcher
     }),
@@ -82,10 +72,13 @@ export const ModelDisplay = ({
   }, [model.mod_created_at])
 
   // disable model change when
-  // propEditingDisabled set OR modelListFetcher is not defined
+  // propEditingDisabled set OR fetchers needed are not defined
   const disableEdit = useMemo(
-    () => propEditingDisabled || modelListFetcher === undefined,
-    [propEditingDisabled, modelListFetcher]
+    () =>
+      propEditingDisabled ||
+      modelListFetcher === undefined ||
+      labelListFetcher === undefined,
+    [propEditingDisabled, modelListFetcher, labelListFetcher]
   )
 
   useEffect(() => {
