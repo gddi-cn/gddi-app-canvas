@@ -328,6 +328,7 @@ export const FilterLabelsDisplay = ({
                       sx={{ maxWidth: '280px', overflowWrap: 'anywhere' }}
                     >
                       <EditableText
+                        disabled={propEditingDisabled}
                         className="filterlabels-tr-maplabels"
                         value={row.map_label}
                         onChange={handleMapLabelChange}
@@ -336,17 +337,20 @@ export const FilterLabelsDisplay = ({
                     <TableCell id={`${labelId}-color`} align="left">
                       <Box className="tablecell-color">
                         <PopoverColorPicker
+                          disabled={propEditingDisabled}
                           color={rgbColor}
                           onChange={handleColorChange}
                         />
                         <HexColorInput
                           className="hex-color-input"
+                          disabled={propEditingDisabled}
                           color={hexColor}
                           onChange={handleHexChange}
                         />
                         <IconButton
                           aria-label="default-color"
                           size="small"
+                          disabled={propEditingDisabled}
                           onClick={handleSetDefaultColor}
                           sx={{ padding: '0px', marginLeft: '0.4rem' }}
                         >

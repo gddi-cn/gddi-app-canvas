@@ -9,6 +9,9 @@
     // border: 3px solid #fff;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
     cursor: pointer;
+    &.disabled {
+        cursor: default;
+    }
 }
 
 .popover {
@@ -19,5 +22,5 @@
     right: calc(100% + 20px);
     z-index: 100;
     border-radius: 9px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 12px rgba(99, 39, 39, 0.15);
 }

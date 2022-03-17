@@ -5,17 +5,25 @@ import './PopoverColorPicker.scss'
 import { useOutsideClick2 } from './../hooks'
 
 export interface PopoverColorPickerProps {
+  disabled?: boolean
   color: RgbColor
   onChange: (newColor: RgbColor) => void
 }
 
 export const PopoverColorPicker = ({
+  disabled,
   color,
   onChange
 }: PopoverColorPickerProps): JSX.Element => {
   const [colorTmp, setColorTmp] = useState<RgbColor>(color)
   const popover = useRef<HTMLDivElement | null>(null)
   const [isOpen, toggle] = useState(false)
+
+  const handleSwatchClick = useCallback(() => {
+    if (!disabled) {
+      toggle(true)
+    }
+  }, [disabled])
 
   const close = useCallback(() => {
     toggle(false)
@@ -41,9 +49,9 @@ export const PopoverColorPicker = ({
   return (
     <div className="picker">
       <div
-        className="swatch"
+        className={`swatch ${disabled && 'disabled'}`}
         style={{ backgroundColor: `rgb(${color.r} ${color.g} ${color.b})` }}
-        onClick={() => toggle(true)}
+        onClick={handleSwatchClick}
       />
 
       {isOpen && (
