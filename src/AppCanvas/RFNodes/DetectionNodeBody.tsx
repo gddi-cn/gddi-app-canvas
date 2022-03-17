@@ -24,7 +24,7 @@ export const DetectionNodeBody = ({
   nodeData
 }: DetectionNodeBodyProps): JSX.Element => {
   const [modelSelectDialogOpen, setModelSelectDialogOpen] =
-    useState<boolean>(true)
+    useState<boolean>(false)
   const {
     modifyModuleName,
     modifyModuleProp,
@@ -72,8 +72,8 @@ export const DetectionNodeBody = ({
   }, [])
 
   const handleModConfigChange = useCallback((newProp: PropObject) => {
-    console.log(`🍓🍓 propObj changed!`)
-    console.log(newProp)
+    // console.log(`🍓🍓 propObj changed!`)
+    // console.log(newProp)
     //TODO: modify in global store; modify in ONE action
     Object.keys(newProp).forEach((propName) => {
       modifyModuleProp(

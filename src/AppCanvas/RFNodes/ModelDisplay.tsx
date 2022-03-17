@@ -81,6 +81,8 @@ export const ModelDisplay = ({
     return `${model.mod_created_at.toLocaleDateString()} ${model.mod_created_at.getHours()}:${model.mod_created_at.getMinutes()}:${model.mod_created_at.getSeconds()}`
   }, [model.mod_created_at])
 
+  // disable model change when
+  // propEditingDisabled set OR modelListFetcher is not defined
   const disableEdit = useMemo(
     () => propEditingDisabled || modelListFetcher === undefined,
     [propEditingDisabled, modelListFetcher]

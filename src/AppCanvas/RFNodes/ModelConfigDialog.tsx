@@ -61,9 +61,9 @@ export const ModelConfigDialog = ({
         ...newModel,
         mod_created_at: newModel.mod_created_at.toISOString()
       }
-      console.log('handle value change')
-      console.log(newModel.mod_name)
-      console.log(newLabels)
+      // console.log('handle value change')
+      // console.log(newModel.mod_name)
+      // console.log(newLabels)
       setValue(
         (old) =>
           ({

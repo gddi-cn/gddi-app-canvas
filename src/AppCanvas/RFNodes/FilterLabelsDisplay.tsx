@@ -25,6 +25,7 @@ import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ShuffleOnTwoToneIcon from '@mui/icons-material/ShuffleOnTwoTone'
+import LinearProgress from '@mui/material/LinearProgress'
 
 interface Data {
   labelKey: string
@@ -157,9 +158,10 @@ export const FilterLabelsDisplay = ({
   labels,
   onLabelsChange
 }: FilterLabelsDisplayProps): JSX.Element => {
-  const { propEditingDisabled } = useStore(
+  const { propEditingDisabled, fetchLoading } = useStore(
     (state) => ({
-      propEditingDisabled: state.propEditingDisabled
+      propEditingDisabled: state.propEditingDisabled,
+      fetchLoading: state.fetchLoading
     }),
     shallow
   )
@@ -221,6 +223,20 @@ export const FilterLabelsDisplay = ({
     if (onLabelsChange) {
       onLabelsChange(newLabels)
     }
+  }
+
+  const LoadingElem = useMemo(
+    () => (
+      <Box sx={{ width: '100%', flex: 1 }}>
+        <LinearProgress sx={{ top: '50%' }} />
+      </Box>
+    ),
+    []
+  )
+  // Display loading progress only when
+  // labels value is not set AND fetchLoading in process
+  if (Object.keys(labels).length === 0 && fetchLoading) {
+    return LoadingElem
   }
 
   return (
