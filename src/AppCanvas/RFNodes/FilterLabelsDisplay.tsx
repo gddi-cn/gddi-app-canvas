@@ -103,10 +103,17 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 interface EnhancedTableToolbarProps {
   numSelected: number
   deleteDisabled?: boolean
+  onDelete?: () => void
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, deleteDisabled } = props
+  const { numSelected, deleteDisabled, onDelete } = props
+
+  const handleDelete = useCallback(() => {
+    if (onDelete) {
+      onDelete()
+    }
+  }, [onDelete])
 
   return (
     <Toolbar
@@ -122,28 +129,17 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         })
       }}
     >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          模型标签（Filter Labels）
-        </Typography>
-      )}
+      <Typography
+        sx={{ flex: '1 1 100%' }}
+        color="inherit"
+        variant="subtitle1"
+        component="div"
+      >
+        {numSelected} selected
+      </Typography>
       {numSelected > 0 && !deleteDisabled ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -216,12 +212,24 @@ export const FilterLabelsDisplay = ({
     }
   }
 
+  const handleDeleteAllClick = () => {
+    const newLabels = produce(labels, (draft) => {
+      Object.values(draft).forEach((label) => {
+        label.checked = false
+      })
+    })
+    if (onLabelsChange) {
+      onLabelsChange(newLabels)
+    }
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar
           numSelected={numSelected}
           deleteDisabled={propEditingDisabled}
+          onDelete={handleDeleteAllClick}
         />
         <TableContainer sx={{ overflow: 'unset' }}>
           <Table
