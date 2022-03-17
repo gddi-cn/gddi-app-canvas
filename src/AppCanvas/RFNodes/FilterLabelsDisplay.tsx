@@ -4,7 +4,7 @@ import { useStore } from '../store/useStore'
 import { FilterLabelsValueType } from '../types'
 import { RgbColor, HexColorInput } from 'react-colorful'
 import produce from 'immer'
-import { PopoverColorPicker } from './../Components'
+import { PopoverColorPicker, EditableText } from './../Components'
 import { stringToHex, rgbToHex, hexToRgb } from './../helpers'
 
 import './FilterLabelsDisplay.scss'
@@ -24,7 +24,6 @@ import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import Tooltip from '@mui/material/Tooltip'
 import DeleteIcon from '@mui/icons-material/Delete'
-import ShuffleOnIcon from '@mui/icons-material/ShuffleOn'
 import ShuffleOnTwoToneIcon from '@mui/icons-material/ShuffleOnTwoTone'
 
 interface Data {
@@ -224,6 +223,7 @@ export const FilterLabelsDisplay = ({
         <TableContainer sx={{ overflow: 'unset' }}>
           <Table
             sx={{ minWidth: 460 }}
+            stickyHeader
             aria-labelledby="tableTitle"
             size="small"
           >
@@ -279,6 +279,17 @@ export const FilterLabelsDisplay = ({
                     onLabelsChange(newLabels)
                   }
                 }
+                const handleMapLabelChange = (newStr: string) => {
+                  const newLabels = produce(labels, (draft) => {
+                    draft[row.labelKey] = {
+                      ...labels[row.labelKey],
+                      map_label: newStr
+                    }
+                  })
+                  if (onLabelsChange) {
+                    onLabelsChange(newLabels)
+                  }
+                }
 
                 return (
                   <TableRow
@@ -307,11 +318,20 @@ export const FilterLabelsDisplay = ({
                       id={`${labelId}-labelKey`}
                       scope="row"
                       padding="none"
+                      sx={{ maxWidth: '110px', overflowWrap: 'anywhere' }}
                     >
                       {row.labelKey}
                     </TableCell>
-                    <TableCell id={`${labelId}-mapLabel`} align="left">
-                      {row.map_label}
+                    <TableCell
+                      id={`${labelId}-mapLabel`}
+                      align="left"
+                      sx={{ maxWidth: '280px', overflowWrap: 'anywhere' }}
+                    >
+                      <EditableText
+                        className="filterlabels-tr-maplabels"
+                        value={row.map_label}
+                        onChange={handleMapLabelChange}
+                      />
                     </TableCell>
                     <TableCell id={`${labelId}-color`} align="left">
                       <Box className="tablecell-color">

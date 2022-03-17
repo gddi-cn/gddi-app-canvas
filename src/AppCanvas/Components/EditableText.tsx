@@ -1,13 +1,18 @@
 import React, { useCallback, useMemo, useState } from 'react'
+// import './EditableText.scss'
+
 import Input from '@mui/material/Input'
+import Box from '@mui/material/Box'
 
 export interface EditableTextProps {
+  className?: string
   value: string
   disabled?: boolean
   onChange: (newVal: string) => void
 }
 
 export const EditableText = ({
+  className,
   value,
   disabled,
   onChange
@@ -38,7 +43,7 @@ export const EditableText = ({
 
   const readingMode = useMemo(
     () => (
-      <div
+      <Box
         className="gddi-aiappcanvas__editable-text"
         style={{ cursor: disabled === true ? 'default' : 'pointer' }}
         onClick={handleTextClick}
@@ -47,17 +52,20 @@ export const EditableText = ({
         onKeyDown={handleTextClick}
       >
         {value}
-      </div>
+      </Box>
     ),
     [value, disabled, handleTextClick]
   )
   const editingMode = useMemo(
     () => (
       <Input
-        style={{
-          width: '200px',
-          color: 'text.primary'
-        }}
+        className="editabletext-input"
+        style={
+          {
+            // width: '200px',
+            // color: 'text.primary'
+          }
+        }
         value={value}
         inputProps={{ 'aria-label': 'description' }}
         onChange={handleInputChange}
@@ -69,5 +77,5 @@ export const EditableText = ({
     [handleInputChange, handleBlur, handleInputKeyDown, value]
   )
 
-  return <div>{editing ? editingMode : readingMode}</div>
+  return <Box className={className}>{editing ? editingMode : readingMode}</Box>
 }

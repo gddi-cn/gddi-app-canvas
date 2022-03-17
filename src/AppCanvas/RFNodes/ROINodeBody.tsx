@@ -8,7 +8,6 @@ import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText } from '../Components'
 import { ROIDialog } from './ROIDialog'
-import './ROINodeBody.scss'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'

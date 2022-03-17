@@ -19,3 +19,12 @@
         text-align: center;
     }
 }
+
+.filterlabels-tr-maplabels {
+    font-size: inherit;
+    font-style: inherit;
+    .editabletext-input {
+        font-size: smaller;
+        height: 1rem;
+    }
+}
