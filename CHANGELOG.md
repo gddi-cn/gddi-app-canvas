@@ -22,3 +22,6 @@
 node过长。model name在cursor hover时用tooltip显示。
 - 🍗 feature: 选择detection model时按 model name搜索.
   - prop `fetchModelList: ModelListFetcher`, 新增一个参数`queryModelName?: string`. 当 `queryModelName === undefined` 时，get所有model; 当 `queryModelName ！== undefined` 时，按queryModelName匹配搜索，仅返回搜索结果的model.
+
+## v1.2.0
+- 🍗 feature: 选择detection model的节点，其中filter_labels prop从`string[]`变为object -- 用于配置‘标签映射’、‘标签颜色’等.
