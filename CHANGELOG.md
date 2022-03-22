@@ -25,3 +25,6 @@ node过长。model name在cursor hover时用tooltip显示。
 
 ## v1.2.0
 - 🍗 feature: 选择detection model的节点，其中filter_labels prop从`string[]`变为object -- 用于配置‘标签映射’、‘标签颜色’等.
+
+## v1.2.1
+- 修改名字 - detection node的 filter_labels prop 改成了 mod_labels，等修改
