@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
-import { FilterLabelsValueType } from '../types'
+import { ModLabelsValueType } from '../types'
 import { RgbColor, HexColorInput } from 'react-colorful'
 import produce from 'immer'
 import { PopoverColorPicker, EditableText } from './../Components'
@@ -30,7 +30,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 interface Data {
   labelKey: string
   checked: boolean
-  map_label: string
+  label: string
   color: [number, number, number]
 }
 
@@ -49,7 +49,7 @@ const headCells: readonly HeadCell[] = [
     label: 'Label'
   },
   {
-    id: 'map_label',
+    id: 'label',
     numeric: false,
     disablePadding: false,
     label: 'Map Label'
@@ -150,8 +150,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 }
 
 export interface FilterLabelsDisplayProps {
-  labels: FilterLabelsValueType
-  onLabelsChange?: (newLabels: FilterLabelsValueType) => void
+  labels: ModLabelsValueType
+  onLabelsChange?: (newLabels: ModLabelsValueType) => void
 }
 
 export const FilterLabelsDisplay = ({
@@ -270,7 +270,7 @@ export const FilterLabelsDisplay = ({
                   b: row.color[2]
                 }
                 const hexColor = rgbToHex(rgbColor.r, rgbColor.g, rgbColor.b)
-                const randomColorHex = stringToHex(row.map_label)
+                const randomColorHex = stringToHex(row.label)
                 const handleColorChange = (newColor: RgbColor) => {
                   const newLabels = produce(labels, (draft) => {
                     draft[row.labelKey] = {
@@ -310,7 +310,7 @@ export const FilterLabelsDisplay = ({
                   const newLabels = produce(labels, (draft) => {
                     draft[row.labelKey] = {
                       ...labels[row.labelKey],
-                      map_label: newStr
+                      label: newStr
                     }
                   })
                   if (onLabelsChange) {
@@ -357,7 +357,7 @@ export const FilterLabelsDisplay = ({
                       <EditableText
                         disabled={propEditingDisabled}
                         className="filterlabels-tr-maplabels"
-                        value={row.map_label}
+                        value={row.label}
                         onChange={handleMapLabelChange}
                       />
                     </TableCell>

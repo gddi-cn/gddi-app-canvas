@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
-import { ModelRes, FilterLabelsValueType } from '../types'
+import { ModelRes, ModLabelsValueType } from '../types'
 import { ModelDisplay } from './ModelDisplay'
 import { FilterLabelsDisplay } from './FilterLabelsDisplay'
 import { stringToHex, hexToRgb } from './../helpers'
@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 
 export type ModelValueType = ModelRes
-export type FilterLabelsType = FilterLabelsValueType
+export type FilterLabelsType = ModLabelsValueType
 
 function initLabelsObject(labels: string[]): FilterLabelsType {
   const labelObj: FilterLabelsType = {}
@@ -23,7 +23,7 @@ function initLabelsObject(labels: string[]): FilterLabelsType {
       b: 0
     }
     labelObj[labelKey] = {
-      map_label: labelKey,
+      label: labelKey,
       checked: true,
       color: [randomColor.r, randomColor.g, randomColor.b]
     }
@@ -55,7 +55,6 @@ export const ModelConfigTool = ({
       const newLabelList = fetchLabelMemo[newModel.mod_result_id]
       const newLabels = initLabelsObject(newLabelList)
       if (onChange) {
-        // clear filter_labels when selecting new model
         onChange(newModel, newLabels)
       }
     },

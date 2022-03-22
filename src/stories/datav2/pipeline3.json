@@ -33,20 +33,20 @@
         "mod_name": "自动训练-口罩佩戴样本-v0.0.1-模型",
         "conf_path": "",
         "mod_path": "",
-        "filter_labels": {
+        "mod_labels": {
           "reflective_vest": {
             "checked": false,
-            "map_label": "reflective_vest",
+            "label": "reflective_vest",
             "color": [0, 255, 0]
           },
           "normal_clothes": {
             "checked": true,
-            "map_label": "Non_reflective_vest",
+            "label": "Non_reflective_vest",
             "color": [0, 0, 255]
           },
           "chef_clothes": {
             "checked": true,
-            "map_label": "Non_reflective_vest",
+            "label": "Non_reflective_vest",
             "color": [0, 0, 255]
           }
         },

@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
-import { Module, PropObject, FilterLabelsValueType } from '../types'
+import { Module, PropObject, ModLabelsValueType } from '../types'
 import { useStore } from '../store/useStore'
 import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
@@ -85,7 +85,7 @@ export const DetectionNodeBody = ({
 
   const propObj = nodeData.props as PropObject
   const numLabelsChecked = Object.values(
-    propObj['filter_labels'] as FilterLabelsValueType
+    propObj['mod_labels'] as ModLabelsValueType
   ).filter((label) => label.checked).length
 
   const modelNameDisplay = useMemo(

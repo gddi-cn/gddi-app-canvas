@@ -69,7 +69,7 @@ export const ModelConfigDialog = ({
           ({
             ...old,
             ...newModelConvert,
-            filter_labels: { ...newLabels }
+            mod_labels: { ...newLabels }
           } as PropObject)
       )
     },
@@ -90,7 +90,7 @@ export const ModelConfigDialog = ({
     [value]
   )
   const labelsVal = useMemo(
-    () => value['filter_labels'] as FilterLabelsType,
+    () => value['mod_labels'] as FilterLabelsType,
     [value]
   )
 

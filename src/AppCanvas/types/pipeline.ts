@@ -19,16 +19,10 @@ export interface Module {
 
 export type PropObject = { [propName: string]: PropValue }
 
-// export type FilterLabelsValueType = {
-//   [label: string]: {
-//     [labelProp: string]: PropValueBaiscType | PropValueBaiscType[]
-//   }
-// }
-
-export type FilterLabelsValueType = {
+export type ModLabelsValueType = {
   [label: string]: {
     checked: boolean
-    map_label: string
+    label: string
     color: number[]
   }
 }
@@ -39,6 +33,6 @@ export type PropValue =
   | PropValueBaiscType[]
   | PropValueBaiscType[][]
   | PropValueBaiscType[][][]
-  | FilterLabelsValueType
+  | ModLabelsValueType
 
 export type PropValueBaiscType = string | number | boolean
