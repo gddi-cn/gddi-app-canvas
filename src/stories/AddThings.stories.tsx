@@ -16,8 +16,8 @@ import {
   FetchROIImgRes
 } from '../AppCanvas'
 import { TabPanel } from './components'
-import modDef from './datav2/md_v2.json'
-import pipeline from './datav2/pipeline_v2.json'
+import modDef from './datav2/md2.json'
+import pipeline from './datav2/pipeline3.json'
 import { fetchModelResult, modelLabels } from './datav2/fetchExample'
 
 import Radio from '@mui/material/Radio'

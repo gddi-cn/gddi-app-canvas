@@ -184,5 +184,22 @@
         "description": "所有ROI区域的列表；每个ROI -- [topX, topY, width, height]"
       }
     }
+  },
+  "BoxFilter_v2": {
+    "version": "null",
+    "name": "BoxFilter",
+    "description": "框过滤",
+    "inputs": [
+      {
+        "id": 0,
+        "name": "input_0"
+      }
+    ],
+    "outputs": [
+      {
+        "id": 0,
+        "name": "output_0"
+      }
+    ]
   }
 }

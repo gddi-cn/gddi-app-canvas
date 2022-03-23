@@ -1,0 +1,149 @@
+{
+  "version": "v0",
+  "nodes": [
+    {
+      "id": 0,
+      "type": "Demuxer_v2",
+      "name": "Demuxer_v2_0",
+      "runner": "Decoder_v2_1",
+      "props": { "stream_url": "" }
+    },
+    {
+      "id": 1,
+      "type": "Decoder_v2",
+      "name": "Decoder_v2_1",
+      "runner": "Decoder_v2_1",
+      "props": { "hw_type": 2 }
+    },
+    {
+      "id": 2,
+      "type": "AvToCv_v2",
+      "name": "AvToCv_v2_2",
+      "runner": "default"
+    },
+    {
+      "id": 3,
+      "type": "Detection_v2",
+      "name": "Detection_v2_3",
+      "runner": "Detection",
+      "props": {
+        "mod_id": 233,
+        "mod_iter_id": 0,
+        "mod_license": "",
+        "mod_name": "自动训练-口罩佩戴样本-v0.0.1-模型",
+        "conf_path": "",
+        "mod_path": "",
+        "mod_labels": {
+          "reflective_vest": {
+            "checked": false,
+            "label": "reflective_vest",
+            "color": [0, 255, 0]
+          },
+          "normal_clothes": {
+            "checked": true,
+            "label": "Non_reflective_vest",
+            "color": [0, 0, 255]
+          },
+          "chef_clothes": {
+            "checked": true,
+            "label": "Non_reflective_vest",
+            "color": [0, 0, 255]
+          }
+        },
+        "mod_result_id": 694,
+        "mod_version": "自动训练-口罩佩戴样本-v0.0.1-模型",
+        "mod_created_at": "Wed Jan 26 2022 16:53:14 GMT+0800 (China Standard Time)"
+      }
+    },
+    {
+      "id": 4,
+      "type": "ROI_v2",
+      "name": "ROI_v2_4",
+      "runner": "default",
+      "props": {
+        "regions": [
+          [
+            [0.14703369140625, 0.16278211805555556],
+            [0.07437744140625, 0.2613932291666667],
+            [0.19468994140625, 0.36139322916666666],
+            [0.24312744140625, 0.25028211805555556],
+            [0.22359619140625, 0.16417100694444445],
+            [0.17906494140625, 0.25028211805555556]
+          ],
+          [
+            [0.30484619140625, 0.15861545138888888],
+            [0.21890869140625, 0.3308376736111111],
+            [0.29547119140625, 0.36278211805555555],
+            [0.37125244140625, 0.36278211805555555],
+            [0.37047119140625, 0.2613932291666667]
+          ]
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "type": "Tracking_v2",
+      "name": "Tracking_v2_5",
+      "runner": "default"
+    },
+    {
+      "id": 6,
+      "type": "Graphics_v2",
+      "name": "Graphics_v2_6",
+      "runner": "Graphics",
+      "props": { "ttf_file": "/home/ttf/NotoSans-Regular.ttf" }
+    },
+    {
+      "id": 7,
+      "type": "Report_v2",
+      "name": "Report_v2_7",
+      "runner": "Report",
+      "props": { "report_url": "", "save_raw": true }
+    },
+    {
+      "id": 8,
+      "type": "Bridge_v2",
+      "name": "Bridge_v2_8",
+      "runner": "Brigde",
+      "props": { "enable": false }
+    },
+    {
+      "id": 9,
+      "type": "VideoEncode_v2",
+      "name": "VideoEncode_v2_9",
+      "runner": "Brigde",
+      "props": { "output_stream_url": "" }
+    },
+    {
+      "id": 10,
+      "type": "BoxFilter_v2",
+      "name": "BoxFilter",
+      "runner": "Brigde",
+      "props": {
+        "min_width": 0,
+        "max_width": 4096,
+        "min_height": 0,
+        "max_height": 4096,
+        "min_area": 0,
+        "max_area": 8847360,
+        "min_count": 0,
+        "max_count": 2147483647,
+        "box_prob": 1.0,
+        "box_labels": ["reflective_vest", "Non_reflective_vest"]
+      }
+    }
+  ],
+  "pipe": [
+    [0, 0, 1, 0],
+    [0, 1, 1, 1],
+    [1, 1, 2, 0],
+    [2, 0, 3, 0],
+    [3, 0, 4, 0],
+    [4, 0, 5, 0],
+    [5, 0, 6, 0],
+    [6, 0, 7, 0],
+    [4, 0, 8, 0],
+    [8, 0, 9, 0],
+    [4, 0, 10, 0]
+  ]
+}
