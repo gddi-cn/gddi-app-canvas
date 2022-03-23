@@ -1,31 +1,59 @@
 import React, { useMemo } from 'react'
 import { PropValue, PropDefinitionType } from '../types'
 import TextField from '@mui/material/TextField'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
 
 const sxInput = { bgcolor: 'background.default', color: 'text.primary' }
 
-type StringInputProps = PropRowProps
-
-export const StringInput = ({
+export const BasicInput = ({
   readonly,
   propName,
   value,
   propDefinition,
   onChange
-}: StringInputProps): JSX.Element => {
+}: PropRowProps): JSX.Element => {
   if (propDefinition && propDefinition.enum && propDefinition.enum.length > 0) {
     //TODO:
     return <span>StringInput with enum</span>
   }
+
+  const inputTypeStr = useMemo(() => {
+    if (typeof value === 'number') {
+      return 'number'
+    }
+    return 'text'
+  }, [value])
+
+  //TODO: set step using propDefinition
+  // const inputProps = useMemo(() => {
+  //   if (inputTypeStr === 'number') {
+  //     const valStr = value.toString()
+  //     console.log(valStr)
+  //     console.log(valStr.indexOf('.'))
+  //     if (valStr.indexOf('.') > -1) {
+  //       return {
+  //         step: '0.1'
+  //       }
+  //     } else {
+  //       return {
+  //         step: '1'
+  //       }
+  //     }
+  //   } else {
+  //     return {}
+  //   }
+  // }, [inputTypeStr, value])
+
   const handleTextFieldChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    onChange(event.target.value)
+    const valStr = event.target.value
+    if (inputTypeStr === 'number') {
+      onChange(+valStr)
+    } else {
+      onChange(valStr)
+    }
   }
+
   return (
     <TextField
       sx={sxInput}
@@ -35,6 +63,7 @@ export const StringInput = ({
       id={`${propName}-row`}
       label={propName}
       variant="standard"
+      type={inputTypeStr}
       value={value}
       onChange={handleTextFieldChange}
     />
@@ -56,83 +85,9 @@ export const PropRow = ({
   propDefinition,
   onChange
 }: PropRowProps): JSX.Element => {
-  //   const inputEle: JSX.Element = useMemo(() => {
-  //     if (propDefinition && propDefinition.options.length > 0) {
-  //       const { options } = propDefinition
-  //       const handleSelectChange = (e: SelectChangeEvent): void => {
-  //         onChange(e.target.value)
-  //       }
-  //       return (
-  //         <FormControl
-  //           variant="standard"
-  //           sx={{
-  //             m: 1,
-  //             width: 256,
-  //             margin: 0,
-  //             bgcolor: 'background.default',
-  //             color: 'text.primary'
-  //           }}
-  //         >
-  //           <InputLabel
-  //             id={`prop-label-${propName}`}
-  //             sx={{ bgcolor: 'background.default', color: 'text.primary' }}
-  //           >
-  //             {propName}
-  //           </InputLabel>
-  //           <Select
-  //             disabled={readonly}
-  //             labelId={`prop-label-${propName}`}
-  //             id={`prop-select-${propName}`}
-  //             value={value?.toString()}
-  //             onChange={handleSelectChange}
-  //             label="Age"
-  //             sx={{
-  //               fontSize: '0.8rem',
-  //               bgcolor: 'background.default',
-  //               color: 'text.primary'
-  //             }}
-  //           >
-  //             {options.map((op) => (
-  //               <MenuItem
-  //                 key={op?.toString()}
-  //                 value={op?.toString()}
-  //                 sx={{
-  //                   fontSize: '0.8rem',
-  //                   bgcolor: 'background.default',
-  //                   color: 'text.primary'
-  //                 }}
-  //               >
-  //                 {op}
-  //               </MenuItem>
-  //             ))}
-  //           </Select>
-  //         </FormControl>
-  //       )
-  //     }
-  //     const handleTextFieldChange = (
-  //       event: React.ChangeEvent<HTMLInputElement>
-  //     ): void => {
-  //       onChange(event.target.value)
-  //     }
-  //     return (
-  //       <TextField
-  //         sx={{ bgcolor: 'background.default', color: 'text.primary' }}
-  //         style={{ width: '100%' }}
-  //         size="small"
-  //         disabled={readonly}
-  //         id={`${propName}-row`}
-  //         label={propName}
-  //         variant="standard"
-  //         value={value}
-  //         onChange={handleTextFieldChange}
-  //       />
-  //     )
-  //   }, [onChange, propDefinition, propName, readonly, value])
-
   const inputEle = useMemo(() => {
-    //TODO: propDefinition.type is number, boolean
     return (
-      <StringInput
+      <BasicInput
         readonly={readonly}
         propName={propName}
         value={value}
