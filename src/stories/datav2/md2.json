@@ -200,6 +200,12 @@
         "id": 0,
         "name": "output_0"
       }
-    ]
+    ],
+    "props": {
+      "box_labels1": {
+        "type": "stringAarray",
+        "enum": ["blue", "red", "orange"]
+      }
+    }
   }
 }
