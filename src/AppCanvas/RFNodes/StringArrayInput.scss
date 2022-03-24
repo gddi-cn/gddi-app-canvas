@@ -1,0 +1,21 @@
+.propname-area {
+    color: rgba(0, 0, 0, 0.6);
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    line-height: 1.4375em;
+    letter-spacing: 0.00938em;
+    padding: 0;
+}
+
+.stringchips-area {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 0.4rem;
+
+    .chip-item {
+        margin-right: 0.4rem;
+        margin-bottom: 0.3rem;
+    }
+}

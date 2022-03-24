@@ -76,6 +76,8 @@ export const ModelConfigDialog = ({
     [setValue]
   )
 
+  // TODO: this makes the app less robost
+  // some fields could be missing
   const modelVal = useMemo(
     () => ({
       mod_id: value['mod_id'].toString(),

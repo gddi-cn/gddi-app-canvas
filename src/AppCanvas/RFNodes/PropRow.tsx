@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
 import { PropValue, PropDefinitionType } from '../types'
+import { StringArrayInput } from './StringArrayInput'
+
 import TextField from '@mui/material/TextField'
 
 const sxInput = { bgcolor: 'background.default', color: 'text.primary' }
@@ -70,7 +72,7 @@ export const BasicInput = ({
   )
 }
 
-interface PropRowProps {
+export interface PropRowProps {
   readonly: boolean
   propName: string
   value: PropValue
@@ -86,6 +88,17 @@ export const PropRow = ({
   onChange
 }: PropRowProps): JSX.Element => {
   const inputEle = useMemo(() => {
+    if (Array.isArray(value) || propDefinition?.type === 'stringArray') {
+      return (
+        <StringArrayInput
+          readonly={readonly}
+          propName={propName}
+          value={value}
+          propDefinition={propDefinition}
+          onChange={onChange}
+        />
+      )
+    }
     return (
       <BasicInput
         readonly={readonly}
