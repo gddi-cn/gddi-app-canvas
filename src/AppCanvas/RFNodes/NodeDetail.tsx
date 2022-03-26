@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react'
 import shallow from 'zustand/shallow'
-import { Module, PropValue } from '../types'
+import { Module, PropValue, PropDefinitionType } from '../types'
 import { CollapseContainer } from '../Components'
 import { PropRow } from './PropRow'
 import { useStore } from '../store/useStore'
+import { useBoxFilterLabelOptions, isBoxFilterNode } from './propHooks'
 
 export interface NodeDetailProps {
   readonly?: boolean
@@ -16,14 +17,20 @@ export const NodeDetail = ({
   nodeData,
   onPropChange
 }: NodeDetailProps): JSX.Element => {
-  const { propDefinition } = useStore(
+  const { propDefinition, pipeline } = useStore(
     (state) => ({
       propDefinition: state.moduleDefinitions[nodeData.type]
         ? state.moduleDefinitions[nodeData.type].props
-        : undefined
+        : undefined,
+      pipeline: state.value
     }),
     shallow
   )
+  const boxLabelsEnums = useBoxFilterLabelOptions(nodeData, pipeline)
+
+  const isBoxFilter = useMemo(() => {
+    return isBoxFilterNode(nodeData)
+  }, [nodeData])
 
   const rowList: JSX.Element[] = useMemo(() => {
     if (nodeData.props) {
@@ -32,16 +39,20 @@ export const NodeDetail = ({
         const handlePropChange = (val: PropValue): void => {
           onPropChange(propName, val)
         }
+        let propDef =
+          propDefinition === undefined ? undefined : propDefinition[propName]
+        if (isBoxFilter && propName === 'box_labels') {
+          propDef = {
+            type: 'stringArray',
+            enum: boxLabelsEnums
+          } as PropDefinitionType
+        }
         return (
           <PropRow
             key={`PropRow-${nodeData.id}-${propName}`}
             readonly={readonly === true}
             propName={propName}
-            propDefinition={
-              propDefinition === undefined
-                ? undefined
-                : propDefinition[propName]
-            }
+            propDefinition={propDef}
             value={propList[propName]}
             onChange={handlePropChange}
           />
@@ -49,6 +60,13 @@ export const NodeDetail = ({
       })
     }
     return []
-  }, [readonly, nodeData.props, nodeData.id, onPropChange, propDefinition])
+  }, [
+    readonly,
+    nodeData.props,
+    nodeData.id,
+    onPropChange,
+    propDefinition,
+    boxLabelsEnums
+  ])
   return <CollapseContainer title="Detail">{rowList}</CollapseContainer>
 }

@@ -23,7 +23,7 @@
     },
     {
       "id": 3,
-      "type": "Detection_v2",
+      "type": "DetectionModel_v2",
       "name": "Detection_v2_3",
       "runner": "Detection",
       "props": {

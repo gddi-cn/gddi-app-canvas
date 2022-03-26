@@ -5,7 +5,6 @@ import './StringArrayInput.scss'
 
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
-import Stack from '@mui/material/Stack'
 
 export const StringArrayInput = ({
   readonly,
@@ -18,9 +17,9 @@ export const StringArrayInput = ({
 
   const options = useMemo(() => {
     const oSet = new Set<string>()
-    arrayVal.forEach((valStr) => {
-      oSet.add(valStr)
-    })
+    // arrayVal.forEach((valStr) => {
+    //   oSet.add(valStr)
+    // })
     if (propDefinition?.enum && propDefinition?.enum.length > 0) {
       const enumOpts = propDefinition?.enum as BasicType[]
       enumOpts.forEach((str) => {
