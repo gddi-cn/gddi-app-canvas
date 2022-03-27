@@ -90,8 +90,9 @@ function collectCheckedLabels(nodeIds: number[], pipeline: Pipeline): string[] {
 export function useBoxFilterLabelOptions(
   boxFilterNode: Module,
   pipeline: Pipeline
-): string[] {
+): [string[], number[]] {
   const [labelOptions, setLabelOptions] = useState<string[]>([])
+  const [dependencies, setDepen] = useState<number[]>([])
 
   const isBoxFilter = useMemo(() => {
     return isBoxFilterNode(boxFilterNode)
@@ -105,9 +106,10 @@ export function useBoxFilterLabelOptions(
       )
       const checkedLabels = collectCheckedLabels(depenNodeIds, pipeline)
       console.log(checkedLabels)
+      setDepen(depenNodeIds)
       setLabelOptions(checkedLabels)
     }
   }, [boxFilterNode.id, isBoxFilter, pipeline])
 
-  return labelOptions
+  return [labelOptions, dependencies]
 }

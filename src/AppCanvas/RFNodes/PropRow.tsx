@@ -77,6 +77,7 @@ export interface PropRowProps {
   propName: string
   value: PropValue
   propDefinition: PropDefinitionType | undefined
+  dependentNodeIds?: number[]
   onChange: (newVal: PropValue) => void
 }
 
@@ -85,6 +86,7 @@ export const PropRow = ({
   propName,
   value,
   propDefinition,
+  dependentNodeIds,
   onChange
 }: PropRowProps): JSX.Element => {
   const inputEle = useMemo(() => {
@@ -95,6 +97,7 @@ export const PropRow = ({
           propName={propName}
           value={value}
           propDefinition={propDefinition}
+          dependentNodeIds={dependentNodeIds}
           onChange={onChange}
         />
       )

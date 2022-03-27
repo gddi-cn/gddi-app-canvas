@@ -26,7 +26,12 @@ export const NodeDetail = ({
     }),
     shallow
   )
-  const boxLabelsEnums = useBoxFilterLabelOptions(nodeData, pipeline)
+  const [boxLabelsEnums, dependentNodeIds] = useBoxFilterLabelOptions(
+    nodeData,
+    pipeline
+  )
+  console.log(`depend on these nodes: `)
+  console.log(dependentNodeIds)
 
   const isBoxFilter = useMemo(() => {
     return isBoxFilterNode(nodeData)
@@ -54,6 +59,7 @@ export const NodeDetail = ({
             propName={propName}
             propDefinition={propDef}
             value={propList[propName]}
+            dependentNodeIds={dependentNodeIds}
             onChange={handlePropChange}
           />
         )

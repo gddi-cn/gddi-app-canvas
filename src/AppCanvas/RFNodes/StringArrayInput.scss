@@ -1,11 +1,23 @@
-.propname-area {
+.propname-row {
     color: rgba(0, 0, 0, 0.6);
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     font-weight: 400;
     font-size: 0.75rem;
     line-height: 1.4375em;
     letter-spacing: 0.00938em;
-    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .propname-question-icon {
+        font-size: 0.9rem;
+        cursor: pointer;
+    }
+
+    .propname-area {
+        padding: 0;
+    }
 }
 
 .stringchips-area {

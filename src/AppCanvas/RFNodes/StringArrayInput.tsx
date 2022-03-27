@@ -1,16 +1,21 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, Fragment } from 'react'
 import { BasicType } from '../types'
 import { PropRowProps } from './PropRow'
+import { HtmlTooltip } from './../Components'
+import Typography from '@mui/material/Typography'
+
 import './StringArrayInput.scss'
 
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 
 export const StringArrayInput = ({
   readonly,
   propName,
   value,
   propDefinition,
+  dependentNodeIds,
   onChange
 }: PropRowProps): JSX.Element => {
   const arrayVal = value as string[]
@@ -43,9 +48,31 @@ export const StringArrayInput = ({
     [arrayVal, onChange]
   )
 
+  const DependentToolTipTitle = useMemo(
+    () => (
+      <Fragment>
+        <Typography color="inherit">依赖</Typography>
+        {'这个属性的可选项依赖于以下几个节点（module）:'}
+        <ul>
+          {dependentNodeIds?.map((id) => (
+            <li key={id}>{`Module Id: ${id}`}</li>
+          ))}
+        </ul>
+      </Fragment>
+    ),
+    [dependentNodeIds]
+  )
+
   return (
     <Box>
-      <label className="propname-area">{propName}</label>
+      <Box className="propname-row">
+        <label className="propname-area">{propName}</label>
+        {dependentNodeIds && (
+          <HtmlTooltip title={DependentToolTipTitle}>
+            <HelpOutlineIcon className="propname-question-icon" />
+          </HtmlTooltip>
+        )}
+      </Box>
       <Box className="stringchips-area">
         {options.map((opt, idx) => {
           return (
