@@ -56,7 +56,6 @@ export const ModelDisplay = ({
   }, [])
 
   const handleConfirmSelect = useCallback(() => {
-    console.log(`confirm model selected`)
     setOpenD(false)
     if (onModelChange) {
       onModelChange(selectedModel)

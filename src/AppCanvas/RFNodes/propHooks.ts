@@ -105,7 +105,6 @@ export function useBoxFilterLabelOptions(
         pipeline
       )
       const checkedLabels = collectCheckedLabels(depenNodeIds, pipeline)
-      console.log(checkedLabels)
       setDepen(depenNodeIds)
       setLabelOptions(checkedLabels)
     }

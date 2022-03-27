@@ -30,8 +30,6 @@ export const NodeDetail = ({
     nodeData,
     pipeline
   )
-  console.log(`depend on these nodes: `)
-  console.log(dependentNodeIds)
 
   const isBoxFilter = useMemo(() => {
     return isBoxFilterNode(nodeData)
