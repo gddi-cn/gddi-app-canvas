@@ -101,8 +101,8 @@ export const ModelSelectSearch = ({
               }
               return (
                 <ListItemButton
-                  key={`${modInfo.mod_id}}`}
-                  selected={selected.mod_result_id === modInfo.mod_result_id}
+                  key={`${modInfo.mod_iter_id}}`}
+                  selected={selected.mod_iter_id === modInfo.mod_iter_id}
                   onClick={handleClick}
                 >
                   <ListItemAvatar>
@@ -131,7 +131,7 @@ export const ModelSelectSearch = ({
       </Box>
     ),
     [
-      selected.mod_result_id,
+      selected.mod_iter_id,
       dispModels,
       showSearchResult,
       page,

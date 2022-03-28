@@ -15,7 +15,7 @@ import {
 import modDef from './datav2/md3.json'
 import pipeline from './datav2/pipeline4.json'
 // import pipeline from './datav2/pipelineTest4.json'
-import { fetchModelResult, modelLabels } from './datav2/fetchExample'
+import { fetchModelResult, modelLabels } from './datav2/fetchExample2'
 
 const myPipeline: Pipeline = {
   version: '0.0.1',
