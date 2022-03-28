@@ -129,8 +129,7 @@
         "min_count": 0,
         "max_count": 2147483647,
         "box_prob": 1.0,
-        "box_labels": ["reflective_vest", "Non_reflective_vest"],
-        "box_labels1": ["reflective_vest", "Non_reflective_vest"]
+        "box_labels": ["reflective_vest", "Non_reflective_vest"]
       }
     }
   ],

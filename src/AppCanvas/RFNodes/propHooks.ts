@@ -11,9 +11,14 @@ function getBoxFilterDependentNodeIds(
 ): number[] {
   const result: number[] = []
 
-  function isModelNode(nodeType: string): boolean {
-    const type1 = nodeType.toLocaleLowerCase()
-    return type1.includes('model')
+  function isModelNode(node: Module): boolean {
+    if (node.props && node.props['mod_labels'] !== undefined) {
+      const modLabelsProp = node.props['mod_labels'] as ModLabelsValueType
+      if (Object.keys(modLabelsProp).length > 0) {
+        return true
+      }
+    }
+    return false
   }
 
   function isReachableToBoxFilterNode(srcId: number): boolean {
@@ -28,7 +33,7 @@ function getBoxFilterDependentNodeIds(
       const reachedBFNodeId: number[] = []
       for (let i = 0; i < lvLen; i += 1) {
         const node = queue.shift() as Module
-        if (isModelNode(node.type) && node.id !== srcId) {
+        if (isModelNode(node) && node.id !== srcId) {
           // if reached to another Model Node
           return false
         }
@@ -60,7 +65,7 @@ function getBoxFilterDependentNodeIds(
   }
 
   pipeline.nodes.forEach((node) => {
-    if (isModelNode(node.type) && isReachableToBoxFilterNode(node.id)) {
+    if (isModelNode(node) && isReachableToBoxFilterNode(node.id)) {
       result.push(node.id)
     }
   })
