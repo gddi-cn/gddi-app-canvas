@@ -101,7 +101,7 @@ export const DetectionNodeBody = ({
   useEffect(() => {
     // console.log('bbbb -  modelListFetcher or labelListFetcher changes')
     setFetchLoading(true)
-    fetchModelsWithLabels(0)
+    fetchModelsWithLabels(1)
   }, [fetchModelsWithLabels, modelListFetcher, labelListFetcher])
 
   return (

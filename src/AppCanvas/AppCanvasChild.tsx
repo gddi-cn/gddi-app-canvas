@@ -53,6 +53,7 @@ export interface AppCanvasChildProps {
   onValueChange?: (newValue: Pipeline) => void
   /**
    * async fetch models
+   * pageNumber start from 1
    */
   fetchModelList?: ModelListFetcher
   /**

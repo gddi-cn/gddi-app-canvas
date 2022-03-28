@@ -48,7 +48,7 @@ export const ModelSelectSearch = ({
     (evt, pageNum) => {
       setPage(pageNum)
       setFetchLoading(true)
-      fetchModelsWithLabels(pageNum - 1)
+      fetchModelsWithLabels(pageNum)
     },
     [fetchModelsWithLabels, setFetchLoading]
   )
@@ -64,7 +64,7 @@ export const ModelSelectSearch = ({
       setShowSearchResult(true)
       setPage(1)
       setFetchLoading(true)
-      fetchModelsWithLabels(0, searchVal)
+      fetchModelsWithLabels(1, searchVal)
     },
     [setShowSearchResult, fetchModelsWithLabels, setFetchLoading, setPage]
   )

@@ -154,7 +154,8 @@ const createCoreExtSlice = (
     pageOffset: number,
     queryModelName?: string
   ) => {
-    if (pageOffset < 0) {
+    // 1-based; start from 1
+    if (pageOffset <= 0) {
       return
     }
     const { modelListFetcher, labelListFetcher } = get()

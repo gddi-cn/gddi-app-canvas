@@ -46,7 +46,7 @@ const fetchModelList = (
       const { models, totalCnt } = fetchModelResult
       if (queryModelName === undefined || queryModelName === '') {
         resolve({
-          models: models.slice(pageSize * page, pageSize * (page + 1)),
+          models: models.slice(pageSize * (page - 1), pageSize * page),
           totalCnt
         })
       } else {
@@ -55,7 +55,7 @@ const fetchModelList = (
           mod.mod_name.includes(queryModelName)
         )
         resolve({
-          models: searchRes.slice(pageSize * page, pageSize * (page + 1)),
+          models: searchRes.slice(pageSize * (page - 1), pageSize * page),
           totalCnt: searchRes.length
         })
       }
