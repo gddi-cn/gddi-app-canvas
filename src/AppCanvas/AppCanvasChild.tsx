@@ -24,6 +24,8 @@ import { rfEdgeTypes } from './RFEdges'
 import { ExtendedControls } from './ExtendedControls'
 import { useStore } from './store/useStore'
 import { ColorModeContext } from './context'
+import { VersionTag } from './Components'
+import * as pj from './../../package.json'
 
 import { useTheme } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
@@ -233,6 +235,8 @@ export const AppCanvasChild = ({
     setROIImgFetcher(fetchROIImg)
   }, [setROIImgFetcher, fetchROIImg])
 
+  console.log(pj.version)
+
   return (
     <ReactFlowProvider>
       <ReactFlow
@@ -265,6 +269,7 @@ export const AppCanvasChild = ({
         )}
         <Controls className={theme.palette.mode} showInteractive={false} />
         <ExtendedControls />
+        <VersionTag version={pj.version} />
       </ReactFlow>
     </ReactFlowProvider>
   )
