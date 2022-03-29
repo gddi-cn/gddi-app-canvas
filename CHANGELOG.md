@@ -37,3 +37,4 @@ node过长。model name在cursor hover时用tooltip显示。
 - 判断是否为model节点的方式，从读module type修改为读`props.mod_labels`是否存在
 - Model节点选择模型时，使用`mod_iter_id`来唯一确定一个model
 - 增加version number显示
+- `fetchModelList` 的 `pageNumber` 修改为从1开始（之前是从0开始）
