@@ -32,3 +32,8 @@ node过长。model name在cursor hover时用tooltip显示。
 ## v1.2.2
 - 🍗 feature: BoxFilter节点的`box_labels`属性的可选项依赖于其上游Model节点的`mod_labels`属性中`checked === true`的entry的`label`值。
   - Model节点的判断方法：module的type必须包含`model`这个substring, 例如：`DetectionModel_v2`, `classification_model_v1.2.3`.
+
+## v1.2.3
+- 判断是否为model节点的方式，从读module type修改为读`props.mod_labels`是否存在
+- Model节点选择模型时，使用`mod_iter_id`来唯一确定一个model
+- 增加version number显示
