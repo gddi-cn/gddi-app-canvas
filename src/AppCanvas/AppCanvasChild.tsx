@@ -136,7 +136,7 @@ export const AppCanvasChild = ({
 
   const fitView = useCallback(() => {
     if (loadParaRef.current) {
-      loadParaRef.current.fitView()
+      loadParaRef.current.fitView({ padding: 0.01 })
     }
   }, [])
   const initAppRef = useCallback(() => {
@@ -156,7 +156,7 @@ export const AppCanvasChild = ({
   const handleLoaded = useCallback(
     (params: OnLoadParams<any>) => {
       // console.log('[gddi-aiappcanvas] loaded')
-      params.fitView()
+      params.fitView({ padding: 0.01 })
       loadParaRef.current = params
       setRfInstance(params)
       layoutGraph()
@@ -167,6 +167,12 @@ export const AppCanvasChild = ({
     },
     [layoutGraph, initAppRef, onLoad, setRfInstance]
   )
+
+  const handleFitView = useCallback(() => {
+    if (loadParaRef.current) {
+      loadParaRef.current.fitView({ padding: 0.01 })
+    }
+  }, [loadParaRef.current])
 
   const style = useMemo(
     () => ({
@@ -267,7 +273,11 @@ export const AppCanvasChild = ({
             </IconButton>
           </div>
         )}
-        <Controls className={theme.palette.mode} showInteractive={false} />
+        <Controls
+          className={theme.palette.mode}
+          showInteractive={false}
+          onFitView={handleFitView}
+        />
         <ExtendedControls />
         <VersionTag version={pj.version} />
       </ReactFlow>

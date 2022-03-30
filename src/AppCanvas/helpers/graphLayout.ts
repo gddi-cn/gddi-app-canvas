@@ -2,6 +2,9 @@
 import { Edge, Elements, Node } from 'react-flow-renderer'
 import ELK from 'elkjs/lib/elk.bundled.js'
 
+const MOD_WIDTH = 410
+const MOD_HEIGHT = 400
+
 const elk = new ELK()
 
 export interface GraphLayoutHelperResult {
@@ -24,8 +27,8 @@ export const graphLayoutHelper = (
       const eleNode = ele as Node
       ;(graph.children as Record<string, any>[]).push({
         id: eleNode.id,
-        width: 500,
-        height: 400
+        width: MOD_WIDTH,
+        height: MOD_HEIGHT
       })
     } else {
       const eleEdge = ele as Edge
@@ -61,7 +64,7 @@ export const graphLayoutHelper = (
   })
 }
 
-// unused currently
+// [!important] unused currently
 export const layoutNodes = (
   rfNodes: Node[],
   rfEdges: Edge[]
