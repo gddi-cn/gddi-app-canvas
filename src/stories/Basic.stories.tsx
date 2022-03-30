@@ -106,6 +106,7 @@ BasicUsage.args = {
   hideDarkModeButton: false,
   defaultValue: myPipeline,
   moduleDefinitions: modDef,
+  graphEditingDisabled: true,
   onLoad: handleCanvasLoad,
   onValueChange: handleValueChange,
   fetchModelList: fetchModelList,
