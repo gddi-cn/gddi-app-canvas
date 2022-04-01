@@ -42,9 +42,10 @@ export const ModelConfigTool = ({
   filterLabelsValue,
   onChange
 }: ModelConfigToolProps): JSX.Element => {
-  const { fetchLabelMemo } = useStore(
+  const { fetchLabelMemo, searchModelResLabelMemo } = useStore(
     (state) => ({
-      fetchLabelMemo: state.fetchLabelMemo
+      fetchLabelMemo: state.fetchLabelMemo,
+      searchModelResLabelMemo: state.searchModelResLabelMemo
     }),
     shallow
   )
@@ -52,15 +53,22 @@ export const ModelConfigTool = ({
   const handleModelChange = useCallback(
     (newModel: ModelValueType) => {
       // console.log(`model changed`)
-      const newLabelList = newModel
-        ? fetchLabelMemo[newModel.mod_result_id]
-        : []
+      console.log(fetchLabelMemo)
+      console.log(searchModelResLabelMemo)
+      let newLabelList: string[] = []
+      if (newModel) {
+        if (fetchLabelMemo[newModel.mod_result_id]) {
+          newLabelList = fetchLabelMemo[newModel.mod_result_id]
+        } else if (searchModelResLabelMemo[newModel.mod_result_id]) {
+          newLabelList = searchModelResLabelMemo[newModel.mod_result_id]
+        }
+      }
       const newLabels = initLabelsObject(newLabelList)
       if (onChange) {
         onChange(newModel, newLabels)
       }
     },
-    [onChange, fetchLabelMemo]
+    [onChange, fetchLabelMemo, searchModelResLabelMemo]
   )
 
   const handleLabelsChange = useCallback(

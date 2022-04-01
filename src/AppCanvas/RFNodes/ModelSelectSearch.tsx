@@ -44,6 +44,8 @@ export const ModelSelectSearch = ({
   const [page, setPage] = useState<number>(1)
   const [showSearchResult, setShowSearchResult] = useState<boolean>(false)
 
+  console.log(`page: ${page}`)
+
   const handlePageChange = useCallback(
     (evt, pageNum) => {
       setPage(pageNum)

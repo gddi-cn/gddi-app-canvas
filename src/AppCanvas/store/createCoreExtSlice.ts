@@ -11,7 +11,7 @@ import {
   ROIImgFetcher
 } from '../types'
 
-export const pageSize = 10
+export const pageSize = 5
 
 export interface CoreExtSlice {
   roiImg: {

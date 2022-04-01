@@ -148,7 +148,7 @@ export const modelLabels = {
   '533': labels1,
   '633': labels2,
   '733': labels3,
-  '833': labels4,
-  '933': { labels: [...labels4.labels, ...labels2.labels] },
-  '1033': labels3
+  '833': labels4
+  // '933': { labels: [...labels4.labels, ...labels2.labels] },
+  // '1033': labels3
 }
