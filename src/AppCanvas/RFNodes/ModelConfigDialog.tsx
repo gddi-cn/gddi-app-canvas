@@ -84,11 +84,17 @@ export const ModelConfigDialog = ({
     () =>
       value['mod_iter_id']
         ? {
-            mod_id: value['mod_id'].toString(),
+            mod_id: value['mod_id'] ? value['mod_id'].toString() : 'undefined',
             mod_iter_id: value['mod_iter_id'].toString(),
-            mod_license: value['mod_license'] as string,
-            mod_name: value['mod_name'] as string,
-            mod_created_at: new Date(value['mod_created_at'] as string),
+            mod_license: value['mod_license']
+              ? (value['mod_license'] as string)
+              : 'undefined',
+            mod_name: value['mod_name']
+              ? (value['mod_name'] as string)
+              : 'undefined',
+            mod_created_at: value['mod_created_at']
+              ? new Date(value['mod_created_at'] as string)
+              : new Date(),
             mod_version: value['mod_version'] as string,
             mod_version_id: value['mod_version_id'] as string,
             mod_result_id: value['mod_result_id'] as string

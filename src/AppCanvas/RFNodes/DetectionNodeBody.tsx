@@ -93,7 +93,9 @@ export const DetectionNodeBody = ({
   const modelNameDisplay = useMemo(
     () =>
       `${
-        propObj['mod_name'] === '' || propObj['mod_name'] === undefined
+        propObj['mod_name'] === '' ||
+        propObj['mod_name'] === undefined ||
+        !propObj['mod_iter_id']
           ? '未选择模型'
           : propObj['mod_name']
       }`,

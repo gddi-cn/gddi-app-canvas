@@ -27,6 +27,7 @@
       "name": "Detection_v2_3",
       "runner": "Detection",
       "props": {
+        "mod_iter_id": "111",
         "mod_labels": {
           "aa": {},
           "bb": {
