@@ -94,7 +94,7 @@ export const DetectionNodeBody = ({
     () =>
       `${
         propObj['mod_name'] === '' || propObj['mod_name'] === undefined
-          ? 'no model selected'
+          ? '未选择模型'
           : propObj['mod_name']
       }`,
     [propObj['mod_name']]

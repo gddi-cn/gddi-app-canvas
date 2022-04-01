@@ -17,6 +17,7 @@ import DialogActions from '@mui/material/DialogActions'
 import Avatar from '@mui/material/Avatar'
 import FolderIcon from '@mui/icons-material/Folder'
 import EditIcon from '@mui/icons-material/Edit'
+import BrowserNotSupportedIcon from '@mui/icons-material/BrowserNotSupported'
 import { ModelValueType } from './ModelConfigTool'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -101,21 +102,17 @@ export const ModelDisplay = ({
           )
         }
       >
-        {model ? (
-          <>
-            <ListItemAvatar>
-              <Avatar>
-                <FolderIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={`${model.mod_name}`}
-              secondary={`ver: ${model.mod_version} created: ${modelCreated}`}
-            />
-          </>
-        ) : (
-          <ListItemText primary={`no model select`} />
-        )}
+        <ListItemAvatar>
+          <Avatar>
+            {model ? <FolderIcon /> : <BrowserNotSupportedIcon />}
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={`${model ? model.mod_name : 'no model selected'}`}
+          secondary={
+            model ? `ver: ${model.mod_version} created: ${modelCreated}` : null
+          }
+        />
       </ListItem>
       <BootstrapDialog
         onClose={handleCloseD}
