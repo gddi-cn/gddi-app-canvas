@@ -241,8 +241,6 @@ export const AppCanvasChild = ({
     setROIImgFetcher(fetchROIImg)
   }, [setROIImgFetcher, fetchROIImg])
 
-  console.log(pj.version)
-
   return (
     <ReactFlowProvider>
       <ReactFlow

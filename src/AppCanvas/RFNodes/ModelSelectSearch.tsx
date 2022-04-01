@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from 'react'
+import React, { useMemo, useCallback, useState, useEffect } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore, pageSize } from '../store/useStore'
 import { ModelRes } from '../types'
@@ -17,13 +17,17 @@ import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 
 export interface ModelSelectSearchProps {
+  page: number
   selected: ModelRes | undefined
   onSelect: (val: ModelRes) => void
+  onPageChange: (newPage: number) => void
 }
 
 export const ModelSelectSearch = ({
+  page,
   selected,
-  onSelect
+  onSelect,
+  onPageChange
 }: ModelSelectSearchProps): JSX.Element => {
   const {
     fetchLoading,
@@ -41,14 +45,13 @@ export const ModelSelectSearch = ({
     }),
     shallow
   )
-  const [page, setPage] = useState<number>(1)
+  const [searchPageNum, setSearchPageNum] = useState<number>(1)
   const [showSearchResult, setShowSearchResult] = useState<boolean>(false)
-
-  console.log(`page: ${page}`)
 
   const handlePageChange = useCallback(
     (evt, pageNum) => {
-      setPage(pageNum)
+      // setPage(pageNum)
+      onPageChange(pageNum)
       setFetchLoading(true)
       fetchModelsWithLabels(pageNum)
     },
@@ -64,16 +67,14 @@ export const ModelSelectSearch = ({
     (searchVal) => {
       // console.log(`req search on value - ${searchVal}`)
       setShowSearchResult(true)
-      setPage(1)
+      setSearchPageNum(1)
       setFetchLoading(true)
       fetchModelsWithLabels(1, searchVal)
     },
-    [setShowSearchResult, fetchModelsWithLabels, setFetchLoading, setPage]
+    [setShowSearchResult, fetchModelsWithLabels, setFetchLoading]
   )
 
   const handleCancelSearch = () => {
-    // console.log(`cancel search....`)
-    setPage(1)
     setFetchLoading(false)
     setShowSearchResult(false)
   }
@@ -125,7 +126,7 @@ export const ModelSelectSearch = ({
         </Box>
         <Box className="pagination-area">
           <Pagination
-            page={page}
+            page={showSearchResult ? searchPageNum : page}
             count={Math.ceil(dispModels.totalCnt / pageSize)}
             size="small"
             onChange={debouncedHandlePageChange}

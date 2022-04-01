@@ -38,3 +38,7 @@ node过长。model name在cursor hover时用tooltip显示。
 - Model节点选择模型时，使用`mod_iter_id`来唯一确定一个model
 - 增加version number显示
 - `fetchModelList` 的 `pageNumber` 修改为从1开始（之前是从0开始）
+
+## v1.2.4
+- 🐛 fix: 页码的问题；model搜索后label没有load的问题；
+- 🐛 fix: 当Model节点的props为空（尚未选择模型）情况的处理;

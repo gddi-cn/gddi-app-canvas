@@ -50,6 +50,7 @@ export const ModelDisplay = ({
   const [selectedModel, setSelectedModel] = useState<ModelRes | undefined>(
     model
   )
+  const [page, setPage] = useState(1)
 
   const handleClickEdit = useCallback(() => {
     setOpenD(true)
@@ -69,6 +70,13 @@ export const ModelDisplay = ({
   const handleSelectChange = useCallback((val: ModelRes) => {
     setSelectedModel(val)
   }, [])
+
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      setPage(newPage)
+    },
+    [setPage]
+  )
 
   const modelCreated = useMemo(() => {
     if (model === undefined) {
@@ -124,8 +132,10 @@ export const ModelDisplay = ({
           sx={{ overflowY: 'hidden', width: '90vw', height: '90vh' }}
         >
           <ModelSelectSearch
+            page={page}
             selected={selectedModel}
             onSelect={handleSelectChange}
+            onPageChange={handlePageChange}
           />
         </DialogContent>
         <DialogActions>

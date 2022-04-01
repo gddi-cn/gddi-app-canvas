@@ -53,8 +53,8 @@ export const ModelConfigTool = ({
   const handleModelChange = useCallback(
     (newModel: ModelValueType) => {
       // console.log(`model changed`)
-      console.log(fetchLabelMemo)
-      console.log(searchModelResLabelMemo)
+      // console.log(fetchLabelMemo)
+      // console.log(searchModelResLabelMemo)
       let newLabelList: string[] = []
       if (newModel) {
         if (fetchLabelMemo[newModel.mod_result_id]) {
