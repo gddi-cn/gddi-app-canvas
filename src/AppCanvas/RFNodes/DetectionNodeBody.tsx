@@ -84,9 +84,11 @@ export const DetectionNodeBody = ({
   }, [])
 
   const propObj = nodeData.props as PropObject
-  const numLabelsChecked = Object.values(
-    propObj['mod_labels'] as ModLabelsValueType
-  ).filter((label) => label.checked).length
+  const numLabelsChecked = propObj['mod_labels']
+    ? Object.values(propObj['mod_labels'] as ModLabelsValueType).filter(
+        (label) => label.checked
+      ).length
+    : 0
 
   const modelNameDisplay = useMemo(
     () =>

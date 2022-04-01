@@ -17,6 +17,7 @@ import DialogActions from '@mui/material/DialogActions'
 import Avatar from '@mui/material/Avatar'
 import FolderIcon from '@mui/icons-material/Folder'
 import EditIcon from '@mui/icons-material/Edit'
+import { ModelValueType } from './ModelConfigTool'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -28,8 +29,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }))
 
 export interface ModelDisplayProps {
-  model: ModelRes
-  onModelChange?: (newModel: ModelRes) => void
+  model: ModelValueType
+  onModelChange?: (newModel: ModelValueType) => void
 }
 
 export const ModelDisplay = ({
@@ -45,7 +46,9 @@ export const ModelDisplay = ({
     shallow
   )
   const [openD, setOpenD] = useState<boolean>(false)
-  const [selectedModel, setSelectedModel] = useState<ModelRes>(model)
+  const [selectedModel, setSelectedModel] = useState<ModelRes | undefined>(
+    model
+  )
 
   const handleClickEdit = useCallback(() => {
     setOpenD(true)
@@ -67,8 +70,11 @@ export const ModelDisplay = ({
   }, [])
 
   const modelCreated = useMemo(() => {
+    if (model === undefined) {
+      return 'undefined'
+    }
     return `${model.mod_created_at.toLocaleDateString()} ${model.mod_created_at.getHours()}:${model.mod_created_at.getMinutes()}:${model.mod_created_at.getSeconds()}`
-  }, [model.mod_created_at])
+  }, [model])
 
   // disable model change when
   // propEditingDisabled set OR fetchers needed are not defined
@@ -95,15 +101,21 @@ export const ModelDisplay = ({
           )
         }
       >
-        <ListItemAvatar>
-          <Avatar>
-            <FolderIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={`${model.mod_name}`}
-          secondary={`ver: ${model.mod_version} created: ${modelCreated}`}
-        />
+        {model ? (
+          <>
+            <ListItemAvatar>
+              <Avatar>
+                <FolderIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={`${model.mod_name}`}
+              secondary={`ver: ${model.mod_version} created: ${modelCreated}`}
+            />
+          </>
+        ) : (
+          <ListItemText primary={`no model select`} />
+        )}
       </ListItem>
       <BootstrapDialog
         onClose={handleCloseD}

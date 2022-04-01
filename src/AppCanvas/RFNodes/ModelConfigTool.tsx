@@ -11,7 +11,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 
-export type ModelValueType = ModelRes
+export type ModelValueType = ModelRes | undefined
 export type FilterLabelsType = ModLabelsValueType
 
 function initLabelsObject(labels: string[]): FilterLabelsType {
@@ -52,7 +52,9 @@ export const ModelConfigTool = ({
   const handleModelChange = useCallback(
     (newModel: ModelValueType) => {
       // console.log(`model changed`)
-      const newLabelList = fetchLabelMemo[newModel.mod_result_id]
+      const newLabelList = newModel
+        ? fetchLabelMemo[newModel.mod_result_id]
+        : []
       const newLabels = initLabelsObject(newLabelList)
       if (onChange) {
         onChange(newModel, newLabels)

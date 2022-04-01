@@ -17,7 +17,7 @@ import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 
 export interface ModelSelectSearchProps {
-  selected: ModelRes
+  selected: ModelRes | undefined
   onSelect: (val: ModelRes) => void
 }
 
@@ -102,7 +102,9 @@ export const ModelSelectSearch = ({
               return (
                 <ListItemButton
                   key={`${modInfo.mod_iter_id}}`}
-                  selected={selected.mod_iter_id === modInfo.mod_iter_id}
+                  selected={
+                    selected && selected.mod_iter_id === modInfo.mod_iter_id
+                  }
                   onClick={handleClick}
                 >
                   <ListItemAvatar>
@@ -131,7 +133,7 @@ export const ModelSelectSearch = ({
       </Box>
     ),
     [
-      selected.mod_iter_id,
+      selected,
       dispModels,
       showSearchResult,
       page,

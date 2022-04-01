@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { PropObject } from '../types'
+import { ModLabelsValueType, PropObject, PropValue } from '../types'
 import {
   ModelConfigTool,
   ModelValueType,
@@ -57,10 +57,12 @@ export const ModelConfigDialog = ({
 
   const handleValueChange = useCallback(
     (newModel: ModelValueType, newLabels: FilterLabelsType) => {
-      const newModelConvert = {
-        ...newModel,
-        mod_created_at: newModel.mod_created_at.toISOString()
-      }
+      const newModelConvert = newModel
+        ? {
+            ...newModel,
+            mod_created_at: newModel.mod_created_at.toISOString()
+          }
+        : undefined
       // console.log('handle value change')
       // console.log(newModel.mod_name)
       // console.log(newLabels)
@@ -79,22 +81,48 @@ export const ModelConfigDialog = ({
   // TODO: this makes the app less robost
   // some fields could be missing
   const modelVal = useMemo(
-    () => ({
-      mod_id: value['mod_id'].toString(),
-      mod_iter_id: value['mod_iter_id'].toString(),
-      mod_license: value['mod_license'] as string,
-      mod_name: value['mod_name'] as string,
-      mod_created_at: new Date(value['mod_created_at'] as string),
-      mod_version: value['mod_version'] as string,
-      mod_version_id: value['mod_version_id'] as string,
-      mod_result_id: value['mod_result_id'] as string
-    }),
+    () =>
+      value['mod_iter_id']
+        ? {
+            mod_id: value['mod_id'].toString(),
+            mod_iter_id: value['mod_iter_id'].toString(),
+            mod_license: value['mod_license'] as string,
+            mod_name: value['mod_name'] as string,
+            mod_created_at: new Date(value['mod_created_at'] as string),
+            mod_version: value['mod_version'] as string,
+            mod_version_id: value['mod_version_id'] as string,
+            mod_result_id: value['mod_result_id'] as string
+          }
+        : undefined,
     [value]
   )
-  const labelsVal = useMemo(
-    () => value['mod_labels'] as FilterLabelsType,
-    [value]
-  )
+  // const labelsVal = useMemo(
+  //   () =>
+  //     value['mod_labels'] ? (value['mod_labels'] as FilterLabelsType) : {},
+  //   [value]
+  // )
+  const labelsVal = useMemo(() => {
+    if (!value['mod_labels']) {
+      return {}
+    }
+    const res = {} as FilterLabelsType
+    Object.keys(value['mod_labels']).forEach((key) => {
+      const val = (value['mod_labels'] as Record<string, any>)[key]
+      if (
+        typeof val['checked'] === 'boolean' &&
+        typeof val['label'] === 'string' &&
+        typeof val['color'] === 'object' &&
+        val['color'].length === 3
+      ) {
+        res[key] = {
+          checked: val['checked'],
+          label: val['label'],
+          color: val['color']
+        }
+      }
+    })
+    return res
+  }, [value])
 
   useEffect(() => {
     setValue({ ...defaultValue })
