@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import { Meta } from '@storybook/react/types-6-0'
 import { Story } from '@storybook/react'
-import { DrawROI, DrawROIProps, DrawPolygonControl } from '../AppCanvas'
+import {
+  DrawROI,
+  DrawROIProps,
+  DrawPolygonControl,
+  DrawRectControl
+} from '../AppCanvas'
 
 export default {
   title: 'Example/DrawROI',
@@ -46,6 +51,7 @@ const Template: Story<DrawROIProps> = () => {
           onROIsChange={handleRegionsChange}
         >
           <DrawPolygonControl />
+          <DrawRectControl />
         </DrawROI>
       </div>
     </>

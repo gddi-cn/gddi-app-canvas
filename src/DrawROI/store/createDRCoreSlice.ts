@@ -4,7 +4,7 @@ import { fabric } from 'fabric'
 
 type FabCanvasEventListener = (opt: fabric.IEvent) => void
 
-type ControlModeType = 'default' | 'select' | 'drawPolygon'
+type ControlModeType = 'default' | 'select' | 'drawPolygon' | 'drawRect'
 
 export interface DRCoreSlice {
   dinner: string

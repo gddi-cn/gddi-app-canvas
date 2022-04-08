@@ -88,7 +88,6 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     if (fabCanvas) {
       fabCanvas.getObjects().forEach((obj) => {
         const handleObjModified = () => {
-          console.log('mmmmmodified')
           const polygonObj = obj as MyPolygon
           if (polygonObj.points) {
             const matrix = polygonObj.calcTransformMatrix()
