@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useStore } from '../store/useStore'
 import shallow from 'zustand/shallow'
-import { MyPolygon } from './../Controls/PolygonGraph'
+import { MyPolygon } from '../Controls/graph'
 import { Polygon } from '../types'
 
 export interface PolygonProps {

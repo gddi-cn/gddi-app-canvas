@@ -1,5 +1,5 @@
 import { fabric } from 'fabric'
-import { Point } from './../types'
+import { Point } from '../../types'
 
 export type MyPolygonOption = {
   id: number

@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 import ToggleButton from '@mui/material/ToggleButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
-import { MyPolygon } from './PolygonGraph'
+import { MyPolygon } from './graph'
 
 export const SelectControl: ControlsElementType = ({ disabled }) => {
   const {

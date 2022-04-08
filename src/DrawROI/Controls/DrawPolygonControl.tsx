@@ -4,7 +4,7 @@ import { useStore } from './../store/useStore'
 import shallow from 'zustand/shallow'
 import { ControlsElementType } from './ControlType'
 import { getRandomId } from './../helpers'
-import { MyCircle } from './CircleGraph'
+import { MyCircle } from './graph'
 import { Point, Polygon } from './../types'
 
 import Tooltip from '@mui/material/Tooltip'
