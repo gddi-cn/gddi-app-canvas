@@ -1,6 +1,6 @@
 {
   "name": "gddi-app-canvas",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "React component to visualize GDDi's AI APPs in flow chart fashion",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.es.js",
