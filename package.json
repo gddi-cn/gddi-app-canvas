@@ -1,6 +1,6 @@
 {
   "name": "gddi-app-canvas",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "React component to visualize GDDi's AI APPs in flow chart fashion",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.es.js",
@@ -53,8 +53,8 @@
     "zustand": "^3.6.8"
   },
   "peerDependencies": {
-    "react": "16 || 17",
-    "react-dom": "16 || 17"
+    "react": "16 || 17 || 18",
+    "react-dom": "16 || 17 || 18"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
