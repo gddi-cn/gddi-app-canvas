@@ -225,6 +225,9 @@ export function DrawROICore({
     // init fabric.canvas
     // console.log('[effect] init fabric.canvas')
     if (canvasRef.current && appRef.current === undefined) {
+      if (canvasRef.current?.parentElement) {
+        canvasRef.current.parentElement.style.position = 'relative'
+      }
       const app = new fabric.Canvas(canvasRef.current, {
         width: canvasRef.current?.parentElement?.clientWidth,
         height: canvasRef.current?.parentElement?.clientHeight,
