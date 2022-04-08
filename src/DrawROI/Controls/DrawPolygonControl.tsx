@@ -1,10 +1,4 @@
-import React, {
-  FormEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { fabric } from 'fabric'
 import { useStore } from './../store/useStore'
 import shallow from 'zustand/shallow'
@@ -13,9 +7,10 @@ import { getRandomId } from './../helpers'
 import { MyCircle } from './CircleGraph'
 import { Point, Polygon } from './../types'
 
+import Tooltip from '@mui/material/Tooltip'
 import Box from '@mui/material/Box'
-import EditIcon from '@mui/icons-material/Edit'
 import ToggleButton from '@mui/material/ToggleButton'
+import ChangeHistoryOutlinedIcon from '@mui/icons-material/ChangeHistoryOutlined'
 
 export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
   const {
@@ -293,17 +288,19 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
 
   return (
     <Box className="DR-control1">
-      <ToggleButton
-        disabled={disabled === true}
-        sx={{
-          backgroundColor: 'white'
-        }}
-        value="drawPolygon"
-        selected={controlMode === 'drawPolygon'}
-        onChange={handleToggleChange}
-      >
-        <EditIcon />
-      </ToggleButton>
+      <Tooltip title="draw polygon">
+        <ToggleButton
+          disabled={disabled === true}
+          sx={{
+            backgroundColor: 'white'
+          }}
+          value="drawPolygon"
+          selected={controlMode === 'drawPolygon'}
+          onChange={handleToggleChange}
+        >
+          <ChangeHistoryOutlinedIcon />
+        </ToggleButton>
+      </Tooltip>
     </Box>
   )
 }

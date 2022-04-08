@@ -5,6 +5,7 @@ import shallow from 'zustand/shallow'
 import { ControlsElementType } from './ControlType'
 import { Point } from './../types'
 
+import Tooltip from '@mui/material/Tooltip'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import ToggleButton from '@mui/material/ToggleButton'
@@ -155,17 +156,19 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
   return (
     <>
       <Box className="DR-control1">
-        <ToggleButton
-          disabled={disabled === true}
-          sx={{
-            backgroundColor: 'white'
-          }}
-          value="select"
-          selected={controlMode === 'select'}
-          onChange={handleToggleChange}
-        >
-          Select
-        </ToggleButton>
+        <Tooltip title="select object">
+          <ToggleButton
+            disabled={disabled === true}
+            sx={{
+              backgroundColor: 'white'
+            }}
+            value="select"
+            selected={controlMode === 'select'}
+            onChange={handleToggleChange}
+          >
+            Select
+          </ToggleButton>
+        </Tooltip>
       </Box>
       {controlMode === 'select' && (
         <Box className="DR-control2">
