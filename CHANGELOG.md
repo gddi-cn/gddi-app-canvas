@@ -42,3 +42,6 @@ node过长。model name在cursor hover时用tooltip显示。
 ## v1.2.4
 - 🐛 fix: 页码的问题；model搜索后label没有load的问题；
 - 🐛 fix: 当Model节点的props为空（尚未选择模型）情况的处理;
+
+## v1.2.7
+-  🍗 feature: export `DrawROI` 组件;
