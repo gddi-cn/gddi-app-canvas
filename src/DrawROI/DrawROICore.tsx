@@ -196,7 +196,7 @@ export function DrawROICore({
         img.set({
           ...ImageInitSetting,
           data: {
-            type: 'image',
+            type: 'mainImage',
             url: imgUrl,
             name: imgUrl
           }
@@ -209,7 +209,7 @@ export function DrawROICore({
         img.set({
           ...ImageInitSetting,
           data: {
-            type: 'image',
+            type: 'mainImage',
             url: imgUrl,
             name: imgUrl
           }
