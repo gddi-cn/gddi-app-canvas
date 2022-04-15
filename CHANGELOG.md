@@ -45,3 +45,6 @@ node过长。model name在cursor hover时用tooltip显示。
 
 ## v1.2.7
 -  🍗 feature: export `DrawROI` 组件;
+
+## v1.2.9
+- 🐛 fix: `DrawROI` 组件更换image后image变为可选（selectable）
