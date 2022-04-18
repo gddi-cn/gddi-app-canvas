@@ -4,13 +4,16 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import typescript from 'rollup-plugin-typescript2'
 import postcss from 'rollup-plugin-postcss'
-import { terser } from 'rollup-plugin-terser'
+// import { terser } from 'rollup-plugin-terser'
 import bundleSize from 'rollup-plugin-bundle-size'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 const packageJson = require('./package.json')
+const isProduction = process.env.NODE_ENV === 'production'
 
-export default {
+console.log(`isProduction: ${isProduction}`)
+
+export default async () => ({
   input: 'src/index.ts',
   output: [
     {
@@ -41,8 +44,8 @@ export default {
     typescript({ useTsconfigDeclarationDir: true }),
     postcss(),
     json({ compact: true }),
-    terser(),
+    isProduction && (await import('rollup-plugin-terser')).terser(),
     bundleSize(),
     visualizer({ sourcemap: true, open: true })
   ]
-}
+})
