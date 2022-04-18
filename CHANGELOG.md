@@ -48,3 +48,6 @@ node过长。model name在cursor hover时用tooltip显示。
 
 ## v1.2.9
 - 🐛 fix: `DrawROI` 组件更换image后image变为可选（selectable）
+
+## v1.2.12
+- 🐛 fix: rotobo字体woff2 not found
