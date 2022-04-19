@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { Meta } from '@storybook/react/types-6-0'
 import { Story } from '@storybook/react'
 import {
@@ -12,10 +12,14 @@ import {
   FetchModelRes,
   FetchROIImgRes
 } from '../AppCanvas'
+import { TabPanel } from './components'
 import modDef from './datav2/md3.json'
 import pipeline from './datav2/pipeline5.json'
 // import pipeline from './datav2/pipelineTest4.json'
 import { fetchModelResult, modelLabels } from './datav2/fetchExample2'
+
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 
 const myPipeline: Pipeline = {
   version: '0.0.1',
@@ -32,10 +36,7 @@ export default {
 const handleCanvasLoad = (canvas: AIAppType): void => {
   canvas.layoutGraph()
 }
-const handleValueChange = (val: Pipeline): void => {
-  console.log(`🦍  value changed!`)
-  console.log(val)
-}
+
 const fetchModelList = (
   page: number,
   pageSize: number,
@@ -88,16 +89,52 @@ const fetchROIImg = (
   })
 }
 
-const Template: Story<AppCanvasProps> = (args) => (
-  <>
-    <div
-      className="app-canvas-wrapper"
-      style={{ width: '1000px', height: '500px' }}
-    >
-      <AppCanvas {...args} />
-    </div>
-  </>
-)
+const Template: Story<AppCanvasProps> = (args) => {
+  const [tabVal, setTabVal] = useState<number>(0)
+  const [pipelineVal, setPipelineVal] = useState<Pipeline>(myPipeline)
+
+  const handleTabChange = useCallback(
+    (event: React.SyntheticEvent, newValue: number) => {
+      setTabVal(newValue)
+    },
+    []
+  )
+
+  const handleValueChange = useCallback((val: Pipeline): void => {
+    console.log(`🦍  value changed!`)
+    console.log(val)
+    setPipelineVal(val)
+  }, [setPipelineVal])
+
+  return (
+    <>
+      <Tabs
+        value={tabVal}
+        onChange={handleTabChange}
+        aria-label="pipeline-vs-tab"
+      >
+        <Tab label="Visualization" />
+        <Tab label="Pipeline Value" />
+      </Tabs>
+      <TabPanel value={tabVal} index={0}>
+        <div
+          className="app-canvas-wrapper"
+          style={{ width: '1000px', height: '500px' }}
+        >
+          <AppCanvas {...args} onValueChange={handleValueChange} />
+        </div>
+      </TabPanel>
+      <TabPanel value={tabVal} index={1}>
+        <div
+          className="row app-canvas-wrapper"
+          style={{ width: '1000px', height: '500px' }}
+        >
+          {JSON.stringify(pipelineVal, null, '\t')}
+        </div>
+      </TabPanel>
+    </>
+  )
+}
 
 // Reuse that template for creating different stories
 export const BasicUsage = Template.bind({})
@@ -108,7 +145,6 @@ BasicUsage.args = {
   moduleDefinitions: modDef,
   graphEditingDisabled: true,
   onLoad: handleCanvasLoad,
-  onValueChange: handleValueChange,
   fetchModelList: fetchModelList,
   fetchLabelList: fetchLabelList,
   fetchROIImg: fetchROIImg
