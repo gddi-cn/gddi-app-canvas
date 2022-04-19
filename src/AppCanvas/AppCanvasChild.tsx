@@ -25,12 +25,15 @@ import { ExtendedControls } from './ExtendedControls'
 import { useStore } from './store/useStore'
 import { ColorModeContext } from './context'
 import { VersionTag } from './Components'
-import * as pj from './../../package.json'
 
 import { useTheme } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
+
+import './AppCanvas.scss'
+
+const version = require('./../../package.json')['version']
 
 export interface AppCanvasChildProps {
   /**
@@ -277,7 +280,8 @@ export const AppCanvasChild = ({
           onFitView={handleFitView}
         />
         <ExtendedControls />
-        <VersionTag version={pj.version} />
+        {/* <VersionTag version={process.env.VER ? process.env.VER.toString() : 'undefined'} /> */}
+        <VersionTag version={version} />
       </ReactFlow>
     </ReactFlowProvider>
   )

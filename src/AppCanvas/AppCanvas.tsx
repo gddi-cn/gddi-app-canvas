@@ -14,7 +14,7 @@ import { getDesignTokens } from './theme'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 
-import './AppCanvas.scss'
+// import './AppCanvas.scss'
 
 export interface AppCanvasProps {
   /**

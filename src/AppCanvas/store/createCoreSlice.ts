@@ -82,7 +82,7 @@ const createCoreSlice = (
       newPostions.forEach((np) => {
         const ele = rfElements.find((e) => e.id === np.nodeId)
         if (ele) {
-          ;(ele as Node).position = { x: np.x, y: np.y }
+          ; (ele as Node).position = { x: np.x, y: np.y }
         }
       })
       set(
@@ -97,7 +97,8 @@ const createCoreSlice = (
         })
       )
     } catch (error) {
-      console.error(error)
+      throw error
+      // console.error(error)
     }
   },
   addPipeline: async (modules: Module[], connections: Connection[]) => {
@@ -144,13 +145,14 @@ const createCoreSlice = (
           newPostions.forEach((np) => {
             const ele1 = draft1.rfElements.find((e) => e.id === np.nodeId)
             if (ele1) {
-              ;(ele1 as Node).position = { x: np.x, y: np.y }
+              ; (ele1 as Node).position = { x: np.x, y: np.y }
             }
           })
         })
       )
     } catch (error) {
-      console.error(error)
+      throw error
+      // console.error(error)
     }
   },
   addModule: (module: RawModule) => {
@@ -289,7 +291,7 @@ const createCoreSlice = (
             const eleNode = draft1.rfElements.find((n) => n.id === r.nodeId)
             if (eleNode) {
               // + Math.random() is a hack to force rerendering the Flow
-              ;(eleNode as Node).position = { x: r.x + Math.random(), y: r.y }
+              ; (eleNode as Node).position = { x: r.x + Math.random(), y: r.y }
             }
           })
         )

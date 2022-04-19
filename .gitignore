@@ -1,4 +1,4 @@
 node_modules
-lib
+dist
 storybook-static
 stats.html

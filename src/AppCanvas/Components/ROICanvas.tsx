@@ -62,7 +62,7 @@ export function ROICanvas({
   const handleDeleteLast = useCallback(() => {
     // onRegionsChange(regions.slice(0, regions.slice.length - 1))
     popRegion()
-    console.log('delete last')
+    // console.log('delete last')
   }, [])
 
   const addROIBox = ({

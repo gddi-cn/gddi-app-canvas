@@ -93,7 +93,7 @@ const createCoreExtSlice = (
         draft1.value.nodes.forEach((mod) => {
           if (mod.props) {
             Object.keys(mod.props).forEach((propName) => {
-              ;(mod.props as { [propName: string]: PropValue })[propName] = (
+              ; (mod.props as { [propName: string]: PropValue })[propName] = (
                 mod.propsInited as { [propName: string]: PropValue }
               )[propName]
             })
@@ -204,7 +204,8 @@ const createCoreExtSlice = (
           )
         }
       } catch (error) {
-        console.error(error)
+        throw error
+        // console.error(error)
       }
     }
   },
