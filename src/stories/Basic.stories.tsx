@@ -14,7 +14,7 @@ import {
   ModuleDefinitions
 } from '../AppCanvas'
 import { TabPanel } from './components'
-import modDef from './datav2/md3.json'
+import myModDef from './datav2/md3.json'
 import pipeline from './datav2/pipeline5.json'
 // import pipeline from './datav2/pipelineTest4.json'
 import { fetchModelResult, modelLabels } from './datav2/fetchExample2'
@@ -22,6 +22,7 @@ import Editor from '@monaco-editor/react'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
+import Button from '@mui/material/Button'
 
 const myPipeline: Pipeline = {
   version: '0.0.1',
@@ -36,6 +37,7 @@ export default {
 
 // Create a master template for mapping args to render the component
 const handleCanvasLoad = (canvas: AIAppType): void => {
+  console.log(`🍌 AppCanvas loaded`)
   canvas.layoutGraph()
 }
 
@@ -93,29 +95,33 @@ const fetchROIImg = (
 
 const Template: Story<AppCanvasProps> = (args) => {
   const [tabVal, setTabVal] = useState<number>(0)
+  const [defaultPpVal, setDefaultPpVal] = useState<Pipeline>(myPipeline)
   const [pipelineVal, setPipelineVal] = useState<Pipeline>(myPipeline)
-  const [pipelineVal0, setPipelineVal0] = useState<Pipeline>(myPipeline)
-  const [modDef0, setModDef0] = useState<ModuleDefinitions>(modDef)
+  const [pipelineEditStr, setPipelineEditStr] = useState<string>(
+    JSON.stringify(pipelineVal, null, '\t')
+  )
+  const [modDef, setModDef] = useState<ModuleDefinitions>(myModDef)
+  const [modDefStr, setModDefStr] = useState<string>(
+    JSON.stringify(modDef, null, '\t')
+  )
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
       setTabVal(newValue)
+      if (newValue !== 0) {
+        // changing from the AppCanvas View to other view
+        setDefaultPpVal(pipelineVal)
+      }
     },
-    []
+    [pipelineVal, setDefaultPpVal]
   )
 
   const handlePipelineEditorChange = useCallback(
     (newVal, event) => {
       console.log(`[Pipeline Editor onChange]`)
-      try {
-        const parsedVal = JSON.parse(newVal)
-        setPipelineVal0(parsedVal)
-      } catch (error) {
-        console.error(error)
-        throw error
-      }
+      setPipelineEditStr(newVal)
     },
-    [setPipelineVal0]
+    [setPipelineEditStr]
   )
 
   const handlePipelineEditorValidation = useCallback((markers) => {
@@ -133,13 +139,9 @@ const Template: Story<AppCanvasProps> = (args) => {
     [setPipelineVal]
   )
 
-  const pipelineValStr = useMemo(
+  const pipelineStr = useMemo(
     () => JSON.stringify(pipelineVal, null, '\t'),
     [pipelineVal]
-  )
-  const modDefStr = useMemo(
-    () => JSON.stringify(modDef0, null, '\t'),
-    [modDef0]
   )
 
   return (
@@ -158,33 +160,48 @@ const Template: Story<AppCanvasProps> = (args) => {
           className="app-canvas-wrapper"
           style={{ width: '1000px', height: '500px' }}
         >
-          <AppCanvas {...args} onValueChange={handleValueChange} />
+          <AppCanvas
+            {...args}
+            defaultValue={defaultPpVal}
+            moduleDefinitions={modDef}
+            onValueChange={handleValueChange}
+          />
         </div>
       </TabPanel>
       <TabPanel value={tabVal} index={1}>
         <div
-          className="row app-canvas-wrapper"
-          style={{ width: '1000px', height: '500px' }}
+          style={{
+            width: '1000px',
+            height: '600px',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
         >
           <Editor
-            height="100%"
+            height="80%"
             defaultLanguage="json"
-            defaultValue={pipelineValStr}
+            defaultValue={pipelineStr}
             onChange={handlePipelineEditorChange}
             onValidate={handlePipelineEditorValidation}
           />
+          <div style={{ display: 'flex', width: '100%', marginTop: '2rem' }}>
+            <Button variant="contained">Save Changes</Button>
+          </div>
         </div>
       </TabPanel>
       <TabPanel value={tabVal} index={2}>
         <div
           className="row app-canvas-wrapper"
-          style={{ width: '1000px', height: '500px' }}
+          style={{ width: '1000px', height: '700px' }}
         >
           <Editor
-            height="100%"
+            height="80%"
             defaultLanguage="json"
             defaultValue={modDefStr}
           />
+          <div style={{ display: 'flex', width: '100%', marginTop: '1.5rem' }}>
+            <Button variant="contained">Save Changes</Button>
+          </div>
         </div>
       </TabPanel>
     </>
@@ -196,8 +213,6 @@ export const BasicUsage = Template.bind({})
 BasicUsage.args = {
   dark: false,
   hideDarkModeButton: false,
-  defaultValue: myPipeline,
-  moduleDefinitions: modDef,
   graphEditingDisabled: true,
   onLoad: handleCanvasLoad,
   fetchModelList: fetchModelList,
@@ -205,4 +220,4 @@ BasicUsage.args = {
   fetchROIImg: fetchROIImg
 } as AppCanvasProps
 
-BasicUsage.storyName = 'Usage: Basic'
+BasicUsage.storyName = 'Basic Usage'

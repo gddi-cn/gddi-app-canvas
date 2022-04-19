@@ -22,7 +22,8 @@ export const TabPanel = ({
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography variant="body2">{children}</Typography>
+          {/* <Typography variant="body2">{children}</Typography> */}
+          <Box>{children}</Box>
         </Box>
       )}
     </div>

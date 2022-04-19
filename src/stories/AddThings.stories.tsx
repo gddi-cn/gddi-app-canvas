@@ -306,4 +306,4 @@ AddModules.args = {
   moduleDefinitions: modDef
 } as AppCanvasProps
 
-AddModules.storyName = 'Usage: Add Modules'
+AddModules.storyName = 'Add Modules To Pipeline'
