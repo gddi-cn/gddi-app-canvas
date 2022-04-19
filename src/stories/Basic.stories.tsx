@@ -26,6 +26,8 @@ import Editor from '@monaco-editor/react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Button from '@mui/material/Button'
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
 
 const myPipeline: Pipeline = {
   version: '0.0.1',
@@ -107,6 +109,7 @@ const Template: Story<AppCanvasProps> = (args) => {
   const [modDefEditStr, setModDefEditStr] = useState<string>(
     JSON.stringify(modDef, null, '\t')
   )
+  const [saveMDErrorMsg, setSaveMDErrorMsg] = useState<string | undefined>()
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
@@ -114,6 +117,9 @@ const Template: Story<AppCanvasProps> = (args) => {
       if (newValue !== 0) {
         // changing from the AppCanvas View to other view
         setDefaultPpVal(pipelineVal)
+      }
+      if (newValue === 2) {
+        setSaveMDErrorMsg(undefined)
       }
     },
     [pipelineVal, setDefaultPpVal]
@@ -158,9 +164,10 @@ const Template: Story<AppCanvasProps> = (args) => {
       setModDef(modDef1)
     } catch (error) {
       console.error(error)
+      setSaveMDErrorMsg(error.message)
       throw error
     }
-  }, [modDefEditStr, setModDef])
+  }, [modDefEditStr, setModDef, setSaveMDErrorMsg])
 
   const pipelineStr = useMemo(
     () => JSON.stringify(pipelineVal, null, '\t'),
@@ -217,7 +224,7 @@ const Template: Story<AppCanvasProps> = (args) => {
       <TabPanel value={tabVal} index={2}>
         <div
           className="row app-canvas-wrapper"
-          style={{ width: '1000px', height: '700px' }}
+          style={{ width: '1000px', height: '600px' }}
         >
           <Editor
             height="80%"
@@ -225,10 +232,18 @@ const Template: Story<AppCanvasProps> = (args) => {
             defaultValue={modDefStr}
             onChange={handleMDEditorChange}
           />
-          <div style={{ display: 'flex', width: '100%', marginTop: '1.5rem' }}>
+          <div style={{ display: 'flex', width: '100%', marginTop: '2rem' }}>
             <Button variant="contained" onClick={handleMDEditorSave}>
               Save Changes
             </Button>
+          </div>
+          <div style={{ display: 'flex', width: '100%', marginTop: '1rem' }}>
+            {saveMDErrorMsg && (
+              <Alert severity="error">
+                <AlertTitle>Error Saving Model Definitions</AlertTitle>
+                {saveMDErrorMsg}
+              </Alert>
+            )}
           </div>
         </div>
       </TabPanel>
@@ -248,4 +263,4 @@ BasicUsage.args = {
   fetchROIImg: fetchROIImg
 } as AppCanvasProps
 
-BasicUsage.storyName = 'Basic Usage'
+BasicUsage.storyName = 'Demo'
