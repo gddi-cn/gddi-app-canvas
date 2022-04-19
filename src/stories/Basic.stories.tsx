@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { Meta } from '@storybook/react/types-6-0'
 import { Story } from '@storybook/react'
 import {
@@ -10,13 +10,15 @@ import {
   Connection,
   FetchLabelRes,
   FetchModelRes,
-  FetchROIImgRes
+  FetchROIImgRes,
+  ModuleDefinitions
 } from '../AppCanvas'
 import { TabPanel } from './components'
 import modDef from './datav2/md3.json'
 import pipeline from './datav2/pipeline5.json'
 // import pipeline from './datav2/pipelineTest4.json'
 import { fetchModelResult, modelLabels } from './datav2/fetchExample2'
+import Editor from '@monaco-editor/react'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -92,6 +94,8 @@ const fetchROIImg = (
 const Template: Story<AppCanvasProps> = (args) => {
   const [tabVal, setTabVal] = useState<number>(0)
   const [pipelineVal, setPipelineVal] = useState<Pipeline>(myPipeline)
+  const [pipelineVal0, setPipelineVal0] = useState<Pipeline>(myPipeline)
+  const [modDef0, setModDef0] = useState<ModuleDefinitions>(modDef)
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
@@ -100,11 +104,43 @@ const Template: Story<AppCanvasProps> = (args) => {
     []
   )
 
-  const handleValueChange = useCallback((val: Pipeline): void => {
-    console.log(`🦍  value changed!`)
-    console.log(val)
-    setPipelineVal(val)
-  }, [setPipelineVal])
+  const handlePipelineEditorChange = useCallback(
+    (newVal, event) => {
+      console.log(`[Pipeline Editor onChange]`)
+      try {
+        const parsedVal = JSON.parse(newVal)
+        setPipelineVal0(parsedVal)
+      } catch (error) {
+        console.error(error)
+        throw error
+      }
+    },
+    [setPipelineVal0]
+  )
+
+  const handlePipelineEditorValidation = useCallback((markers) => {
+    // model markers
+    console.log(`[Pipeline Editor onValidation]`)
+    markers.forEach((marker) => console.log('onValidate:', marker.message))
+  }, [])
+
+  const handleValueChange = useCallback(
+    (val: Pipeline): void => {
+      console.log(`🦍  value changed!`)
+      console.log(val)
+      setPipelineVal(val)
+    },
+    [setPipelineVal]
+  )
+
+  const pipelineValStr = useMemo(
+    () => JSON.stringify(pipelineVal, null, '\t'),
+    [pipelineVal]
+  )
+  const modDefStr = useMemo(
+    () => JSON.stringify(modDef0, null, '\t'),
+    [modDef0]
+  )
 
   return (
     <>
@@ -115,6 +151,7 @@ const Template: Story<AppCanvasProps> = (args) => {
       >
         <Tab label="Visualization" />
         <Tab label="Pipeline Value" />
+        <Tab label="Model Definitions Config" />
       </Tabs>
       <TabPanel value={tabVal} index={0}>
         <div
@@ -129,7 +166,25 @@ const Template: Story<AppCanvasProps> = (args) => {
           className="row app-canvas-wrapper"
           style={{ width: '1000px', height: '500px' }}
         >
-          {JSON.stringify(pipelineVal, null, '\t')}
+          <Editor
+            height="100%"
+            defaultLanguage="json"
+            defaultValue={pipelineValStr}
+            onChange={handlePipelineEditorChange}
+            onValidate={handlePipelineEditorValidation}
+          />
+        </div>
+      </TabPanel>
+      <TabPanel value={tabVal} index={2}>
+        <div
+          className="row app-canvas-wrapper"
+          style={{ width: '1000px', height: '500px' }}
+        >
+          <Editor
+            height="100%"
+            defaultLanguage="json"
+            defaultValue={modDefStr}
+          />
         </div>
       </TabPanel>
     </>
