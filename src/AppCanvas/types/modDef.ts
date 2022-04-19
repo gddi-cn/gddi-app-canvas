@@ -22,10 +22,12 @@ type PropDefinitionObject = {
 
 export type PropDefinitionType = SimplePropDefinition & ROIPropDefinition
 
-export type BasicType = 'string' | 'boolean' | 'number'
+export type BasicTypeName = 'string' | 'boolean' | 'number'
+export type BasicType = string | boolean | number
 
 interface PropDefBasic {
-  type: BasicType | 'stringArray'
+  // type: BasicType
+  type: BasicTypeName | 'stringArray' | 'array'
   description?: string
 }
 

@@ -11,10 +11,13 @@ import {
   FetchLabelRes,
   FetchModelRes,
   FetchROIImgRes,
-  ModuleDefinitions
+  ModuleDefinitions,
+  getParsedData,
+  tModuleDefinitions
 } from '../AppCanvas'
 import { TabPanel } from './components'
-import myModDef from './datav2/md3.json'
+// import myModDef from './datav2/md3.json'
+import { md3 } from './datav2/md3'
 import pipeline from './datav2/pipeline5.json'
 // import pipeline from './datav2/pipelineTest4.json'
 import { fetchModelResult, modelLabels } from './datav2/fetchExample2'
@@ -100,8 +103,8 @@ const Template: Story<AppCanvasProps> = (args) => {
   const [pipelineEditStr, setPipelineEditStr] = useState<string>(
     JSON.stringify(pipelineVal, null, '\t')
   )
-  const [modDef, setModDef] = useState<ModuleDefinitions>(myModDef)
-  const [modDefStr, setModDefStr] = useState<string>(
+  const [modDef, setModDef] = useState<ModuleDefinitions>(md3)
+  const [modDefEditStr, setModDefEditStr] = useState<string>(
     JSON.stringify(modDef, null, '\t')
   )
 
@@ -139,10 +142,32 @@ const Template: Story<AppCanvasProps> = (args) => {
     [setPipelineVal]
   )
 
+  const handleMDEditorChange = useCallback(
+    (newVal, event) => {
+      console.log(`[Model Definition Editor onChange]`)
+      setModDefEditStr(newVal)
+    },
+    [setModDefEditStr]
+  )
+
+  const handleMDEditorSave = useCallback(() => {
+    console.log(`[Model Definition Editor onSave]`)
+    try {
+      const modDef0 = JSON.parse(modDefEditStr)
+      const modDef1 = getParsedData(modDef0, tModuleDefinitions)
+      setModDef(modDef1)
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }, [modDefEditStr, setModDef])
+
   const pipelineStr = useMemo(
     () => JSON.stringify(pipelineVal, null, '\t'),
     [pipelineVal]
   )
+
+  const modDefStr = useMemo(() => JSON.stringify(modDef, null, '\t'), [modDef])
 
   return (
     <>
@@ -198,9 +223,12 @@ const Template: Story<AppCanvasProps> = (args) => {
             height="80%"
             defaultLanguage="json"
             defaultValue={modDefStr}
+            onChange={handleMDEditorChange}
           />
           <div style={{ display: 'flex', width: '100%', marginTop: '1.5rem' }}>
-            <Button variant="contained">Save Changes</Button>
+            <Button variant="contained" onClick={handleMDEditorSave}>
+              Save Changes
+            </Button>
           </div>
         </div>
       </TabPanel>

@@ -1,2 +1,1 @@
-export { AppCanvas } from './AppCanvas'
-export * from './AppCanvas/types'
+export * from './AppCanvas'
