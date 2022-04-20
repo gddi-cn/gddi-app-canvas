@@ -110,13 +110,17 @@ const Template: Story<AppCanvasProps> = (args) => {
     JSON.stringify(modDef, null, '\t')
   )
   const [saveMDErrorMsg, setSaveMDErrorMsg] = useState<string | undefined>()
+  const [savePipelineErrorMsg, setSavePipelineErrorMsg] = useState<
+    string | undefined
+  >()
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
       setTabVal(newValue)
-      if (newValue !== 0) {
-        // changing from the AppCanvas View to other view
-        setDefaultPpVal(pipelineVal)
+      // when switching tab -- update the default value of the AppCanvas
+      setDefaultPpVal(pipelineVal)
+      if (newValue === 1) {
+        setSavePipelineErrorMsg(undefined)
       }
       if (newValue === 2) {
         setSaveMDErrorMsg(undefined)
@@ -132,6 +136,18 @@ const Template: Story<AppCanvasProps> = (args) => {
     },
     [setPipelineEditStr]
   )
+
+  const handlePipelineSave = useCallback(() => {
+    console.log(`[Pipeline Editor onSave]`)
+    try {
+      const p0 = JSON.parse(pipelineEditStr)
+      setPipelineVal(p0)
+    } catch (error) {
+      console.error(error)
+      setSavePipelineErrorMsg(error.message)
+      throw error
+    }
+  }, [pipelineEditStr, setPipelineVal, setSavePipelineErrorMsg])
 
   const handlePipelineEditorValidation = useCallback((markers) => {
     // model markers
@@ -217,7 +233,17 @@ const Template: Story<AppCanvasProps> = (args) => {
             onValidate={handlePipelineEditorValidation}
           />
           <div style={{ display: 'flex', width: '100%', marginTop: '2rem' }}>
-            <Button variant="contained">Save Changes</Button>
+            <Button variant="contained" onClick={handlePipelineSave}>
+              Save Changes
+            </Button>
+          </div>
+          <div style={{ display: 'flex', width: '100%', marginTop: '1rem' }}>
+            {savePipelineErrorMsg && (
+              <Alert severity="error">
+                <AlertTitle>Error Saving Pipeline</AlertTitle>
+                {savePipelineErrorMsg}
+              </Alert>
+            )}
           </div>
         </div>
       </TabPanel>
