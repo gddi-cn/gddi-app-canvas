@@ -102,11 +102,6 @@ export const ModelConfigDialog = ({
         : undefined,
     [value]
   )
-  // const labelsVal = useMemo(
-  //   () =>
-  //     value['mod_labels'] ? (value['mod_labels'] as FilterLabelsType) : {},
-  //   [value]
-  // )
   const labelsVal = useMemo(() => {
     if (!value['mod_labels']) {
       return {}

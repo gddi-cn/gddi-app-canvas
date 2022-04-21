@@ -225,19 +225,19 @@ export const FilterLabelsDisplay = ({
     }
   }
 
-  const LoadingElem = useMemo(
-    () => (
-      <Box sx={{ width: '100%', flex: 1 }}>
-        <LinearProgress sx={{ top: '50%' }} />
-      </Box>
-    ),
-    []
-  )
+  // const LoadingElem = useMemo(
+  //   () => (
+  //     <Box sx={{ width: '100%', flex: 1 }}>
+  //       <LinearProgress sx={{ top: '50%' }} />
+  //     </Box>
+  //   ),
+  //   []
+  // )
   // Display loading progress only when
   // labels value is not set AND fetchLoading in process
-  if (Object.keys(labels).length === 0 && fetchLoading) {
-    return LoadingElem
-  }
+  // if (Object.keys(labels).length === 0 && fetchLoading) {
+  //   return LoadingElem
+  // }
 
   return (
     <Box sx={{ width: '100%' }}>
