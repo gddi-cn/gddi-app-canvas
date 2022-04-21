@@ -28,11 +28,11 @@ export const StringArrayInput = ({
     if (propDefinition?.enum && propDefinition?.enum.length > 0) {
       const enumOpts = propDefinition?.enum as BasicType[]
       enumOpts.forEach((str) => {
-        oSet.add(str)
+        oSet.add(str.toString())
       })
     }
     return Array.from(oSet).sort()
-  }, [propDefinition?.enum, arrayVal])
+  }, [propDefinition?.enum])
 
   const handleChipClick = useCallback(
     (opt: string) => {

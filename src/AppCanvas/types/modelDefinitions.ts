@@ -11,6 +11,7 @@ export const tBasicTypeName = t.union([
   t.literal('number')
 ])
 export const tBasicType = t.union([t.string, t.boolean, t.number])
+export type BasicType = t.TypeOf<typeof tBasicType>
 
 export const tPropDefBasic = t.type({
   type: t.union([tBasicTypeName, t.literal('stringArray'), t.literal('array')])
