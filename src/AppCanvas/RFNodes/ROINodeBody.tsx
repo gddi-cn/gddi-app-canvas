@@ -1,6 +1,6 @@
 // custom node: https://reactflow.dev/examples/custom-node/
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { Module, PropObject } from '../types'
 import { useStore } from '../store/useStore'
@@ -8,6 +8,7 @@ import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
 import { EditableText } from '../Components'
 import { ROIDialog } from './ROIDialog'
+import { NodeDetail } from './NodeDetail'
 
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -71,8 +72,21 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
     setDialogOpen(true)
   }, [])
 
+  const handleNodePropChange = useCallback(
+    (propName, propVal) => {
+      modifyModuleProp(nodeData.id, propName, propVal)
+    },
+    [modifyModuleProp, nodeData.id]
+  )
+
   const propObj = nodeData.props as PropObject
   const regions = propObj['regions'] as number[][][]
+
+  // const extraProps: PropObject = useMemo(() => {
+  //   const propObj1 = { ...propObj }
+  //   delete propObj1['regions']
+  //   return propObj1
+  // }, [propObj])
 
   // const renderROIEditor = useCallback(
   //   ({ val, onValChange }) => {
@@ -91,7 +105,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
     // console.log('aaaa - roiImgFetcher changes')
     setFetchROIImgLoading(true)
     fetchROIImgURL()
-  }, [fetchROIImgURL, roiImgFetcher])
+  }, [fetchROIImgURL, roiImgFetcher, setFetchROIImgLoading])
 
   return (
     <Box
@@ -145,6 +159,16 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
         onClose={handleDialogClose}
         onOK={handleDialogOk}
       />
+      {Object.keys(propObj).length > 1 ? (
+        <Box>
+          <NodeDetail
+            hidePropsWithName={['regions']}
+            readonly={propEditingDisabled}
+            nodeData={nodeData}
+            onPropChange={handleNodePropChange}
+          />
+        </Box>
+      ) : null}
     </Box>
   )
 }

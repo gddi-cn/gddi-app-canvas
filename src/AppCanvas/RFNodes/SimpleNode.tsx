@@ -1,6 +1,6 @@
 // custom node: https://reactflow.dev/examples/custom-node/
 
-import React, { useCallback, useMemo, createContext } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import shallow from 'zustand/shallow'
 import { Module } from '../types'
 import { useStore } from '../store/useStore'

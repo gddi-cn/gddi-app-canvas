@@ -9,12 +9,15 @@ import { useBoxFilterLabelOptions, isBoxFilterNode } from './propHooks'
 export interface NodeDetailProps {
   readonly?: boolean
   nodeData: Module
+  // props with name exist in this array will not be rendered
+  hidePropsWithName?: string[]
   onPropChange: (propName: string, propVal: PropValue) => void
 }
 
 export const NodeDetail = ({
   readonly,
   nodeData,
+  hidePropsWithName,
   onPropChange
 }: NodeDetailProps): JSX.Element => {
   const { propDefinition, pipeline } = useStore(
@@ -39,6 +42,10 @@ export const NodeDetail = ({
     if (nodeData.props) {
       const propList = nodeData.props as Record<string, PropValue>
       return Object.keys(propList).map((propName) => {
+        if (hidePropsWithName && hidePropsWithName.includes(propName)) {
+          // hide props that present in hidePropsWithName
+          return <></>
+        }
         const handlePropChange = (val: PropValue): void => {
           onPropChange(propName, val)
         }
@@ -70,7 +77,9 @@ export const NodeDetail = ({
     nodeData.id,
     onPropChange,
     propDefinition,
-    boxLabelsEnums
+    boxLabelsEnums,
+    isBoxFilter,
+    dependentNodeIds
   ])
   return <CollapseContainer title="Detail">{rowList}</CollapseContainer>
 }
