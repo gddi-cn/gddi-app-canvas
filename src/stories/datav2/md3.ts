@@ -60,7 +60,7 @@ export const md3: ModuleDefinitions = {
   },
   DetectionModel_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
+    name: 'DetectionModel_v2',
     description: '视频读取组件',
     inputs: [
       {
@@ -77,8 +77,25 @@ export const md3: ModuleDefinitions = {
   },
   ClassificationModel_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
+    name: 'ClassificationModel_v2',
     description: '分类模型',
+    inputs: [
+      {
+        id: 0,
+        name: 'input_0'
+      }
+    ],
+    outputs: [
+      {
+        id: 0,
+        name: 'output_0'
+      }
+    ]
+  },
+  PoseModel_v2: {
+    version: 'null',
+    name: 'PoseModel_v2',
+    description: '姿态检测模型',
     inputs: [
       {
         id: 0,

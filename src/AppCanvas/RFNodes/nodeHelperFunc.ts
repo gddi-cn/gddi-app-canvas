@@ -17,5 +17,8 @@ export function guessQueryModelType(node: Module): string | undefined {
   if (node.type.toLocaleLowerCase().includes('classification')) {
     return 'classification'
   }
+  if (node.type.toLocaleLowerCase().includes('pose')) {
+    return 'pose'
+  }
   return undefined
 }

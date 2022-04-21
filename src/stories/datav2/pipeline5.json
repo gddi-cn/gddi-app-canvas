@@ -52,6 +52,21 @@
       }
     },
     {
+      "id": 12,
+      "type": "PoseModel_v2",
+      "name": "Amazing Pose Model",
+      "runner": "default",
+      "props": {
+        "mod_iter_id": "113",
+        "mod_labels": {
+          "aa": {},
+          "bb": {
+            "checked": true
+          }
+        }
+      }
+    },
+    {
       "id": 4,
       "type": "ROI_v2",
       "name": "ROI_v2_4",
