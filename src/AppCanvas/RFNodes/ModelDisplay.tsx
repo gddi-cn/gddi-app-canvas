@@ -129,7 +129,7 @@ export const ModelDisplay = ({
       >
         <DialogContent
           dividers
-          sx={{ overflowY: 'hidden', width: '90vw', height: '90vh' }}
+          sx={{ overflowY: 'hidden', width: '600px', height: '90vh' }}
         >
           <ModelSelectSearch
             page={page}

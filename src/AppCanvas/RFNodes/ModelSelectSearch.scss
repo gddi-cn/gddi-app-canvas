@@ -1,8 +1,9 @@
-.model-selectsearch-wraper{
+.model-selectsearch-wrapper{
     display: flex;
     flex-direction: column;
     height: 100%;
     .list-with-page {
+        flex: 1;
         display: flex;
         flex-direction: column;
         height: 65vh;

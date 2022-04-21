@@ -147,13 +147,14 @@ export const ModelSelectSearch = ({
       dispModels,
       showSearchResult,
       page,
-      pageSize,
-      debouncedHandlePageChange
+      debouncedHandlePageChange,
+      onSelect,
+      searchPageNum
     ]
   )
 
   return (
-    <Box className="model-selectsearch-wraper">
+    <Box className="model-selectsearch-wrapper">
       <Box className="searchbar-wrapper">
         <SearchBar
           disabled={fetchLoading}
