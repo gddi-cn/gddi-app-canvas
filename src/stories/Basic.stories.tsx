@@ -58,25 +58,19 @@ const fetchModelList = (
 ): Promise<FetchModelRes> => {
   return new Promise<FetchModelRes>((resolve, reject) => {
     setTimeout(() => {
-      const { models, totalCnt } = fetchModelResult
+      let models = fetchModelResult.models
+      let totalCnt = fetchModelResult.totalCnt
+      if (queryModelType === 'classification') {
+        // Pretend - filter by classification
+        models = fetchModelResult2.models
+        totalCnt = fetchModelResult2.totalCnt
+      }
       console.log(`[story - fetcher] ${queryModelType}`)
       if (queryModelName === undefined || queryModelName === '') {
-        // Pretend - filter by classification
-        if (queryModelType === 'classification') {
-          resolve({
-            models: fetchModelResult2.models.slice(
-              pageSize * (page - 1),
-              pageSize * page
-            ),
-            totalCnt: fetchModelResult2.totalCnt
-          })
-        } else {
-          // Pretend - no filter
-          resolve({
-            models: models.slice(pageSize * (page - 1), pageSize * page),
-            totalCnt
-          })
-        }
+        resolve({
+          models: models.slice(pageSize * (page - 1), pageSize * page),
+          totalCnt
+        })
       } else {
         // search by model name
         const searchRes = models.filter((mod) =>

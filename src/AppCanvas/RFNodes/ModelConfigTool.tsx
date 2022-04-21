@@ -104,7 +104,8 @@ export const ModelConfigTool = ({
     fetchModelsWithLabels,
     modelListFetcher,
     labelListFetcher,
-    setFetchLoading
+    setFetchLoading,
+    queryModelType
   ])
 
   return (

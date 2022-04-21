@@ -196,7 +196,8 @@ const createCoreExtSlice = (
         const modRes = await modelListFetcher(
           pageOffset,
           pageSize,
-          queryModelName
+          queryModelName,
+          queryModelType
         )
         const labelMemo = new Map<string, string[]>()
         if (labelListFetcher) {

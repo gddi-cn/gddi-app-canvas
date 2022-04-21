@@ -57,7 +57,7 @@ export const ModelSelectSearch = ({
       setFetchLoading(true)
       fetchModelsWithLabels(pageNum, undefined, queryModelType)
     },
-    [fetchModelsWithLabels, setFetchLoading]
+    [fetchModelsWithLabels, setFetchLoading, onPageChange, queryModelType]
   )
 
   const debouncedHandlePageChange = useMemo(
@@ -71,9 +71,14 @@ export const ModelSelectSearch = ({
       setShowSearchResult(true)
       setSearchPageNum(1)
       setFetchLoading(true)
-      fetchModelsWithLabels(1, searchVal)
+      fetchModelsWithLabels(1, searchVal, queryModelType)
     },
-    [setShowSearchResult, fetchModelsWithLabels, setFetchLoading]
+    [
+      setShowSearchResult,
+      fetchModelsWithLabels,
+      setFetchLoading,
+      queryModelType
+    ]
   )
 
   const handleCancelSearch = () => {
