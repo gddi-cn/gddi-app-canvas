@@ -20,7 +20,11 @@ import { TabPanel } from './components'
 import { md3 } from './datav2/md3'
 import pipeline from './datav2/pipeline5.json'
 // import pipeline from './datav2/pipelineTest4.json'
-import { fetchModelResult, modelLabels } from './datav2/fetchExample2'
+import {
+  fetchModelResult,
+  fetchModelResult2,
+  modelLabels
+} from './datav2/fetchExample2'
 import Editor from '@monaco-editor/react'
 
 import Tabs from '@mui/material/Tabs'
@@ -49,16 +53,30 @@ const handleCanvasLoad = (canvas: AIAppType): void => {
 const fetchModelList = (
   page: number,
   pageSize: number,
-  queryModelName?: string
+  queryModelName?: string,
+  queryModelType?: string
 ): Promise<FetchModelRes> => {
   return new Promise<FetchModelRes>((resolve, reject) => {
     setTimeout(() => {
       const { models, totalCnt } = fetchModelResult
+      console.log(`[story - fetcher] ${queryModelType}`)
       if (queryModelName === undefined || queryModelName === '') {
-        resolve({
-          models: models.slice(pageSize * (page - 1), pageSize * page),
-          totalCnt
-        })
+        // Pretend - filter by classification
+        if (queryModelType === 'classification') {
+          resolve({
+            models: fetchModelResult2.models.slice(
+              pageSize * (page - 1),
+              pageSize * page
+            ),
+            totalCnt: fetchModelResult2.totalCnt
+          })
+        } else {
+          // Pretend - no filter
+          resolve({
+            models: models.slice(pageSize * (page - 1), pageSize * page),
+            totalCnt
+          })
+        }
       } else {
         // search by model name
         const searchRes = models.filter((mod) =>

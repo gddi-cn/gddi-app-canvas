@@ -37,6 +37,21 @@
       }
     },
     {
+      "id": 11,
+      "type": "ClassificationModel_v2",
+      "name": "Classification_v2_3",
+      "runner": "Classification",
+      "props": {
+        "mod_iter_id": "112",
+        "mod_labels": {
+          "aa": {},
+          "bb": {
+            "checked": true
+          }
+        }
+      }
+    },
+    {
       "id": 4,
       "type": "ROI_v2",
       "name": "ROI_v2_4",

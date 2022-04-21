@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Module, Pipeline, ModLabelsValueType } from '../types'
+import { isModelNode } from './nodeHelperFunc'
 
 export function isBoxFilterNode(nodeData: Module): boolean {
   return nodeData.type.toLocaleLowerCase().includes('boxfilter')
@@ -10,16 +11,6 @@ function getBoxFilterDependentNodeIds(
   pipeline: Pipeline
 ): number[] {
   const result: number[] = []
-
-  function isModelNode(node: Module): boolean {
-    if (node.props && node.props['mod_labels'] !== undefined) {
-      const modLabelsProp = node.props['mod_labels'] as ModLabelsValueType
-      if (Object.keys(modLabelsProp).length > 0) {
-        return true
-      }
-    }
-    return false
-  }
 
   function isReachableToBoxFilterNode(srcId: number): boolean {
     // Assume: srcId is a modelnode

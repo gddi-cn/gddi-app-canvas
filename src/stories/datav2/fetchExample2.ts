@@ -116,6 +116,122 @@ export const fetchModelResult: FetchModelRes = {
   totalCnt: 11
 }
 
+export const fetchModelResult2: FetchModelRes = {
+  models: [
+    {
+      mod_id: '0',
+      mod_iter_id: 'fe033',
+      mod_name: '分类模型1',
+      mod_created_at: new Date(),
+      mod_version: '1.2',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '033'
+    },
+    {
+      mod_id: '0',
+      mod_iter_id: 'fe133',
+      mod_name: '分类模型2',
+      mod_created_at: new Date(),
+      mod_version: '1.2',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '133'
+    },
+    {
+      mod_id: '0',
+      mod_iter_id: 'fe233',
+      mod_name: '分类模型3',
+      mod_created_at: new Date(),
+      mod_version: '1.2.1',
+      mod_version_id: '1',
+      mod_license: 'MIT',
+      mod_result_id: '233'
+    },
+    {
+      mod_id: '0',
+      mod_iter_id: 'fe333',
+      mod_name: '分类模型4',
+      mod_created_at: new Date(),
+      mod_version: '1.12',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '333'
+    },
+    {
+      mod_id: '4',
+      mod_iter_id: 'fe433',
+      mod_name: '分类模型5',
+      mod_created_at: new Date(),
+      mod_version: '2.2',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '433'
+    },
+    {
+      mod_id: '5',
+      mod_iter_id: 'fe533',
+      mod_name: '分类模型6',
+      mod_created_at: new Date(),
+      mod_version: '3.2',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '533'
+    },
+    {
+      mod_id: '6',
+      mod_iter_id: 'fe633',
+      mod_name: '分类模型7',
+      mod_created_at: new Date(),
+      mod_version: '3.2',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '633'
+    },
+    {
+      mod_id: '7',
+      mod_iter_id: 'fe733',
+      mod_name: '分类模型8',
+      mod_created_at: new Date(),
+      mod_version: '3.2',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '733'
+    },
+    {
+      mod_id: '8',
+      mod_iter_id: 'fe833',
+      mod_name: '分类模型9',
+      mod_created_at: new Date(),
+      mod_version: '3.2',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '833'
+    },
+    {
+      mod_id: '9',
+      mod_iter_id: 'fe933',
+      mod_name: '分类模型10',
+      mod_created_at: new Date(),
+      mod_version: '3.2',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '933'
+    },
+    {
+      mod_id: '10',
+      mod_iter_id: 'fe1033',
+      mod_name: '分类模型11',
+      mod_created_at: new Date(),
+      mod_version: '3.2',
+      mod_version_id: '1',
+      mod_license: '',
+      mod_result_id: '1033'
+    }
+  ],
+  totalCnt: 11
+}
+
 const labels1: FetchLabelRes = {
   labels: ['cat', 'dog', 'panda', 'horse']
 }

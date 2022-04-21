@@ -77,29 +77,25 @@ const createCoreSlice = (
       ...getRFNodes(newValue.nodes),
       ...getRFEdges(newValue.pipe)
     ]
-    try {
-      const newPostions = await graphLayoutHelper(rfElements)
-      newPostions.forEach((np) => {
-        const ele = rfElements.find((e) => e.id === np.nodeId)
-        if (ele) {
-          ; (ele as Node).position = { x: np.x, y: np.y }
-        }
+
+    const newPostions = await graphLayoutHelper(rfElements)
+    newPostions.forEach((np) => {
+      const ele = rfElements.find((e) => e.id === np.nodeId)
+      if (ele) {
+        ;(ele as Node).position = { x: np.x, y: np.y }
+      }
+    })
+    set(
+      produce((draft: MyState) => {
+        const draft1 = draft
+        draft1.value.version = newValue.version
+        draft1.value.nodes = newValue.nodes.map(
+          (node) => setModulePropInited(node) as Module
+        )
+        draft1.value.pipe = [...newValue.pipe]
+        draft1.rfElements = [...rfElements]
       })
-      set(
-        produce((draft: MyState) => {
-          const draft1 = draft
-          draft1.value.version = newValue.version
-          draft1.value.nodes = newValue.nodes.map(
-            (node) => setModulePropInited(node) as Module
-          )
-          draft1.value.pipe = [...newValue.pipe]
-          draft1.rfElements = [...rfElements]
-        })
-      )
-    } catch (error) {
-      throw error
-      // console.error(error)
-    }
+    )
   },
   addPipeline: async (modules: Module[], connections: Connection[]) => {
     const { value, rfElements, rfInstance } = get()
@@ -112,48 +108,39 @@ const createCoreSlice = (
         getRFEdge([srcId, srcOutputId, targetId, targetInputId])
     )
     const rfElements1 = [...rfElements, ...rfNodesNew, ...rfEdgeNew]
-    try {
-      const newPostions = await graphLayoutHelper(rfElements1)
-      // set state
-      set(
-        produce((draft: MyState) => {
-          const draft1 = draft
-          // set state - value
-          mods1.forEach((mod1) => {
-            draft1.value.nodes.push(setModulePropInited(mod1) as Module)
-          })
-          conns1.forEach(([srcId, srcOutputId, targetId, targetInputId]) => {
-            draft1.value.pipe.push([
-              srcId,
-              srcOutputId,
-              targetId,
-              targetInputId
-            ])
-          })
-          // set state - add new rfElements
-          rfNodesNew.forEach((nodeNew) => {
-            const p = newPostions.find((np) => np.nodeId === nodeNew.id)
-            if (p) {
-              nodeNew.position = { x: p.x, y: p.y }
-            }
-            draft1.rfElements.push(nodeNew)
-          })
-          rfEdgeNew.forEach((edgeNew) => {
-            draft1.rfElements.push(edgeNew)
-          })
-          // set state - update old rfElements' positions
-          newPostions.forEach((np) => {
-            const ele1 = draft1.rfElements.find((e) => e.id === np.nodeId)
-            if (ele1) {
-              ; (ele1 as Node).position = { x: np.x, y: np.y }
-            }
-          })
+
+    const newPostions = await graphLayoutHelper(rfElements1)
+    // set state
+    set(
+      produce((draft: MyState) => {
+        const draft1 = draft
+        // set state - value
+        mods1.forEach((mod1) => {
+          draft1.value.nodes.push(setModulePropInited(mod1) as Module)
         })
-      )
-    } catch (error) {
-      throw error
-      // console.error(error)
-    }
+        conns1.forEach(([srcId, srcOutputId, targetId, targetInputId]) => {
+          draft1.value.pipe.push([srcId, srcOutputId, targetId, targetInputId])
+        })
+        // set state - add new rfElements
+        rfNodesNew.forEach((nodeNew) => {
+          const p = newPostions.find((np) => np.nodeId === nodeNew.id)
+          if (p) {
+            nodeNew.position = { x: p.x, y: p.y }
+          }
+          draft1.rfElements.push(nodeNew)
+        })
+        rfEdgeNew.forEach((edgeNew) => {
+          draft1.rfElements.push(edgeNew)
+        })
+        // set state - update old rfElements' positions
+        newPostions.forEach((np) => {
+          const ele1 = draft1.rfElements.find((e) => e.id === np.nodeId)
+          if (ele1) {
+            ;(ele1 as Node).position = { x: np.x, y: np.y }
+          }
+        })
+      })
+    )
   },
   addModule: (module: RawModule) => {
     set(
@@ -291,7 +278,7 @@ const createCoreSlice = (
             const eleNode = draft1.rfElements.find((n) => n.id === r.nodeId)
             if (eleNode) {
               // + Math.random() is a hack to force rerendering the Flow
-              ; (eleNode as Node).position = { x: r.x + Math.random(), y: r.y }
+              ;(eleNode as Node).position = { x: r.x + Math.random(), y: r.y }
             }
           })
         )

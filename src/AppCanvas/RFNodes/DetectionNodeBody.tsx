@@ -1,6 +1,6 @@
 // custom node: https://reactflow.dev/examples/custom-node/
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { Module, PropObject, ModLabelsValueType } from '../types'
 import { useStore } from '../store/useStore'
@@ -27,21 +27,13 @@ export const DetectionNodeBody = ({
     modifyModuleName,
     modifyModuleProp,
     removeModule,
-    propEditingDisabled,
-    fetchModelsWithLabels,
-    setFetchLoading,
-    modelListFetcher,
-    labelListFetcher
+    propEditingDisabled
   } = useStore(
     (state) => ({
       modifyModuleName: state.modifyModuleName,
       modifyModuleProp: state.modifyModuleProp,
       removeModule: state.removeModule,
-      propEditingDisabled: state.propEditingDisabled,
-      fetchModelsWithLabels: state.fetchModelsWithLabels,
-      setFetchLoading: state.setFetchLoading,
-      modelListFetcher: state.modelListFetcher,
-      labelListFetcher: state.labelListFetcher
+      propEditingDisabled: state.propEditingDisabled
     }),
     shallow
   )
@@ -101,12 +93,6 @@ export const DetectionNodeBody = ({
       }`,
     [propObj['mod_name']]
   )
-
-  useEffect(() => {
-    // console.log('bbbb -  modelListFetcher or labelListFetcher changes')
-    setFetchLoading(true)
-    fetchModelsWithLabels(1)
-  }, [fetchModelsWithLabels, modelListFetcher, labelListFetcher])
 
   return (
     <Box

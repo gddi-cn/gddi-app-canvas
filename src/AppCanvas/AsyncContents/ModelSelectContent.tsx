@@ -1,3 +1,5 @@
+// [Deprecated] currently not in use
+
 import React, { useMemo, useCallback, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore, pageSize } from '../store/useStore'

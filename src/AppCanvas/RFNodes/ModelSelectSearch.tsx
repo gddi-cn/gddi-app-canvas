@@ -1,9 +1,10 @@
-import React, { useMemo, useCallback, useState, useEffect } from 'react'
+import React, { useMemo, useCallback, useState, useContext } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore, pageSize } from '../store/useStore'
 import { ModelRes } from '../types'
 import { SearchBar } from './../Components'
 import { debounce } from 'lodash'
+import { QueryModelContext } from './NodeContext'
 import './ModelSelectSearch.scss'
 
 import Box from '@mui/material/Box'
@@ -29,6 +30,7 @@ export const ModelSelectSearch = ({
   onSelect,
   onPageChange
 }: ModelSelectSearchProps): JSX.Element => {
+  const { queryModelType } = useContext(QueryModelContext)
   const {
     fetchLoading,
     fetchModelRes,
@@ -53,7 +55,7 @@ export const ModelSelectSearch = ({
       // setPage(pageNum)
       onPageChange(pageNum)
       setFetchLoading(true)
-      fetchModelsWithLabels(pageNum)
+      fetchModelsWithLabels(pageNum, undefined, queryModelType)
     },
     [fetchModelsWithLabels, setFetchLoading]
   )

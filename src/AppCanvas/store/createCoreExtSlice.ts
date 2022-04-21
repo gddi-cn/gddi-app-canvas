@@ -38,7 +38,11 @@ export interface CoreExtSlice {
   setFetchModelRes: (res: FetchModelRes) => void
   setFetchLabelRes: (res: FetchLabelRes) => void
   setFetchLabelMemo: (val: FetchLabelMemo) => void
-  fetchModelsWithLabels: (pageOffset: number, queryModelName?: string) => void
+  fetchModelsWithLabels: (
+    pageOffset: number,
+    queryModelName?: string,
+    queryModelType?: string
+  ) => void
   fetchROIImgURL: () => void
   setROIImg: (url?: string, width?: number, height?: number) => void
 }
@@ -93,7 +97,7 @@ const createCoreExtSlice = (
         draft1.value.nodes.forEach((mod) => {
           if (mod.props) {
             Object.keys(mod.props).forEach((propName) => {
-              ; (mod.props as { [propName: string]: PropValue })[propName] = (
+              ;(mod.props as { [propName: string]: PropValue })[propName] = (
                 mod.propsInited as { [propName: string]: PropValue }
               )[propName]
             })
@@ -152,7 +156,8 @@ const createCoreExtSlice = (
   },
   fetchModelsWithLabels: async (
     pageOffset: number,
-    queryModelName?: string
+    queryModelName?: string,
+    queryModelType?: string
   ) => {
     // 1-based; start from 1
     if (pageOffset <= 0) {
@@ -160,52 +165,55 @@ const createCoreExtSlice = (
     }
     const { modelListFetcher, labelListFetcher } = get()
     if (modelListFetcher) {
-      try {
-        if (queryModelName === undefined) {
-          const modRes = await modelListFetcher(pageOffset, pageSize)
-          const labelMemo = new Map<string, string[]>()
-          if (labelListFetcher) {
-            for (const mod of modRes.models) {
-              const labelRes = await labelListFetcher(mod.mod_result_id)
-              labelMemo.set(mod.mod_result_id, labelRes.labels)
-            }
+      if (queryModelName === undefined) {
+        const modRes = await modelListFetcher(
+          pageOffset,
+          pageSize,
+          undefined,
+          queryModelType
+        )
+        const labelMemo = new Map<string, string[]>()
+        if (labelListFetcher) {
+          for (const mod of modRes.models) {
+            const labelRes = await labelListFetcher(mod.mod_result_id)
+            labelMemo.set(mod.mod_result_id, labelRes.labels)
           }
-          set(
-            produce((draft: MyState) => {
-              draft.fetchModelRes = modRes
-              labelMemo.forEach((val, key) => {
-                draft.fetchLabelMemo[key] = val
-              })
-              draft.fetchLoading = false
-            })
-          )
-        } else {
-          // search result
-          const modRes = await modelListFetcher(
-            pageOffset,
-            pageSize,
-            queryModelName
-          )
-          const labelMemo = new Map<string, string[]>()
-          if (labelListFetcher) {
-            for (const mod of modRes.models) {
-              const labelRes = await labelListFetcher(mod.mod_result_id)
-              labelMemo.set(mod.mod_result_id, labelRes.labels)
-            }
-          }
-          set(
-            produce((draft: MyState) => {
-              draft.searchModelRes = modRes
-              labelMemo.forEach((val, key) => {
-                draft.searchModelResLabelMemo[key] = val
-              })
-              draft.fetchLoading = false
-            })
-          )
         }
-      } catch (error) {
-        throw error
-        // console.error(error)
+        //TODO: fetchModelRes -> key - value
+        // key --> queryModelType
+        // value --> old value
+        set(
+          produce((draft: MyState) => {
+            draft.fetchModelRes = modRes
+            labelMemo.forEach((val, key) => {
+              draft.fetchLabelMemo[key] = val
+            })
+            draft.fetchLoading = false
+          })
+        )
+      } else {
+        // search result
+        const modRes = await modelListFetcher(
+          pageOffset,
+          pageSize,
+          queryModelName
+        )
+        const labelMemo = new Map<string, string[]>()
+        if (labelListFetcher) {
+          for (const mod of modRes.models) {
+            const labelRes = await labelListFetcher(mod.mod_result_id)
+            labelMemo.set(mod.mod_result_id, labelRes.labels)
+          }
+        }
+        set(
+          produce((draft: MyState) => {
+            draft.searchModelRes = modRes
+            labelMemo.forEach((val, key) => {
+              draft.searchModelResLabelMemo[key] = val
+            })
+            draft.fetchLoading = false
+          })
+        )
       }
     }
   },

@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useContext } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
 import { ModelRes, ModLabelsValueType } from '../types'
 import { ModelDisplay } from './ModelDisplay'
 import { FilterLabelsDisplay } from './FilterLabelsDisplay'
 import { stringToHex, hexToRgb } from './../helpers'
+import { QueryModelContext } from './NodeContext'
 import './ModelConfigTool.scss'
 
 import Box from '@mui/material/Box'
@@ -42,10 +43,22 @@ export const ModelConfigTool = ({
   filterLabelsValue,
   onChange
 }: ModelConfigToolProps): JSX.Element => {
-  const { fetchLabelMemo, searchModelResLabelMemo } = useStore(
+  const { queryModelType } = useContext(QueryModelContext)
+  const {
+    fetchLabelMemo,
+    searchModelResLabelMemo,
+    fetchModelsWithLabels,
+    setFetchLoading,
+    modelListFetcher,
+    labelListFetcher
+  } = useStore(
     (state) => ({
       fetchLabelMemo: state.fetchLabelMemo,
-      searchModelResLabelMemo: state.searchModelResLabelMemo
+      searchModelResLabelMemo: state.searchModelResLabelMemo,
+      fetchModelsWithLabels: state.fetchModelsWithLabels,
+      setFetchLoading: state.setFetchLoading,
+      modelListFetcher: state.modelListFetcher,
+      labelListFetcher: state.labelListFetcher
     }),
     shallow
   )
@@ -81,11 +94,24 @@ export const ModelConfigTool = ({
     [modelValue, onChange]
   )
 
+  useEffect(() => {
+    console.log(`config toolllllll`)
+    console.log('bbbb -  modelListFetcher or labelListFetcher changes')
+    console.log(queryModelType)
+    setFetchLoading(true)
+    fetchModelsWithLabels(1, undefined, queryModelType)
+  }, [
+    fetchModelsWithLabels,
+    modelListFetcher,
+    labelListFetcher,
+    setFetchLoading
+  ])
+
   return (
     <Box className="config-content">
       <Box sx={{ width: '100%' }}>
         <Typography variant="h6" gutterBottom component="div">
-          模型
+          {`模型（${queryModelType}）`}
         </Typography>
         <ModelDisplay model={modelValue} onModelChange={handleModelChange} />
       </Box>
@@ -96,7 +122,7 @@ export const ModelConfigTool = ({
           component="div"
           sx={{ marginTop: '1rem' }}
         >
-          标签 (filter labels)
+          模型标签
         </Typography>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}

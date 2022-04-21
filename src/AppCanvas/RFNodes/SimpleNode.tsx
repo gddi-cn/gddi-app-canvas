@@ -1,6 +1,6 @@
 // custom node: https://reactflow.dev/examples/custom-node/
 
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, createContext } from 'react'
 import shallow from 'zustand/shallow'
 import { Module } from '../types'
 import { useStore } from '../store/useStore'
@@ -11,6 +11,8 @@ import { NodeDetail } from './NodeDetail'
 import { EditableText } from '../Components'
 import { DetectionNodeBody } from './DetectionNodeBody'
 import { ROINodeBody } from './ROINodeBody'
+import { guessQueryModelType, isModelNode } from './nodeHelperFunc'
+import { QueryModelContext } from './NodeContext'
 import './SimpleNode.scss'
 
 import Box from '@mui/material/Box'
@@ -119,8 +121,21 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
     if (nodeData === undefined) {
       return null
     }
-    if (nodeData.type.toLocaleLowerCase().includes('detection')) {
-      return <DetectionNodeBody nodeData={nodeData as Module} />
+    // if (nodeData.type.toLocaleLowerCase().includes('detection')) {
+    if (isModelNode(nodeData)) {
+      return (
+        <QueryModelContext.Provider
+          value={{ queryModelType: guessQueryModelType(nodeData) }}
+        >
+          <DetectionNodeBody nodeData={nodeData as Module} />
+        </QueryModelContext.Provider>
+      )
+      // return (
+      //   <DetectionNodeBody
+      //     nodeData={nodeData as Module}
+      //     queryModelType={guessQueryModelType(nodeData)}
+      //   />
+      // )
     }
     if (nodeData.type.toLocaleLowerCase().includes('roi')) {
       return <ROINodeBody nodeData={nodeData as Module} />
