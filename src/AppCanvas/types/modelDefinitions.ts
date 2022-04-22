@@ -21,7 +21,7 @@ export const tSimplePropDefinition = t.intersection([
   tPropDefBasic,
   t.partial({
     description: t.string,
-    default: tBasicType,
+    default: t.union([tBasicType, t.array(tBasicType)]),
     // [case] type is number or integer
     maximum: t.number,
     minimum: t.number,

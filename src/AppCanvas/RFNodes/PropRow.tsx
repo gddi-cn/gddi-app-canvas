@@ -18,12 +18,7 @@ export const BasicInput = ({
     return <span>StringInput with enum</span>
   }
 
-  const inputTypeStr = useMemo(() => {
-    if (typeof value === 'number') {
-      return 'number'
-    }
-    return 'text'
-  }, [value])
+  const inputTypeStr = typeof value === 'number' ? 'number' : 'text'
 
   //TODO: set step using propDefinition
   // const inputProps = useMemo(() => {
@@ -111,7 +106,7 @@ export const PropRow = ({
         onChange={onChange}
       />
     )
-  }, [readonly, propName, value, propDefinition, onChange])
+  }, [readonly, propName, value, propDefinition, dependentNodeIds, onChange])
 
   return <div className="gddi-aiappcanvas__simplenode-proprow">{inputEle}</div>
 }

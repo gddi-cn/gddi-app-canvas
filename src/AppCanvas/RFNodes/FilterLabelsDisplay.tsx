@@ -158,10 +158,9 @@ export const FilterLabelsDisplay = ({
   labels,
   onLabelsChange
 }: FilterLabelsDisplayProps): JSX.Element => {
-  const { propEditingDisabled, fetchLoading } = useStore(
+  const { propEditingDisabled } = useStore(
     (state) => ({
-      propEditingDisabled: state.propEditingDisabled,
-      fetchLoading: state.fetchLoading
+      propEditingDisabled: state.propEditingDisabled
     }),
     shallow
   )

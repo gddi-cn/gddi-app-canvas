@@ -73,7 +73,7 @@ function collectCheckedLabels(nodeIds: number[], pipeline: Pipeline): string[] {
       if (node.props && node.props.mod_labels) {
         const modLabels = node.props.mod_labels as ModLabelsValueType
         Object.values(modLabels).forEach((val) => {
-          if (val.checked) {
+          if (val.checked && val.label) {
             labelSet.add(val.label)
           }
         })

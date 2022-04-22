@@ -130,7 +130,7 @@
       "id": 10,
       "type": "BoxFilter_v2",
       "name": "BoxFilter",
-      "runner": "Brigde",
+      "runner": "Bridge",
       "props": {
         "min_width": 0,
         "max_width": 4096,

@@ -22,9 +22,6 @@ export const StringArrayInput = ({
 
   const options = useMemo(() => {
     const oSet = new Set<string>()
-    // arrayVal.forEach((valStr) => {
-    //   oSet.add(valStr)
-    // })
     if (propDefinition?.enum && propDefinition?.enum.length > 0) {
       const enumOpts = propDefinition?.enum as BasicType[]
       enumOpts.forEach((str) => {
@@ -52,7 +49,7 @@ export const StringArrayInput = ({
     () => (
       <Fragment>
         <Typography color="inherit">依赖</Typography>
-        {'这个属性的可选项依赖于以下几个节点（module）:'}
+        {'这个属性的可选项依赖于以下几个节点的属性:'}
         <ul>
           {dependentNodeIds?.map((id) => (
             <li key={id}>{`Module Id: ${id}`}</li>
@@ -64,7 +61,7 @@ export const StringArrayInput = ({
   )
 
   return (
-    <Box>
+    <>
       <Box className="propname-row">
         <label className="propname-area">{propName}</label>
         {dependentNodeIds && (
@@ -88,6 +85,6 @@ export const StringArrayInput = ({
           )
         })}
       </Box>
-    </Box>
+    </>
   )
 }
