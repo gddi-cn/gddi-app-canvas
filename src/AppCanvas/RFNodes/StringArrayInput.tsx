@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, Fragment } from 'react'
+import React, { useCallback, useMemo, Fragment, useEffect, useState } from 'react'
 import { BasicType } from '../types'
 import { PropRowProps } from './PropRow'
 import { HtmlTooltip } from './../Components'
@@ -18,7 +18,7 @@ export const StringArrayInput = ({
   dependentNodeIds,
   onChange
 }: PropRowProps): JSX.Element => {
-  const arrayVal = value as string[]
+  const [value1, setValue1] = useState<string[] | undefined>(value === undefined && propDefinition?.default ? propDefinition?.default as string[] : value as string[] | undefined)
 
   const options = useMemo(() => {
     const oSet = new Set<string>()
@@ -33,7 +33,10 @@ export const StringArrayInput = ({
 
   const handleChipClick = useCallback(
     (opt: string) => {
-      const newVal = [...arrayVal]
+      let newVal: string[] = []
+      if (value1) {
+        newVal = [...value1]
+      }
       const optIdx = newVal.findIndex((val) => val === opt)
       if (optIdx >= 0) {
         newVal.splice(optIdx, 1)
@@ -42,7 +45,7 @@ export const StringArrayInput = ({
       }
       onChange(newVal)
     },
-    [arrayVal, onChange]
+    [value1, onChange]
   )
 
   const DependentToolTipTitle = useMemo(
@@ -59,6 +62,16 @@ export const StringArrayInput = ({
     ),
     [dependentNodeIds]
   )
+
+  useEffect(() => {
+    console.log(`value OR propDefinition?.default change!`)
+    if (value === undefined && propDefinition?.default) {
+      setValue1(propDefinition?.default as string[])
+    }
+    else {
+      setValue1(value as string[] | undefined)
+    }
+  }, [value, propDefinition?.default])
 
   return (
     <>
@@ -77,7 +90,7 @@ export const StringArrayInput = ({
               className="chip-item"
               label={opt}
               size="small"
-              color={arrayVal.includes(opt) ? 'primary' : 'default'}
+              color={value1 && value1.includes(opt) ? 'primary' : 'default'}
               key={`${opt}-${idx}`}
               clickable={!readonly}
               onClick={() => handleChipClick(opt)}

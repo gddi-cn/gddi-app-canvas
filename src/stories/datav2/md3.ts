@@ -240,7 +240,8 @@ export const md3: ModuleDefinitions = {
     props: {
       box_labels1: {
         type: 'stringArray',
-        enum: ['blue', 'red', 'orange']
+        enum: ['blue', 'red', 'orange'],
+        default: ['blue']
       }
     }
   }

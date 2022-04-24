@@ -40,13 +40,21 @@ export const NodeDetail = ({
 
   const rowList: JSX.Element[] = useMemo(() => {
     if (nodeData.props) {
-      const propList = nodeData.props as Record<string, PropValue>
-      return Object.keys(propList)
+      const propList = nodeData.props
+      const propNameSet = new Set<string>(Object.keys(propList))
+      if (propDefinition) {
+        Object.keys(propDefinition).forEach((pn) => {
+          propNameSet.add(pn)
+        })
+      }
+      const propNameCombine = Array.from(propNameSet)
+      return propNameCombine
         .filter((pn) => !(hidePropsWithName && hidePropsWithName.includes(pn)))
         .map((propName) => {
           const handlePropChange = (val: PropValue): void => {
             onPropChange(propName, val)
           }
+          let propVal: PropValue | undefined = propList[propName]
           let propDef =
             propDefinition === undefined ? undefined : propDefinition[propName]
           if (isBoxFilter && propName === 'box_labels') {
@@ -55,6 +63,21 @@ export const NodeDetail = ({
               enum: boxLabelsEnums,
               default: boxLabelsEnums
             } as PropDefinitionType
+            // if any of the value does not belong to boxLabelsEnums, set
+            //  value to undefined -- to use default value
+            if (propVal) {
+              let isValueValid = true
+              for (let label of propVal as string[]) {
+                if (!boxLabelsEnums.includes(label)) {
+                  isValueValid = false
+                  break
+                }
+              }
+              if (!isValueValid) {
+                propVal = undefined
+              }
+            }
+            
           }
           return (
             <PropRow
@@ -62,7 +85,7 @@ export const NodeDetail = ({
               readonly={readonly === true}
               propName={propName}
               propDefinition={propDef}
-              value={propList[propName]}
+              value={propVal}
               dependentNodeIds={dependentNodeIds}
               onChange={handlePropChange}
             />

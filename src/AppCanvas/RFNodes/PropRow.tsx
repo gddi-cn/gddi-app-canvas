@@ -70,7 +70,7 @@ export const BasicInput = ({
 export interface PropRowProps {
   readonly: boolean
   propName: string
-  value: PropValue
+  value: PropValue | undefined
   propDefinition: PropDefinitionType | undefined
   dependentNodeIds?: number[]
   onChange: (newVal: PropValue) => void
