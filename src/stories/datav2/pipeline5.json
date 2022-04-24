@@ -27,13 +27,61 @@
       "name": "Detection_v2_3",
       "runner": "Detection",
       "props": {
-        "mod_iter_id": "111",
+        "mod_iter_id": "fe133",
         "mod_labels": {
-          "aa": {},
-          "bb": {
-            "checked": true
+          "lucy": {
+            "label": "lucy",
+            "checked": true,
+            "color": [191, 219, 50]
+          },
+          "tom": {
+            "label": "tom",
+            "checked": true,
+            "color": [255, 255, 0]
+          },
+          "lily": {
+            "label": "lily",
+            "checked": true,
+            "color": [202, 175, 50]
+          },
+          "almond": {
+            "label": "almond",
+            "checked": true,
+            "color": [131, 57, 171]
+          },
+          "black": {
+            "label": "black",
+            "checked": true,
+            "color": [255, 143, 151]
+          },
+          "daisy": {
+            "label": "daisy",
+            "checked": true,
+            "color": [242, 222, 174]
+          },
+          "clark": {
+            "label": "clark",
+            "checked": true,
+            "color": [81, 169, 165]
+          },
+          "rosenburg": {
+            "label": "rosenburg",
+            "checked": true,
+            "color": [71, 99, 30]
+          },
+          "alexander the great": {
+            "label": "alexander the great",
+            "checked": true,
+            "color": [255, 255, 0]
           }
-        }
+        },
+        "mod_id": "0",
+        "mod_name": "检测丑陋动物",
+        "mod_created_at": "2022-04-22T07:23:29.392Z",
+        "mod_version": "1.2",
+        "mod_version_id": "1",
+        "mod_license": "",
+        "mod_result_id": "133"
       }
     },
     {

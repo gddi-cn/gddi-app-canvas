@@ -34,7 +34,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7'
 
 import './AppCanvas.scss'
 
-const version = require('./../../package.json')['version']
+// const version = require('./../../package.json')['version']
 
 export interface AppCanvasChildProps {
   /**
@@ -282,7 +282,7 @@ export const AppCanvasChild = ({
         />
         <ExtendedControls />
         {/* <VersionTag version={process.env.VER ? process.env.VER.toString() : 'undefined'} /> */}
-        <VersionTag version={version} />
+        {/* <VersionTag version={version} /> */}
       </ReactFlow>
     </ReactFlowProvider>
   )
