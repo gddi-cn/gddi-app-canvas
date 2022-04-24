@@ -10,6 +10,7 @@ export const tBasicTypeName = t.union([
   t.literal('boolean'),
   t.literal('number')
 ])
+export type BasicTypeName = t.TypeOf<typeof tBasicTypeName>
 export const tBasicType = t.union([t.string, t.boolean, t.number])
 export type BasicType = t.TypeOf<typeof tBasicType>
 

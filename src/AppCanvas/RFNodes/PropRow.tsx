@@ -1,11 +1,15 @@
-import React, { useMemo } from 'react'
-import { PropValue, PropDefinitionType } from '../types'
+import React, { useCallback, useMemo } from 'react'
+import { PropValue, PropDefinitionType, BasicTypeName } from '../types'
 import { StringArrayInput } from './StringArrayInput'
 
 import TextField from '@mui/material/TextField'
+import Switch from '@mui/material/Switch';
+import Box from '@mui/material/Box'
 
 const sxInput = { bgcolor: 'background.default', color: 'text.primary' }
 
+// BasicInput handles type -- number, string, boolean
+const BasicInputTypes = ['string', 'number', 'boolean']
 export const BasicInput = ({
   readonly,
   propName,
@@ -13,12 +17,20 @@ export const BasicInput = ({
   propDefinition,
   onChange
 }: PropRowProps): JSX.Element => {
-  if (propDefinition && propDefinition.enum && propDefinition.enum.length > 0) {
-    //TODO:
-    return <span>StringInput with enum</span>
-  }
+  const inferredType: BasicTypeName = useMemo(() => {
+    if (BasicInputTypes.includes(typeof value)) {
+      return typeof value as BasicTypeName
+    }
+    if (propDefinition?.type && BasicInputTypes.includes(propDefinition?.type)) {
+      return propDefinition?.type as BasicTypeName
+    }
+    return 'string'
+  }, [value, propDefinition?.type])
 
-  const inputTypeStr = typeof value === 'number' ? 'number' : 'text'
+
+  const inputTypeStr = useMemo(() => (
+    inferredType === 'string' ? 'text': 'number'
+  ), [inferredType])
 
   //TODO: set step using propDefinition
   // const inputProps = useMemo(() => {
@@ -40,6 +52,10 @@ export const BasicInput = ({
   //   }
   // }, [inputTypeStr, value])
 
+  const handleSwitchChange = useCallback((evt, checked: boolean) => {
+    onChange(checked)
+  }, [onChange])
+
   const handleTextFieldChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -49,6 +65,17 @@ export const BasicInput = ({
     } else {
       onChange(valStr)
     }
+  }
+
+  if (inferredType === 'boolean') {
+    return (
+      <Box className='label-input-wrapper'>
+        <Box className="propname-row">
+          <label className="propname-area">{propName}</label>
+        </Box>
+        <Switch size='small' disabled={readonly} checked={value === true} onChange={handleSwitchChange} />
+      </Box>
+    )
   }
 
   return (
