@@ -47,7 +47,7 @@ export const NodeDetail = ({
           propNameSet.add(pn)
         })
       }
-      const propNameCombine = Array.from(propNameSet)
+      const propNameCombine = Array.from(propNameSet).sort()
       return propNameCombine
         .filter((pn) => !(hidePropsWithName && hidePropsWithName.includes(pn)))
         .map((propName) => {

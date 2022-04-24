@@ -242,6 +242,10 @@ export const md3: ModuleDefinitions = {
         type: 'stringArray',
         enum: ['blue', 'red', 'orange'],
         default: ['blue']
+      },
+      best_threshould: {
+        type: 'number',
+        default: 0.75
       }
     }
   }

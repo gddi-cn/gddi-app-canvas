@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react'
-import { PropValue, PropDefinitionType, BasicTypeName } from '../types'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
+import { PropValue, PropDefinitionType, BasicTypeName, BasicType } from '../types'
 import { StringArrayInput } from './StringArrayInput'
 
 import TextField from '@mui/material/TextField'
@@ -27,6 +27,7 @@ export const BasicInput = ({
     return 'string'
   }, [value, propDefinition?.type])
 
+  const [value1, setValue1] = useState<BasicType | undefined>(value === undefined && propDefinition?.default ? propDefinition?.default as BasicType : value as BasicType | undefined)
 
   const inputTypeStr = useMemo(() => (
     inferredType === 'string' ? 'text': 'number'
@@ -67,13 +68,23 @@ export const BasicInput = ({
     }
   }
 
+  useEffect(() => {
+    console.log(`value OR propDefinition?.default change!`)
+    if (value === undefined && propDefinition?.default) {
+      setValue1(propDefinition?.default as BasicType)
+    }
+    else {
+      setValue1(value as BasicType | undefined)
+    }
+  }, [value, propDefinition?.default])
+
   if (inferredType === 'boolean') {
     return (
       <Box className='label-input-wrapper'>
         <Box className="propname-row">
           <label className="propname-area">{propName}</label>
         </Box>
-        <Switch size='small' disabled={readonly} checked={value === true} onChange={handleSwitchChange} />
+        <Switch size='small' disabled={readonly} checked={value1 === true} onChange={handleSwitchChange} />
       </Box>
     )
   }
@@ -88,7 +99,7 @@ export const BasicInput = ({
       label={propName}
       variant="standard"
       type={inputTypeStr}
-      value={value}
+      value={value1}
       onChange={handleTextFieldChange}
     />
   )
