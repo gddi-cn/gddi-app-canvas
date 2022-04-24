@@ -104,5 +104,5 @@ export const NodeDetail = ({
     dependentNodeIds,
     hidePropsWithName
   ])
-  return <CollapseContainer title="Detail">{rowList}</CollapseContainer>
+  return <CollapseContainer title="属性详情">{rowList}</CollapseContainer>
 }

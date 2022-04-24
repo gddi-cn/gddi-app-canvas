@@ -154,7 +154,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
         readonly={propEditingDisabled}
         open={dialogOpen}
         title="画 ROI"
-        okTitle="Save Changes"
+        okTitle="保存修改"
         defaultRegions={regions}
         onClose={handleDialogClose}
         onOK={handleDialogOk}

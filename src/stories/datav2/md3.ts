@@ -3,7 +3,6 @@ import { ModuleDefinitions } from './../../AppCanvas'
 export const md3: ModuleDefinitions = {
   Demuxer_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
     description: '视频读取组件',
     outputs: [
       {
@@ -18,7 +17,6 @@ export const md3: ModuleDefinitions = {
   },
   Decoder_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
     description: '视频读取组件',
     inputs: [
       {
@@ -43,7 +41,6 @@ export const md3: ModuleDefinitions = {
   },
   AvToCv_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
     description: '视频读取组件',
     inputs: [
       {
@@ -60,7 +57,6 @@ export const md3: ModuleDefinitions = {
   },
   DetectionModel_v2: {
     version: 'null',
-    name: 'DetectionModel_v2',
     description: '视频读取组件',
     inputs: [
       {
@@ -77,7 +73,6 @@ export const md3: ModuleDefinitions = {
   },
   ClassificationModel_v2: {
     version: 'null',
-    name: 'ClassificationModel_v2',
     description: '分类模型',
     inputs: [
       {
@@ -94,7 +89,6 @@ export const md3: ModuleDefinitions = {
   },
   PoseModel_v2: {
     version: 'null',
-    name: 'PoseModel_v2',
     description: '姿态检测模型',
     inputs: [
       {
@@ -111,7 +105,6 @@ export const md3: ModuleDefinitions = {
   },
   Tracking_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
     description: '视频读取组件',
     inputs: [
       {
@@ -128,7 +121,6 @@ export const md3: ModuleDefinitions = {
   },
   Graphics_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
     description: '视频读取组件',
     inputs: [
       {
@@ -145,7 +137,6 @@ export const md3: ModuleDefinitions = {
   },
   Report_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
     description: '视频读取组件',
     inputs: [
       {
@@ -162,7 +153,6 @@ export const md3: ModuleDefinitions = {
   },
   Bridge_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
     description: '视频读取组件',
     inputs: [
       {
@@ -184,7 +174,6 @@ export const md3: ModuleDefinitions = {
   },
   VideoEncode_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
     description: '视频读取组件',
     inputs: [
       {
@@ -200,7 +189,6 @@ export const md3: ModuleDefinitions = {
   },
   ROI_v2: {
     version: 'null',
-    name: 'VideoCaptureNode',
     description: '视频读取组件',
     inputs: [
       {
@@ -223,7 +211,6 @@ export const md3: ModuleDefinitions = {
   },
   BoxFilter_v2: {
     version: 'null',
-    name: 'BoxFilter',
     description: '框过滤',
     inputs: [
       {

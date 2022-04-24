@@ -52,7 +52,6 @@ export const tPropDefinitionObject = t.record(t.string, tPropDefinitionType)
 export const tModuleDefinition = t.intersection([
   t.type({
     version: t.string,
-    name: t.string,
     description: t.string
   }),
   t.partial({

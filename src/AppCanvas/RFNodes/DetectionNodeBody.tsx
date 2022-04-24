@@ -122,7 +122,7 @@ export const DetectionNodeBody = ({
             {modelNameDisplay}
           </Box>
           <Box className="filterlabel-display" component="span">
-            {`${numLabelsChecked} label(s) selected`}
+            {`选择标签数量：${numLabelsChecked}`}
           </Box>
         </Button>
       </Tooltip>

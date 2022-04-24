@@ -24,7 +24,7 @@
     {
       "id": 3,
       "type": "DetectionModel_v2",
-      "name": "Detection_v2_3",
+      "name": "目标检测模块",
       "runner": "Detection",
       "props": {
         "mod_iter_id": "fe133",
@@ -87,7 +87,7 @@
     {
       "id": 11,
       "type": "ClassificationModel_v2",
-      "name": "Classification_v2_3",
+      "name": "分类模块",
       "runner": "Classification",
       "props": {
         "mod_iter_id": "112",
@@ -102,7 +102,7 @@
     {
       "id": 12,
       "type": "PoseModel_v2",
-      "name": "Amazing Pose Model",
+      "name": "姿态检测💃🏻模块",
       "runner": "default",
       "props": {
         "mod_iter_id": "113",
@@ -117,7 +117,7 @@
     {
       "id": 4,
       "type": "ROI_v2",
-      "name": "ROI_v2_4",
+      "name": "ROI区域划分",
       "runner": "default",
       "props": {
         "dinner": "🍌🍔🍟🧃",
