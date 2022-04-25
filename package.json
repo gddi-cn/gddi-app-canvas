@@ -1,6 +1,6 @@
 {
   "name": "gddi-app-canvas",
-  "version": "1.2.18",
+  "version": "1.2.19",
   "description": "React component to visualize GDDi's AI APPs in flow chart fashion",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -73,7 +73,7 @@
     "fabric": "^4.6.0",
     "lodash": "^4.17.21",
     "react-colorful": "^5.5.1",
-    "react-draw-roi": "^1.0.3",
+    "react-draw-roi": "1.0.4",
     "react-flow-renderer": "^9.7.1",
     "react-images-uploading": "^3.1.3"
   },
@@ -84,6 +84,6 @@
     "serve-sb": "npx http-server ./storybook-static",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
-    "publish:npm": "yarn publish --registry https://registry.npmjs.org"
+    "publish-npm": "yarn publish --registry https://registry.npmjs.org"
   }
 }
