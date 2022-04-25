@@ -8,7 +8,6 @@ import dts from 'rollup-plugin-dts'
 import { terser } from 'rollup-plugin-terser'
 import bundleSize from 'rollup-plugin-bundle-size'
 import { visualizer } from 'rollup-plugin-visualizer'
-import replace from '@rollup/plugin-replace'
 
 const packageJson = require('./package.json')
 const isProduction = process.env.NODE_ENV === 'production'
@@ -26,21 +25,17 @@ export default [
         format: 'cjs',
         sourcemap: true,
         name: 'gddi-app-canvas'
-      },
-      {
-        // if in package.json -- "module": "dist/esm/index.js",
-        file: packageJson.module,
-        // file: 'dist/esm/index.js',
-        format: 'esm',
-        sourcemap: true,
-        name: 'gddi-app-canvas'
       }
+      // {
+      //   // if in package.json -- "module": "dist/esm/index.js",
+      //   file: packageJson.module,
+      //   format: 'esm',
+      //   sourcemap: true,
+      //   name: 'gddi-app-canvas'
+      // }
     ],
     external: ['react', 'react-dom', 'fabric'],
     plugins: [
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('development')
-      }),
       peerDepsExternal(),
       resolve(),
       commonjs(),
@@ -52,29 +47,11 @@ export default [
       visualizer({ sourcemap: true, open: true })
     ]
   },
-  // {
-  //   input: 'src/index.ts',
-  //   output: [
-  //     {
-  //       file: 'dist/esm/index.js',
-  //       format: 'esm',
-  //       sourcemap: true
-  //     }
-  //   ],
-  //   external: ['react', 'react-dom', 'fabric'],
-  //   plugins: [
-  //     peerDepsExternal(),
-  //     resolve({ browser: true }),
-  //     commonjs(),
-  //     postcss(),
-  //     json({ compact: true }),
-  //     typescript({ tsconfig: './tsconfig.json' }),
-  //     bundleSize()
-  //   ]
-  // },
   {
-    input: 'dist/esm/types/index.d.ts',
+    // input: 'dist/esm/types/index.d.ts',
+    input: 'dist/cjs/types/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
+    external: ['react', 'react-dom', 'fabric'],
     plugins: [dts()]
   }
 ]

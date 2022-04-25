@@ -66,7 +66,7 @@ node过长。model name在cursor hover时用tooltip显示。
 
 - 🐛 fix: rotobo字体woff2 not found
 
-## v1.2.x
+## v1.2.19
 
 - 🍗 feature: 新增 model 节点种类：`ClassificationModel`, `PoseModel` (参考例子: `src/stories/datav2/md3.ts`[./src/stories/datav2/md3.ts] 与 `src/stories/datav2/pipeline5.json`[./src/stories/datav2/pipeline5.json])
 
