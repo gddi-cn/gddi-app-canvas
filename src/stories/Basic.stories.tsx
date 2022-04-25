@@ -213,7 +213,7 @@ const Template: Story<AppCanvasProps> = (args) => {
       >
         <Tab label="Visualization" />
         <Tab label="Pipeline Value" />
-        <Tab label="Model Definitions Config" />
+        <Tab label="Model Definitions Config (配置文件)" />
       </Tabs>
       <TabPanel value={tabVal} index={0}>
         <div

@@ -299,11 +299,11 @@ const Template: Story<AppCanvasProps> = (args) => {
   )
 }
 
-export const AddModules = Template.bind({})
-AddModules.args = {
-  dark: false,
-  hideDarkModeButton: false,
-  moduleDefinitions: modDef
-} as AppCanvasProps
+// export const AddModules = Template.bind({})
+// AddModules.args = {
+//   dark: false,
+//   hideDarkModeButton: false,
+//   moduleDefinitions: modDef
+// } as AppCanvasProps
 
-AddModules.storyName = 'Add Modules To Pipeline'
+// AddModules.storyName = 'Add Modules To Pipeline'
