@@ -67,7 +67,7 @@ export const NodeDetail = ({
             //  value to undefined -- to use default value
             if (propVal) {
               let isValueValid = true
-              for (let label of propVal as string[]) {
+              for (const label of propVal as string[]) {
                 if (!boxLabelsEnums.includes(label)) {
                   isValueValid = false
                   break
@@ -77,7 +77,6 @@ export const NodeDetail = ({
                 propVal = undefined
               }
             }
-            
           }
           return (
             <PropRow

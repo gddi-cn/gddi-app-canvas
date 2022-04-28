@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, Fragment, useEffect, useState } from 'react'
+import React, {
+  useCallback,
+  useMemo,
+  Fragment,
+  useEffect,
+  useState
+} from 'react'
 import { BasicType } from '../types'
 import { PropRowProps } from './PropRow'
 import { HtmlTooltip } from './../Components'
@@ -18,7 +24,11 @@ export const StringArrayInput = ({
   dependentNodeIds,
   onChange
 }: PropRowProps): JSX.Element => {
-  const [value1, setValue1] = useState<string[] | undefined>(value === undefined && propDefinition?.default ? propDefinition?.default as string[] : value as string[] | undefined)
+  const [value1, setValue1] = useState<string[] | undefined>(
+    value === undefined && propDefinition?.default
+      ? (propDefinition?.default as string[])
+      : (value as string[] | undefined)
+  )
 
   const options = useMemo(() => {
     const oSet = new Set<string>()
@@ -63,12 +73,16 @@ export const StringArrayInput = ({
     [dependentNodeIds]
   )
 
+  const propLabel = useMemo(
+    () => (propDefinition?.label ? propDefinition.label : propName),
+    [propName, propDefinition?.label]
+  )
+
   useEffect(() => {
     console.log(`value OR propDefinition?.default change!`)
     if (value === undefined && propDefinition?.default) {
       setValue1(propDefinition?.default as string[])
-    }
-    else {
+    } else {
       setValue1(value as string[] | undefined)
     }
   }, [value, propDefinition?.default])
@@ -76,7 +90,7 @@ export const StringArrayInput = ({
   return (
     <>
       <Box className="propname-row">
-        <label className="propname-area">{propName}</label>
+        <label className="propname-area">{propLabel}</label>
         {dependentNodeIds && (
           <HtmlTooltip title={DependentToolTipTitle}>
             <HelpOutlineIcon className="propname-question-icon" />

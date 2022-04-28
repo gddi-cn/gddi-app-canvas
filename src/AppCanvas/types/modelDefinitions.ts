@@ -21,6 +21,7 @@ export const tPropDefBasic = t.type({
 export const tSimplePropDefinition = t.intersection([
   tPropDefBasic,
   t.partial({
+    label: t.string,
     description: t.string,
     default: t.union([tBasicType, t.array(tBasicType)]),
     // [case] type is number or integer

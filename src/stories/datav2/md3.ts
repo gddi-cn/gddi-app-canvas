@@ -168,7 +168,9 @@ export const md3: ModuleDefinitions = {
     ],
     props: {
       enable: {
-        type: 'boolean'
+        type: 'boolean',
+        label: '开启',
+        description: '开启智慧之门👁'
       }
     }
   },
@@ -205,7 +207,13 @@ export const md3: ModuleDefinitions = {
     props: {
       regions: {
         type: 'array',
+        label: 'ROI区域',
         description: '所有ROI区域的列表；每个ROI -- [topX, topY, width, height]'
+      },
+      dinner: {
+        type: 'string',
+        label: '晚餐',
+        description: '晚餐吃什么？'
       }
     }
   },
@@ -227,12 +235,23 @@ export const md3: ModuleDefinitions = {
     props: {
       box_labels1: {
         type: 'stringArray',
+        label: '标签',
         enum: ['blue', 'red', 'orange'],
         default: ['blue']
       },
       best_threshould: {
         type: 'number',
         default: 0.75
+      },
+      min_width: {
+        type: 'number',
+        label: '最小宽度',
+        description: '什么是快乐星球？？？'
+      },
+      min_height: {
+        type: 'number',
+        label: '最小高度',
+        description: '请致电zhehong'
       }
     }
   }
