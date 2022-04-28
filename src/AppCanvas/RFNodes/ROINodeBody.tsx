@@ -1,12 +1,10 @@
 // custom node: https://reactflow.dev/examples/custom-node/
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { Module, PropObject } from '../types'
 import { useStore } from '../store/useStore'
-import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
-import { EditableText } from '../Components'
 import { ROIDialog } from './ROIDialog'
 import { NodeDetail } from './NodeDetail'
 
@@ -15,14 +13,16 @@ import Button from '@mui/material/Button'
 
 interface ROINodeBodyProps {
   nodeData: Module
+  renderModuleHeaderContent: (nodeData: Module) => JSX.Element
 }
 
-export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
+export const ROINodeBody = ({
+  nodeData,
+  renderModuleHeaderContent
+}: ROINodeBodyProps): JSX.Element => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const {
-    modifyModuleName,
     modifyModuleProp,
-    removeModule,
     propEditingDisabled,
     setFetchROIImgLoading,
     fetchROIImgURL,
@@ -30,9 +30,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
   } = useStore(
     (state) => ({
       modDef: state.moduleDefinitions[nodeData.type],
-      modifyModuleName: state.modifyModuleName,
       modifyModuleProp: state.modifyModuleProp,
-      removeModule: state.removeModule,
       propEditingDisabled: state.propEditingDisabled,
       setFetchROIImgLoading: state.setFetchROIImgLoading,
       fetchROIImgURL: state.fetchROIImgURL,
@@ -40,21 +38,12 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
     }),
     shallow
   )
-  const handleNodeNameChange = useCallback(
-    (newName) => {
-      modifyModuleName(nodeData.id, newName)
-    },
-    [modifyModuleName, nodeData.id]
-  )
   // const handleRunnerChange = useCallback(
   //   (runner) => {
   //     modifyModuleRunner(nodeData.id, runner)
   //   },
   //   [modifyModuleRunner, nodeData.id]
   // )
-  const handleModDelete = useCallback(() => {
-    removeModule(nodeData.id)
-  }, [nodeData.id, removeModule])
 
   const handleDialogClose = useCallback(() => {
     setDialogOpen(false)
@@ -82,25 +71,6 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
   const propObj = nodeData.props as PropObject
   const regions = propObj['regions'] as number[][][]
 
-  // const extraProps: PropObject = useMemo(() => {
-  //   const propObj1 = { ...propObj }
-  //   delete propObj1['regions']
-  //   return propObj1
-  // }, [propObj])
-
-  // const renderROIEditor = useCallback(
-  //   ({ val, onValChange }) => {
-  //     return (
-  //       <ROIEditContent
-  //         moduleId={nodeData.id}
-  //         regions={propObj['regions'] as number[][]}
-  //         onRegionsChange={onValChange}
-  //       />
-  //     )
-  //   },
-  //   [nodeData.id, propObj['regions']]
-  // )
-
   useEffect(() => {
     // console.log('aaaa - roiImgFetcher changes')
     setFetchROIImgLoading(true)
@@ -113,16 +83,7 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
       className="gddi-aiappcanvas__simplenode"
     >
       <Box className="gddi-aiappcanvas__section gddi-aiappcanvas__header">
-        <Box className="gddi-aiappcanvas__simplenode-header-left">
-          <EditableText
-            value={nodeData.name}
-            disabled={propEditingDisabled}
-            onChange={handleNodeNameChange}
-          />
-        </Box>
-        <Box className="gddi-aiappcanvas__simplenode-header-right">
-          <NodeDropDown onDeleteClick={handleModDelete} />
-        </Box>
+        {renderModuleHeaderContent(nodeData)}
       </Box>
       <Button
         className="gddi-aiappcanvas__section roi-edit-button"
@@ -142,14 +103,6 @@ export const ROINodeBody = ({ nodeData }: ROINodeBodyProps): JSX.Element => {
           onChange={handleRunnerChange}
         />
       </Box> */}
-      {/* <MyFullScreenDialog
-        open={dialogOpen}
-        title="画 ROI"
-        okTitle="Save Changes"
-        onClose={handleDialogClose}
-        onOK={handleDialogOk}
-        renderContent={renderROIEditor}
-      /> */}
       <ROIDialog
         readonly={propEditingDisabled}
         open={dialogOpen}

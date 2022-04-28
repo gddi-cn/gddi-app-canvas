@@ -4,9 +4,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { Module, PropObject, ModLabelsValueType } from '../types'
 import { useStore } from '../store/useStore'
-import { NodeDropDown } from './NodeDropDown'
 // import { NodeRunner } from './NodeRunner'
-import { EditableText } from '../Components'
 import { ModelConfigDialog } from './ModelConfigDialog'
 import './DetectionNodeBody.scss'
 
@@ -16,32 +14,21 @@ import Tooltip from '@mui/material/Tooltip'
 
 interface DetectionNodeBodyProps {
   nodeData: Module
+  renderModuleHeaderContent: (nodeData: Module) => JSX.Element
 }
 
 export const DetectionNodeBody = ({
-  nodeData
+  nodeData,
+  renderModuleHeaderContent
 }: DetectionNodeBodyProps): JSX.Element => {
   const [modelSelectDialogOpen, setModelSelectDialogOpen] =
     useState<boolean>(false)
-  const {
-    modifyModuleName,
-    modifyModuleProp,
-    removeModule,
-    propEditingDisabled
-  } = useStore(
+  const { modifyModuleProp, propEditingDisabled } = useStore(
     (state) => ({
-      modifyModuleName: state.modifyModuleName,
       modifyModuleProp: state.modifyModuleProp,
-      removeModule: state.removeModule,
       propEditingDisabled: state.propEditingDisabled
     }),
     shallow
-  )
-  const handleNodeNameChange = useCallback(
-    (newName) => {
-      modifyModuleName(nodeData.id, newName)
-    },
-    [modifyModuleName, nodeData.id]
   )
   // const handleRunnerChange = useCallback(
   //   (runner) => {
@@ -50,9 +37,6 @@ export const DetectionNodeBody = ({
   //   [modifyModuleRunner, nodeData.id]
   // )
 
-  const handleModDelete = useCallback(() => {
-    removeModule(nodeData.id)
-  }, [nodeData.id, removeModule])
   const handleSelectModClick = useCallback(() => {
     setModelSelectDialogOpen(true)
   }, [setModelSelectDialogOpen])
@@ -91,7 +75,7 @@ export const DetectionNodeBody = ({
           ? '未选择模型'
           : propObj['mod_name']
       }`,
-    [propObj['mod_name']]
+    [propObj]
   )
 
   return (
@@ -100,16 +84,7 @@ export const DetectionNodeBody = ({
       className="gddi-aiappcanvas__simplenode"
     >
       <Box className="gddi-aiappcanvas__section gddi-aiappcanvas__header">
-        <Box className="gddi-aiappcanvas__simplenode-header-left">
-          <EditableText
-            value={nodeData.name}
-            disabled={propEditingDisabled}
-            onChange={handleNodeNameChange}
-          />
-        </Box>
-        <Box className="gddi-aiappcanvas__simplenode-header-right">
-          <NodeDropDown onDeleteClick={handleModDelete} />
-        </Box>
+        {renderModuleHeaderContent(nodeData)}
       </Box>
       <Tooltip title={modelNameDisplay}>
         <Button

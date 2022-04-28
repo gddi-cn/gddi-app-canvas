@@ -30,9 +30,10 @@
   .gddi-aiappcanvas__simplenode {
     display: flex;
     flex-direction: column;
+    width: 320px;
     .gddi-aiappcanvas__section {
       padding: 18px;
-      font-size: 18px;
+      font-size: 1.25rem;
     }
     .module-runner {
       padding-top: 4px;
@@ -49,8 +50,10 @@
       margin-bottom: 1rem;
     }
     .module-type-display {
+      cursor: default;
       display: flex;
-      padding: 26px;
+      padding-top: 45px;
+      padding-bottom: 45px;
       margin: 18px;
       flex-direction: column;
       text-align: center;
@@ -58,7 +61,7 @@
       color: var(--color-moduletype-type);
       border: 2px solid transparent;
       border-radius: 4px;
-      font-weight: 700;
+      font-weight: 600;
     }
     .roi-edit-button,
     .model-select-button {
@@ -136,9 +139,12 @@
       }
 
       .gddi-aiappcanvas__simplenode-header-left {
+        display: flex;
+        align-items: flex-start;
         margin-right: 1rem;
-        .editabletext-input {
-          width: 200px;
+        .description-question-icon {
+          font-size: 0.8rem;
+          color: #00000069;
         }
       }
       .gddi-aiappcanvas__editable-text {
@@ -171,8 +177,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-
-        // flex-direction: column;
       }
 
       .propname-question-icon {

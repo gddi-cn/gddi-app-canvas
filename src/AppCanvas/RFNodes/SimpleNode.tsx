@@ -8,30 +8,65 @@ import { SimpleNodeHandles } from './SimpleNodeHandles'
 import { NodeDropDown } from './NodeDropDown'
 import { NodeDetail } from './NodeDetail'
 // import { NodeRunner } from './NodeRunner'
-import { EditableText } from '../Components'
 import { DetectionNodeBody } from './DetectionNodeBody'
 import { ROINodeBody } from './ROINodeBody'
 import { guessQueryModelType, isModelNode } from './nodeHelperFunc'
 import { QueryModelContext } from './NodeContext'
+import { HtmlTooltip } from './../Components'
+import { ModuleNameEdit } from './ModuleNameEdit'
 import './SimpleNode.scss'
 
 import Box from '@mui/material/Box'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+
+interface ModuleHeaderElementProps {
+  nodeData: Module
+}
+
+export const ModuleHeaderElement = ({
+  nodeData
+}: ModuleHeaderElementProps): JSX.Element => {
+  const { removeModule, moduleDescription } = useStore(
+    (state) => ({
+      removeModule: state.removeModule,
+      moduleDescription: state.moduleDefinitions[nodeData.type].description
+    }),
+    shallow
+  )
+
+  const handleModDelete = useCallback(() => {
+    removeModule(nodeData.id)
+  }, [nodeData.id, removeModule])
+
+  return (
+    <>
+      <Box className="gddi-aiappcanvas__simplenode-header-left">
+        <label className="header-text">{nodeData.type}</label>
+        {moduleDescription && (
+          <HtmlTooltip title={moduleDescription}>
+            <HelpOutlineIcon
+              className="description-question-icon"
+              sx={{ marginLeft: '0.2rem' }}
+            />
+          </HtmlTooltip>
+        )}
+      </Box>
+      <Box className="gddi-aiappcanvas__simplenode-header-right">
+        <NodeDropDown onDeleteClick={handleModDelete} />
+      </Box>
+    </>
+  )
+}
 
 interface SimpleNodeBodyProps {
   nodeData: Module
 }
 
 const SimpleNodeBody = ({ nodeData }: SimpleNodeBodyProps): JSX.Element => {
-  const {
-    modifyModuleName,
-    modifyModuleProp,
-    removeModule,
-    propEditingDisabled
-  } = useStore(
+  const { modifyModuleName, modifyModuleProp, propEditingDisabled } = useStore(
     (state) => ({
       modifyModuleName: state.modifyModuleName,
       modifyModuleProp: state.modifyModuleProp,
-      removeModule: state.removeModule,
       propEditingDisabled: state.propEditingDisabled
     }),
     shallow
@@ -55,9 +90,6 @@ const SimpleNodeBody = ({ nodeData }: SimpleNodeBodyProps): JSX.Element => {
   //   },
   //   [modifyModuleRunner, nodeData.id]
   // )
-  const handleModDelete = useCallback(() => {
-    removeModule(nodeData.id)
-  }, [nodeData.id, removeModule])
 
   return (
     <Box
@@ -65,30 +97,15 @@ const SimpleNodeBody = ({ nodeData }: SimpleNodeBodyProps): JSX.Element => {
       className="gddi-aiappcanvas__simplenode"
     >
       <Box className="gddi-aiappcanvas__section gddi-aiappcanvas__header">
-        <Box className="gddi-aiappcanvas__simplenode-header-left">
-          <EditableText
-            value={nodeData.name}
-            disabled={propEditingDisabled}
-            onChange={handleNodeNameChange}
-          />
-        </Box>
-        <Box className="gddi-aiappcanvas__simplenode-header-right">
-          <NodeDropDown onDeleteClick={handleModDelete} />
-        </Box>
+        <ModuleHeaderElement nodeData={nodeData} />
       </Box>
       <Box className="gddi-aiappcanvas__section module-type-display">
-        <Box className="module-type-type" component="span">
-          Module Type
-        </Box>
-        <Box component="span">{nodeData.type}</Box>
-      </Box>
-      {/* <Box className="gddi-aiappcanvas__section module-runner">
-        <NodeRunner
-          runner={nodeData1.runner}
-          disabled={propEditingDisabled}
-          onChange={handleRunnerChange}
+        <ModuleNameEdit
+          readonly={propEditingDisabled}
+          name={nodeData.name}
+          onChange={handleNodeNameChange}
         />
-      </Box> */}
+      </Box>
       {nodeData.props ? (
         <Box>
           <NodeDetail
@@ -121,24 +138,29 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
     if (nodeData === undefined) {
       return null
     }
-    // if (nodeData.type.toLocaleLowerCase().includes('detection')) {
     if (isModelNode(nodeData)) {
       return (
         <QueryModelContext.Provider
           value={{ queryModelType: guessQueryModelType(nodeData) }}
         >
-          <DetectionNodeBody nodeData={nodeData as Module} />
+          <DetectionNodeBody
+            nodeData={nodeData as Module}
+            renderModuleHeaderContent={(nodeData) => (
+              <ModuleHeaderElement nodeData={nodeData} />
+            )}
+          />
         </QueryModelContext.Provider>
       )
-      // return (
-      //   <DetectionNodeBody
-      //     nodeData={nodeData as Module}
-      //     queryModelType={guessQueryModelType(nodeData)}
-      //   />
-      // )
     }
     if (nodeData.type.toLocaleLowerCase().includes('roi')) {
-      return <ROINodeBody nodeData={nodeData as Module} />
+      return (
+        <ROINodeBody
+          nodeData={nodeData as Module}
+          renderModuleHeaderContent={(nodeData) => (
+            <ModuleHeaderElement nodeData={nodeData} />
+          )}
+        />
+      )
     }
     return <SimpleNodeBody nodeData={nodeData as Module} />
   }, [nodeData])
