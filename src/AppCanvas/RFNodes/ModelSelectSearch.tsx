@@ -86,6 +86,7 @@ export const ModelSelectSearch = ({
     setShowSearchResult(false)
   }
 
+  console.log(fetchModelRes, 99)
   const dispModels = useMemo(
     () => (showSearchResult ? searchModelRes : fetchModelRes),
     [showSearchResult, fetchModelRes, searchModelRes]

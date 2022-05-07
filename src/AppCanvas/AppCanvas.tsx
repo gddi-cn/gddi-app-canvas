@@ -5,7 +5,6 @@ import {
   ModuleDefinitions,
   AIAppType,
   ModelListFetcher,
-  LabelListFetcher,
   ROIImgFetcher
 } from './types'
 import { AppCanvasChild } from './AppCanvasChild'
@@ -46,10 +45,6 @@ export interface AppCanvasProps {
    */
   fetchModelList?: ModelListFetcher
   /**
-   * async fetch labels
-   */
-  fetchLabelList?: LabelListFetcher
-  /**
    * async fetch image for drawing ROIs
    */
   fetchROIImg?: ROIImgFetcher
@@ -76,7 +71,6 @@ export const AppCanvas = ({
   onLoad,
   onValueChange,
   fetchModelList,
-  fetchLabelList,
   fetchROIImg,
   graphEditingDisabled,
   propEditingDisabled
@@ -106,7 +100,6 @@ export const AppCanvas = ({
             onLoad={onLoad}
             onValueChange={onValueChange}
             fetchModelList={fetchModelList}
-            fetchLabelList={fetchLabelList}
             fetchROIImg={fetchROIImg}
             graphEditingDisabled={graphEditingDisabled}
             propEditingDisabled={propEditingDisabled}

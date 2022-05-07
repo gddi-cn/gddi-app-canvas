@@ -17,7 +17,6 @@ import {
   ModuleDefinitions,
   AIAppType,
   ModelListFetcher,
-  LabelListFetcher,
   ROIImgFetcher
 } from './types'
 import { rfNodeTypes } from './RFNodes'
@@ -63,10 +62,6 @@ export interface AppCanvasChildProps {
    */
   fetchModelList?: ModelListFetcher
   /**
-   * async fetch labels
-   */
-  fetchLabelList?: LabelListFetcher
-  /**
    * async fetch image for drawing ROIs
    */
   fetchROIImg?: ROIImgFetcher
@@ -92,7 +87,6 @@ export const AppCanvasChild = ({
   onLoad,
   onValueChange,
   fetchModelList,
-  fetchLabelList,
   fetchROIImg,
   graphEditingDisabled,
   propEditingDisabled
@@ -115,7 +109,6 @@ export const AppCanvasChild = ({
     clear,
     resetModuleProps,
     setModelListFetcher,
-    setLabelListFetcher,
     setROIImgFetcher
   } = useStore(
     (state) => ({
@@ -132,7 +125,6 @@ export const AppCanvasChild = ({
       clear: state.clear,
       resetModuleProps: state.resetModuleProps,
       setModelListFetcher: state.setModelListFetcher,
-      setLabelListFetcher: state.setLabelListFetcher,
       setROIImgFetcher: state.setROIImgFetcher
     }),
     shallow
@@ -156,7 +148,7 @@ export const AppCanvasChild = ({
     } else {
       appRef.current.addModule = addModule
     }
-  }, [addModule, addPipeline, layoutGraph, fitView])
+  }, [addModule, addPipeline, layoutGraph, fitView, clear, resetModuleProps])
   const handleLoaded = useCallback(
     (params: OnLoadParams<any>) => {
       // console.log('[gddi-aiappcanvas] loaded')
@@ -176,7 +168,7 @@ export const AppCanvasChild = ({
     if (loadParaRef.current) {
       loadParaRef.current.fitView({ padding: 0.01 })
     }
-  }, [loadParaRef.current])
+  }, [])
 
   const style = useMemo(
     () => ({
@@ -236,10 +228,6 @@ export const AppCanvasChild = ({
   useEffect(() => {
     setModelListFetcher(fetchModelList)
   }, [setModelListFetcher, fetchModelList])
-
-  useEffect(() => {
-    setLabelListFetcher(fetchLabelList)
-  }, [setLabelListFetcher, fetchLabelList])
 
   useEffect(() => {
     setROIImgFetcher(fetchROIImg)

@@ -21,18 +21,21 @@ export interface ModelRes {
   mod_version: string
   mod_version_id: string
   mod_result_id: string
-}
-
-// labels
-export type LabelListFetcher = (modResultId: string) => Promise<FetchLabelRes>
-
-export interface FetchLabelRes {
+  accelerate: string
   labels: string[]
+  best_threshold: number
 }
 
-export interface FetchLabelMemo {
-  [modResultId: string]: string[]
-}
+// // labels
+// export type LabelListFetcher = (modResultId: string) => Promise<FetchLabelRes>
+
+// export interface FetchLabelRes {
+//   labels: string[]
+// }
+
+// export interface FetchLabelMemo {
+//   [modResultId: string]: string[]
+// }
 
 // ROI image
 export type ROIImgFetcher = (

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { ModLabelsValueType, PropObject, PropValue } from '../types'
+import { PropObject } from '../types'
 import {
   ModelConfigTool,
   ModelValueType,
@@ -97,7 +97,16 @@ export const ModelConfigDialog = ({
               : new Date(),
             mod_version: value['mod_version'] as string,
             mod_version_id: value['mod_version_id'] as string,
-            mod_result_id: value['mod_result_id'] as string
+            mod_result_id: value['mod_result_id'] as string,
+            accelerate: value['accelerate'] as string,
+            labels:
+              value['labels'] === undefined
+                ? []
+                : (value['labels'] as string[]),
+            best_threshold:
+              value['best_threshold'] === undefined
+                ? 0
+                : (value['best_threshold'] as number)
           }
         : undefined,
     [value]

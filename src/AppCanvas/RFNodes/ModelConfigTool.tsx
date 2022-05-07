@@ -44,21 +44,11 @@ export const ModelConfigTool = ({
   onChange
 }: ModelConfigToolProps): JSX.Element => {
   const { queryModelType } = useContext(QueryModelContext)
-  const {
-    fetchLabelMemo,
-    searchModelResLabelMemo,
-    fetchModelsWithLabels,
-    setFetchLoading,
-    modelListFetcher,
-    labelListFetcher
-  } = useStore(
+  const { fetchModelsWithLabels, setFetchLoading, modelListFetcher } = useStore(
     (state) => ({
-      fetchLabelMemo: state.fetchLabelMemo,
-      searchModelResLabelMemo: state.searchModelResLabelMemo,
       fetchModelsWithLabels: state.fetchModelsWithLabels,
       setFetchLoading: state.setFetchLoading,
-      modelListFetcher: state.modelListFetcher,
-      labelListFetcher: state.labelListFetcher
+      modelListFetcher: state.modelListFetcher
     }),
     shallow
   )
@@ -70,18 +60,14 @@ export const ModelConfigTool = ({
       // console.log(searchModelResLabelMemo)
       let newLabelList: string[] = []
       if (newModel) {
-        if (fetchLabelMemo[newModel.mod_result_id]) {
-          newLabelList = fetchLabelMemo[newModel.mod_result_id]
-        } else if (searchModelResLabelMemo[newModel.mod_result_id]) {
-          newLabelList = searchModelResLabelMemo[newModel.mod_result_id]
-        }
+        newLabelList = newModel.labels
       }
       const newLabels = initLabelsObject(newLabelList)
       if (onChange) {
         onChange(newModel, newLabels)
       }
     },
-    [onChange, fetchLabelMemo, searchModelResLabelMemo]
+    [onChange]
   )
 
   const handleLabelsChange = useCallback(
@@ -96,17 +82,11 @@ export const ModelConfigTool = ({
 
   useEffect(() => {
     console.log(`config toolllllll`)
-    console.log('bbbb -  modelListFetcher or labelListFetcher changes')
+    console.log('bbbb -  modelListFetcher changes')
     console.log(queryModelType)
     setFetchLoading(true)
     fetchModelsWithLabels(1, undefined, queryModelType)
-  }, [
-    fetchModelsWithLabels,
-    modelListFetcher,
-    labelListFetcher,
-    setFetchLoading,
-    queryModelType
-  ])
+  }, [fetchModelsWithLabels, modelListFetcher, setFetchLoading, queryModelType])
 
   return (
     <Box className="config-content">

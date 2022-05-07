@@ -1,4 +1,19 @@
-import { FetchLabelRes, FetchModelRes } from '../../AppCanvas'
+import { FetchModelRes } from '../../AppCanvas'
+
+const labels1 = ['cat', 'dog', 'panda', 'horse']
+const labels2 = [
+  'lucy',
+  'tom',
+  'lily',
+  'almond',
+  'black',
+  'daisy',
+  'clark',
+  'rosenburg',
+  'alexander the great'
+]
+const labels3 = ['twinkle', 'little star', 'wish', 'milky', 'molly']
+const labels4 = ['pat', 'shawn the sheep']
 
 export const fetchModelResult: FetchModelRes = {
   models: [
@@ -10,7 +25,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '1.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '033'
+      mod_result_id: '033',
+      accelerate: 'GPU',
+      labels: labels1,
+      best_threshold: 0.2
     },
     {
       mod_id: '0',
@@ -20,7 +38,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '1.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '133'
+      mod_result_id: '133',
+      accelerate: 'NPU',
+      labels: labels2,
+      best_threshold: 0.23
     },
     {
       mod_id: '0',
@@ -30,7 +51,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '1.2.1',
       mod_version_id: '1',
       mod_license: 'MIT',
-      mod_result_id: '233'
+      mod_result_id: '233',
+      accelerate: 'NPU',
+      labels: labels3,
+      best_threshold: 0.33
     },
     {
       mod_id: '0',
@@ -40,7 +64,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '1.12',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '333'
+      mod_result_id: '333',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '4',
@@ -50,7 +77,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '2.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '433'
+      mod_result_id: '433',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '5',
@@ -60,7 +90,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '533'
+      mod_result_id: '533',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '6',
@@ -70,7 +103,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '633'
+      mod_result_id: '633',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '7',
@@ -80,7 +116,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '733'
+      mod_result_id: '733',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '8',
@@ -90,7 +129,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '833'
+      mod_result_id: '833',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '9',
@@ -100,7 +142,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '933'
+      mod_result_id: '933',
+      accelerate: 'GPU',
+      labels: labels2,
+      best_threshold: 0.5
     },
     {
       mod_id: '10',
@@ -110,7 +155,10 @@ export const fetchModelResult: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '1033'
+      mod_result_id: '1033',
+      accelerate: 'GPU',
+      labels: labels1,
+      best_threshold: 0.5
     }
   ],
   totalCnt: 11
@@ -126,7 +174,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '1.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '033'
+      mod_result_id: '033',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '0',
@@ -136,7 +187,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '1.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '133'
+      mod_result_id: '133',
+      accelerate: 'GPU',
+      labels: labels2,
+      best_threshold: 0.1
     },
     {
       mod_id: '0',
@@ -146,7 +200,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '1.2.1',
       mod_version_id: '1',
       mod_license: 'MIT',
-      mod_result_id: '233'
+      mod_result_id: '233',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '0',
@@ -156,7 +213,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '1.12',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '333'
+      mod_result_id: '333',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '4',
@@ -166,7 +226,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '2.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '433'
+      mod_result_id: '433',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '5',
@@ -176,7 +239,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '533'
+      mod_result_id: '533',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '6',
@@ -186,7 +252,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '633'
+      mod_result_id: '633',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '7',
@@ -196,7 +265,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '733'
+      mod_result_id: '733',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '8',
@@ -206,7 +278,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '833'
+      mod_result_id: '833',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '9',
@@ -216,7 +291,10 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '933'
+      mod_result_id: '933',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     },
     {
       mod_id: '10',
@@ -226,45 +304,11 @@ export const fetchModelResult2: FetchModelRes = {
       mod_version: '3.2',
       mod_version_id: '1',
       mod_license: '',
-      mod_result_id: '1033'
+      mod_result_id: '1033',
+      accelerate: 'GPU',
+      labels: labels4,
+      best_threshold: 0.5
     }
   ],
   totalCnt: 11
-}
-
-const labels1: FetchLabelRes = {
-  labels: ['cat', 'dog', 'panda', 'horse']
-}
-const labels2: FetchLabelRes = {
-  labels: [
-    'lucy',
-    'tom',
-    'lily',
-    'almond',
-    'black',
-    'daisy',
-    'clark',
-    'rosenburg',
-    'alexander the great'
-  ]
-}
-const labels3: FetchLabelRes = {
-  labels: ['twinkle', 'little star', 'wish', 'milky', 'molly']
-}
-const labels4: FetchLabelRes = {
-  labels: ['pat', 'shawn the sheep']
-}
-
-export const modelLabels = {
-  '033': labels1,
-  '133': labels2,
-  '233': labels3,
-  '333': labels4,
-  '433': { labels: [...labels4.labels, ...labels2.labels] },
-  '533': labels1,
-  '633': labels2,
-  '733': labels3,
-  '833': labels4
-  // '933': { labels: [...labels4.labels, ...labels2.labels] },
-  // '1033': labels3
 }

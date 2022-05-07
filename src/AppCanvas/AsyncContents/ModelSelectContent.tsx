@@ -3,7 +3,7 @@
 import React, { useMemo, useCallback, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore, pageSize } from '../store/useStore'
-import { ModelRes } from '../types'
+import { FetchModelRes, ModelRes } from '../types'
 import { debounce } from 'lodash'
 import { SearchBar } from './../Components'
 
@@ -38,19 +38,15 @@ export const ModelSelectContent = ({
   const [page, setPage] = useState<number>(1)
   const {
     fetchModelRes,
-    fetchLabelMemo,
     fetchLoading,
     searchModelRes,
-    searchModelResLabelMemo,
     fetchModelsWithLabels,
     setFetchLoading
   } = useStore(
     (state) => ({
       fetchModelRes: state.fetchModelRes,
-      fetchLabelMemo: state.fetchLabelMemo,
       fetchLoading: state.fetchLoading,
       searchModelRes: state.searchModelRes,
-      searchModelResLabelMemo: state.searchModelResLabelMemo,
       fetchModelsWithLabels: state.fetchModelsWithLabels,
       setFetchLoading: state.setFetchLoading
     }),
@@ -90,14 +86,21 @@ export const ModelSelectContent = ({
     setShowSearchResult(false)
   }
 
-  const dispLabelMemo = useMemo(
-    () => (showSearchResult ? searchModelResLabelMemo : fetchLabelMemo),
-    [showSearchResult, searchModelResLabelMemo, fetchLabelMemo]
-  )
-  const dispModels = useMemo(
+  const dispModels: FetchModelRes = useMemo(
     () => (showSearchResult ? searchModelRes : fetchModelRes),
     [showSearchResult, fetchModelRes, searchModelRes]
   )
+  // const dispLabelMemo = useMemo(
+  //   () => (showSearchResult ? searchModelResLabelMemo : fetchLabelMemo),
+  //   [showSearchResult, searchModelResLabelMemo, fetchLabelMemo]
+  // )
+  const dispLabelMemo = useMemo(() => {
+    const res: Record<string, string[]> = {}
+    dispModels.models.forEach((mod) => {
+      res[mod.mod_iter_id] = mod.labels
+    })
+    return res
+  }, [dispModels])
 
   const LabelList = useMemo(() => {
     if (dispLabelMemo[selectedModId] === undefined) {
@@ -133,7 +136,7 @@ export const ModelSelectContent = ({
         </ListItem>
       )
     })
-  }, [dispLabelMemo[selectedModId], checkedLabels])
+  }, [dispLabelMemo, selectedModId, checkedLabels, onCheckedLabelsChange])
 
   const LoadingElem = useMemo(
     () => (
@@ -199,11 +202,11 @@ export const ModelSelectContent = ({
       selectedModId,
       dispModels,
       dispLabelMemo,
-      showSearchResult,
       LabelList,
       page,
-      pageSize,
-      debouncedHandlePageChange
+      debouncedHandlePageChange,
+      onCheckedLabelsChange,
+      onSelect
     ]
   )
 

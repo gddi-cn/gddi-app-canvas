@@ -38,11 +38,10 @@ export const ModelDisplay = ({
   model,
   onModelChange
 }: ModelDisplayProps): JSX.Element => {
-  const { propEditingDisabled, modelListFetcher, labelListFetcher } = useStore(
+  const { propEditingDisabled, modelListFetcher } = useStore(
     (state) => ({
       propEditingDisabled: state.propEditingDisabled,
-      modelListFetcher: state.modelListFetcher,
-      labelListFetcher: state.labelListFetcher
+      modelListFetcher: state.modelListFetcher
     }),
     shallow
   )
@@ -88,11 +87,8 @@ export const ModelDisplay = ({
   // disable model change when
   // propEditingDisabled set OR fetchers needed are not defined
   const disableEdit = useMemo(
-    () =>
-      propEditingDisabled ||
-      modelListFetcher === undefined ||
-      labelListFetcher === undefined,
-    [propEditingDisabled, modelListFetcher, labelListFetcher]
+    () => propEditingDisabled || modelListFetcher === undefined,
+    [propEditingDisabled, modelListFetcher]
   )
 
   useEffect(() => {

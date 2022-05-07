@@ -8,7 +8,6 @@ import {
   Pipeline,
   Module,
   Connection,
-  FetchLabelRes,
   FetchModelRes,
   FetchROIImgRes,
   ModuleDefinitions,
@@ -20,11 +19,7 @@ import { TabPanel } from './components'
 import { md3 } from './datav2/md3'
 import pipeline from './datav2/pipeline5.json'
 // import pipeline from './datav2/pipelineTest4.json'
-import {
-  fetchModelResult,
-  fetchModelResult2,
-  modelLabels
-} from './datav2/fetchExample2'
+import { fetchModelResult, fetchModelResult2 } from './datav2/fetchExample2'
 import Editor from '@monaco-editor/react'
 
 import Tabs from '@mui/material/Tabs'
@@ -82,20 +77,6 @@ const fetchModelList = (
         })
       }
     }, 2000)
-  })
-}
-
-const fetchLabelList = (mod_result_id: string): Promise<FetchLabelRes> => {
-  const fetchLabelRes: FetchLabelRes = {
-    labels:
-      modelLabels[mod_result_id] === undefined
-        ? []
-        : modelLabels[mod_result_id].labels
-  }
-  return new Promise<FetchLabelRes>((resolve, reject) => {
-    setTimeout(() => {
-      resolve(fetchLabelRes)
-    }, 200)
   })
 }
 
@@ -297,7 +278,6 @@ BasicUsage.args = {
   graphEditingDisabled: true,
   onLoad: handleCanvasLoad,
   fetchModelList: fetchModelList,
-  fetchLabelList: fetchLabelList,
   fetchROIImg: fetchROIImg
 } as AppCanvasProps
 
