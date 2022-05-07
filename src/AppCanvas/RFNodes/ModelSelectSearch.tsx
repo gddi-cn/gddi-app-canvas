@@ -5,15 +5,12 @@ import { ModelRes } from '../types'
 import { SearchBar } from './../Components'
 import { debounce } from 'lodash'
 import { QueryModelContext } from './NodeContext'
+import { ModelListItemContent } from './ModelListItemContent'
 import './ModelSelectSearch.scss'
 
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
-import ListItemText from '@mui/material/ListItemText'
-import Avatar from '@mui/material/Avatar'
-import FolderIcon from '@mui/icons-material/Folder'
 import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 
@@ -86,7 +83,6 @@ export const ModelSelectSearch = ({
     setShowSearchResult(false)
   }
 
-  console.log(fetchModelRes, 99)
   const dispModels = useMemo(
     () => (showSearchResult ? searchModelRes : fetchModelRes),
     [showSearchResult, fetchModelRes, searchModelRes]
@@ -118,15 +114,7 @@ export const ModelSelectSearch = ({
                   }
                   onClick={handleClick}
                 >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <FolderIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={`${modInfo.mod_name} - v${modInfo.mod_version}`}
-                    secondary={`${modInfo.mod_created_at.toLocaleDateString()} ${modInfo.mod_created_at.getHours()}:${modInfo.mod_created_at.getMinutes()}:${modInfo.mod_created_at.getSeconds()}`}
-                  />
+                  <ModelListItemContent modelInfo={modInfo} />
                 </ListItemButton>
               )
             })}

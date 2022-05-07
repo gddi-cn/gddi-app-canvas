@@ -3,21 +3,17 @@ import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
 import { ModelRes } from '../types'
 import { ModelSelectSearch } from './ModelSelectSearch'
+import { ModelListItemContent } from './ModelListItemContent'
 
 import Box from '@mui/material/Box'
 import ListItem from '@mui/material/ListItem'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
-import ListItemText from '@mui/material/ListItemText'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import Avatar from '@mui/material/Avatar'
-import FolderIcon from '@mui/icons-material/Folder'
 import EditIcon from '@mui/icons-material/Edit'
-import BrowserNotSupportedIcon from '@mui/icons-material/BrowserNotSupported'
 import { ModelValueType } from './ModelConfigTool'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -77,13 +73,6 @@ export const ModelDisplay = ({
     [setPage]
   )
 
-  const modelCreated = useMemo(() => {
-    if (model === undefined) {
-      return 'undefined'
-    }
-    return `${model.mod_created_at.toLocaleDateString()} ${model.mod_created_at.getHours()}:${model.mod_created_at.getMinutes()}:${model.mod_created_at.getSeconds()}`
-  }, [model])
-
   // disable model change when
   // propEditingDisabled set OR fetchers needed are not defined
   const disableEdit = useMemo(
@@ -106,17 +95,7 @@ export const ModelDisplay = ({
           )
         }
       >
-        <ListItemAvatar>
-          <Avatar>
-            {model ? <FolderIcon /> : <BrowserNotSupportedIcon />}
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={`${model ? model.mod_name : 'no model selected'}`}
-          secondary={
-            model ? `ver: ${model.mod_version} created: ${modelCreated}` : null
-          }
-        />
+        <ModelListItemContent modelInfo={model} />
       </ListItem>
       <BootstrapDialog
         onClose={handleCloseD}
