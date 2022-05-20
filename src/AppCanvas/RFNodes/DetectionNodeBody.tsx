@@ -6,6 +6,7 @@ import { Module, PropObject, ModLabelsValueType } from '../types'
 import { useStore } from '../store/useStore'
 // import { NodeRunner } from './NodeRunner'
 import { ModelConfigDialog } from './ModelConfigDialog'
+import { NodeDetail } from './NodeDetail'
 import './DetectionNodeBody.scss'
 
 import Box from '@mui/material/Box'
@@ -45,19 +46,29 @@ export const DetectionNodeBody = ({
     setModelSelectDialogOpen(false)
   }, [])
 
-  const handleModConfigChange = useCallback((newProp: PropObject) => {
-    // console.log(`🍓🍓 propObj changed!`)
-    // console.log(newProp)
-    //TODO: modify in global store; modify in ONE action
-    Object.keys(newProp).forEach((propName) => {
-      modifyModuleProp(
-        nodeData.id,
-        propName,
-        (newProp as Record<string, any>)[propName]
-      )
-    })
-    setModelSelectDialogOpen(false)
-  }, [])
+  const handleModConfigChange = useCallback(
+    (newProp: PropObject) => {
+      // console.log(`🍓🍓 propObj changed!`)
+      // console.log(newProp)
+      //TODO: modify in global store; modify in ONE action
+      Object.keys(newProp).forEach((propName) => {
+        modifyModuleProp(
+          nodeData.id,
+          propName,
+          (newProp as Record<string, any>)[propName]
+        )
+      })
+      setModelSelectDialogOpen(false)
+    },
+    [modifyModuleProp, nodeData.id]
+  )
+
+  const handleNodePropChange = useCallback(
+    (propName, propVal) => {
+      modifyModuleProp(nodeData.id, propName, propVal)
+    },
+    [modifyModuleProp, nodeData.id]
+  )
 
   const propObj = nodeData.props as PropObject
   const numLabelsChecked = propObj['mod_labels']
@@ -117,6 +128,26 @@ export const DetectionNodeBody = ({
         onClose={handleModSelectClose}
         onOK={handleModConfigChange}
       />
+      {Object.keys(propObj).length > 1 ? (
+        <Box>
+          <NodeDetail
+            hidePropsWithName={[
+              'mod_iter_id',
+              'mod_labels',
+              'mod_id',
+              'mod_name',
+              'mod_created_at',
+              'mod_version',
+              'mod_version_id',
+              'mod_license',
+              'mod_result_id'
+            ]}
+            readonly={propEditingDisabled}
+            nodeData={nodeData}
+            onPropChange={handleNodePropChange}
+          />
+        </Box>
+      ) : null}
     </Box>
   )
 }
