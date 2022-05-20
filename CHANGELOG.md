@@ -76,3 +76,13 @@ node过长。model name在cursor hover时用tooltip显示。
     - pose model - `pose`
 
 - 🍗 feature: 当 ROI 节点有除 `regions` 之外的 props 时，ROI 节点也会有 Details 部分. (但details不包含regions)
+
+## v2.0.0
+
+- **🚨Breaking Change**: `AppCanvas` 的prop去掉了`fetchLabelList`这个prop; `fetchModelList` 的接口有变化，返回的model element新增了labels, accelerate, best_threshold等。详见typescript definition。
+
+- 🍗 feature: `ModelDefinition` 文件，新增 `props.label` （optional）, 用来为module prop指定显示名称（例如中文翻译）；参考 `src/stories/datav2/md3.ts`[./src/stories/datav2/md3.ts].
+
+- 🍗 feature: 交换了 module 显示中`module type` 和 `module name` 的显示位置。增加了description question mark.
+
+- 🍗 feature: model显示区域，增加显示加速器（accelerator）类型的标签.
