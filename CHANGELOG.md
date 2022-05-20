@@ -86,3 +86,11 @@ node过长。model name在cursor hover时用tooltip显示。
 - 🍗 feature: 交换了 module 显示中`module type` 和 `module name` 的显示位置。增加了description question mark.
 
 - 🍗 feature: model显示区域，增加显示加速器（accelerator）类型的标签.
+
+## v2.0.1
+
+- 🍗 feature: BoxFilter节点的prop -- `best_threshold` 默认值(default value)根据pipeline中上游所有dependency模型节点的`best_threshold`中最小值确定.
+
+- 🍗 feature: 当模型节点有除 `mod_iter_id`, `mod_id`等 之外的 props 时，ROI 节点也会有 Details 部分. (但details不包含`mod_iter_id`, `mod_id`等)
+
+- 🐛 fix: 模型名称过长导致的UI问题.
