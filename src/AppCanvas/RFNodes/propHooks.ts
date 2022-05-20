@@ -108,3 +108,35 @@ export function useBoxFilterLabelOptions(
 
   return [labelOptions, dependencies]
 }
+
+export function useBoxFilterBestThreshold(
+  dependentNodeIds: number[],
+  pipeline: Pipeline
+): [number, number | null] {
+  // Assume that the node is a box filter node
+  const [bt, setBT] = useState(0.75)
+  const [btNodeId, setBTNodeId] = useState<number | null>(null)
+
+  useEffect(() => {
+    let minBT = 1
+    let btid = null
+    pipeline.nodes.forEach((node) => {
+      if (dependentNodeIds.indexOf(node.id) >= 0) {
+        const nodeBF =
+          node.props &&
+          node.props['best_threshold'] &&
+          typeof node.props['best_threshold'] === 'number'
+            ? (node.props['best_threshold'] as number)
+            : 1
+        if (nodeBF < minBT) {
+          btid = node.id
+        }
+        minBT = Math.min(minBT, nodeBF)
+      }
+    })
+    setBTNodeId(btid)
+    setBT(minBT)
+  }, [pipeline, dependentNodeIds])
+
+  return [bt, btNodeId]
+}

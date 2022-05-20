@@ -239,7 +239,7 @@ export const md3: ModuleDefinitions = {
         enum: ['blue', 'red', 'orange'],
         default: ['blue']
       },
-      best_threshould: {
+      best_threshold: {
         type: 'number',
         default: 0.75
       },

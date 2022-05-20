@@ -1,10 +1,14 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import shallow from 'zustand/shallow'
 import { Module, PropValue, PropDefinitionType } from '../types'
 import { CollapseContainer } from '../Components'
 import { PropRow } from './PropRow'
 import { useStore } from '../store/useStore'
-import { useBoxFilterLabelOptions, isBoxFilterNode } from './propHooks'
+import {
+  useBoxFilterLabelOptions,
+  isBoxFilterNode,
+  useBoxFilterBestThreshold
+} from './propHooks'
 
 export interface NodeDetailProps {
   readonly?: boolean
@@ -33,10 +37,56 @@ export const NodeDetail = ({
     nodeData,
     pipeline
   )
+  const [boxFilterBestThreshold, boxFilterBTId] = useBoxFilterBestThreshold(
+    dependentNodeIds,
+    pipeline
+  )
+
+  const boxFilterBTNodeName = useMemo(() => {
+    const node = pipeline.nodes.find((n) => n.id === boxFilterBTId)
+    return node ? node.name : undefined
+  }, [boxFilterBTId, pipeline.nodes])
 
   const isBoxFilter = useMemo(() => {
     return isBoxFilterNode(nodeData)
   }, [nodeData])
+
+  const generatePropDefinition = useCallback(
+    (propName: string, propVal: PropValue | undefined) => {
+      if (propName === 'box_labels') {
+        const propDef = {
+          type: 'stringArray',
+          enum: boxLabelsEnums,
+          default: boxLabelsEnums
+        } as PropDefinitionType
+        // if any of the value does not belong to boxLabelsEnums -> invalid -> set
+        //  value to undefined -- to use default value
+        if (propVal) {
+          let isValueValid = true
+          for (const label of propVal as string[]) {
+            if (!boxLabelsEnums.includes(label)) {
+              isValueValid = false
+              break
+            }
+          }
+          if (!isValueValid) {
+            propVal = undefined
+          }
+        }
+        return propDef
+      }
+      if (propName === 'best_threshold') {
+        const propDef = {
+          type: 'number',
+          default: boxFilterBestThreshold,
+          description: `默认值来自模块：${boxFilterBTNodeName}（id: ${boxFilterBTId}）`
+        } as PropDefinitionType
+        return propDef
+      }
+      return undefined
+    },
+    [boxLabelsEnums, boxFilterBestThreshold, boxFilterBTNodeName, boxFilterBTId]
+  )
 
   const rowList: JSX.Element[] = useMemo(() => {
     if (nodeData.props) {
@@ -54,29 +104,11 @@ export const NodeDetail = ({
           const handlePropChange = (val: PropValue): void => {
             onPropChange(propName, val)
           }
-          let propVal: PropValue | undefined = propList[propName]
+          const propVal: PropValue | undefined = propList[propName]
           let propDef =
             propDefinition === undefined ? undefined : propDefinition[propName]
-          if (isBoxFilter && propName === 'box_labels') {
-            propDef = {
-              type: 'stringArray',
-              enum: boxLabelsEnums,
-              default: boxLabelsEnums
-            } as PropDefinitionType
-            // if any of the value does not belong to boxLabelsEnums, set
-            //  value to undefined -- to use default value
-            if (propVal) {
-              let isValueValid = true
-              for (const label of propVal as string[]) {
-                if (!boxLabelsEnums.includes(label)) {
-                  isValueValid = false
-                  break
-                }
-              }
-              if (!isValueValid) {
-                propVal = undefined
-              }
-            }
+          if (isBoxFilter) {
+            propDef = generatePropDefinition(propName, propVal)
           }
           return (
             <PropRow
@@ -98,10 +130,10 @@ export const NodeDetail = ({
     nodeData.id,
     onPropChange,
     propDefinition,
-    boxLabelsEnums,
     isBoxFilter,
     dependentNodeIds,
-    hidePropsWithName
+    hidePropsWithName,
+    generatePropDefinition
   ])
   return <CollapseContainer title="属性详情">{rowList}</CollapseContainer>
 }
