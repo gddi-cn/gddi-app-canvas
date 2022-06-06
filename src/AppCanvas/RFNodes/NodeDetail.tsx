@@ -101,6 +101,14 @@ export const NodeDetail = ({
       const propNameCombine = Array.from(propNameSet).sort()
       return propNameCombine
         .filter((pn) => !(hidePropsWithName && hidePropsWithName.includes(pn)))
+        .filter(
+          (pn) =>
+            !(
+              propDefinition &&
+              propDefinition[pn] &&
+              propDefinition[pn].visibility_and_readonly === 'invisible'
+            )
+        )
         .map((propName) => {
           const handlePropChange = (val: PropValue): void => {
             onPropChange(propName, val)
@@ -117,7 +125,10 @@ export const NodeDetail = ({
           return (
             <PropRow
               key={`PropRow-${nodeData.id}-${propName}`}
-              readonly={readonly === true}
+              readonly={
+                readonly === true ||
+                propDef?.visibility_and_readonly === 'visible_readonly'
+              }
               propName={propName}
               propDefinition={propDef}
               value={propVal}

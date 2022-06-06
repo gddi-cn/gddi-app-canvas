@@ -69,7 +69,25 @@ export const md3: ModuleDefinitions = {
         id: 0,
         name: 'output_0'
       }
-    ]
+    ],
+    props: {
+      accelerate: {
+        type: 'string',
+        visibility_and_readonly: 'invisible'
+      },
+      labels: {
+        type: 'stringArray',
+        visibility_and_readonly: 'invisible'
+      },
+      best_threshold: {
+        type: 'number',
+        visibility_and_readonly: 'invisible'
+      },
+      mod_created_at: {
+        type: 'string',
+        visibility_and_readonly: 'visible_readonly'
+      }
+    }
   },
   ClassificationModel_v2: {
     version: 'null',
@@ -208,7 +226,9 @@ export const md3: ModuleDefinitions = {
       regions: {
         type: 'array',
         label: 'ROI区域',
-        description: '所有ROI区域的列表；每个ROI -- [topX, topY, width, height]'
+        description:
+          '所有ROI区域的列表；每个ROI -- [topX, topY, width, height]',
+        visibility_and_readonly: 'invisible'
       },
       dinner: {
         type: 'string',

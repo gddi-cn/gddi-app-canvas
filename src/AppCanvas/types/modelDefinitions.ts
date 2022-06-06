@@ -5,6 +5,12 @@ export const tEndpoint = t.type({
   name: t.string
 })
 
+export const tVisibilityAndReadonly = t.union([
+  t.literal('visible_editable'),
+  t.literal('visible_readonly'),
+  t.literal('invisible')
+])
+
 export const tBasicTypeName = t.union([
   t.literal('string'),
   t.literal('boolean'),
@@ -28,7 +34,8 @@ export const tSimplePropDefinition = t.intersection([
     maximum: t.number,
     minimum: t.number,
     // [case] type is BasicType; single select
-    enum: t.array(tBasicType)
+    enum: t.array(tBasicType),
+    visibility_and_readonly: tVisibilityAndReadonly
   })
 ])
 

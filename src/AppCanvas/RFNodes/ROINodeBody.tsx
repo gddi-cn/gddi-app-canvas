@@ -115,7 +115,7 @@ export const ROINodeBody = ({
       {Object.keys(propObj).length > 1 ? (
         <Box>
           <NodeDetail
-            hidePropsWithName={['regions']}
+            // hidePropsWithName={['regions']}
             readonly={propEditingDisabled}
             nodeData={nodeData}
             onPropChange={handleNodePropChange}

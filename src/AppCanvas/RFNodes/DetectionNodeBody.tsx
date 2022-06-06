@@ -131,17 +131,17 @@ export const DetectionNodeBody = ({
       {Object.keys(propObj).length > 1 ? (
         <Box>
           <NodeDetail
-            hidePropsWithName={[
-              'mod_iter_id',
-              'mod_labels',
-              'mod_id',
-              'mod_name',
-              'mod_created_at',
-              'mod_version',
-              'mod_version_id',
-              'mod_license',
-              'mod_result_id'
-            ]}
+            // hidePropsWithName={[
+            //   'mod_iter_id',
+            //   'mod_labels',
+            //   'mod_id',
+            //   'mod_name',
+            //   'mod_created_at',
+            //   'mod_version',
+            //   'mod_version_id',
+            //   'mod_license',
+            //   'mod_result_id'
+            // ]}
             readonly={propEditingDisabled}
             nodeData={nodeData}
             onPropChange={handleNodePropChange}
