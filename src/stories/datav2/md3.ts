@@ -239,14 +239,14 @@ export const md3: ModuleDefinitions = {
         enum: ['blue', 'red', 'orange'],
         default: ['blue']
       },
-      best_threshold: {
-        type: 'number',
-        default: 0.75
-      },
       min_width: {
         type: 'number',
         label: '最小宽度',
         description: '什么是快乐星球？？？'
+      },
+      box_prob: {
+        type: 'number',
+        label: '阈值'
       },
       min_height: {
         type: 'number',

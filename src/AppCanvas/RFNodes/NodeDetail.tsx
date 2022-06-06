@@ -75,7 +75,8 @@ export const NodeDetail = ({
         }
         return propDef
       }
-      if (propName === 'best_threshold') {
+      // if (propName === 'best_threshold') {
+      if (propName === 'box_prob') {
         const propDef = {
           type: 'number',
           default: boxFilterBestThreshold,
