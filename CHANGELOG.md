@@ -93,4 +93,12 @@ node过长。model name在cursor hover时用tooltip显示。
 
 - 🍗 feature: 当模型节点有除 `mod_iter_id`, `mod_id`等 之外的 props 时，ROI 节点也会有 Details 部分. (但details不包含`mod_iter_id`, `mod_id`等)
 
-- 🐛 fix: 模型名称过长导致的UI问题.
+- 🐛 fix: 模型名称过长导致的UI问题
+
+## 2.0.2
+
+- 🍗 feature: module definition 通过配置 `visibility_and_readonly` - 'visible_editable' (默认), 'visibility_and_readonly', 'invisible' 指定某个prop是否显示以及是否可编辑.
+
+- 🍗 feature: BoxFilter节点的prop -- `box_prop` (而不是`best_threshold`) 默认值(default value)根据pipeline中上游所有dependency模型节点的`best_threshold`中最小值确定.
+
+- 🐛 fix: BoxFilter节点的prop 的label未显示问题.
