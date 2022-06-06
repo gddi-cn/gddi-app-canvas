@@ -177,6 +177,8 @@ export const PropRow = ({
         />
       )
     }
+    console.log(`propRow - ${propName}`)
+    console.log(propDefinition?.label)
     return (
       <BasicInput
         readonly={readonly}

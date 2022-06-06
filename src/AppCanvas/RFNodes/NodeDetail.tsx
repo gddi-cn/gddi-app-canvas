@@ -109,7 +109,10 @@ export const NodeDetail = ({
           let propDef =
             propDefinition === undefined ? undefined : propDefinition[propName]
           if (isBoxFilter) {
-            propDef = generatePropDefinition(propName, propVal)
+            const propDefExt = generatePropDefinition(propName, propVal)
+            if (propDefExt !== undefined && propDef !== undefined) {
+              propDef = { ...propDef, ...propDefExt }
+            }
           }
           return (
             <PropRow

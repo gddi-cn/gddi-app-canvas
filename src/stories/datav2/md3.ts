@@ -235,7 +235,7 @@ export const md3: ModuleDefinitions = {
     props: {
       box_labels1: {
         type: 'stringArray',
-        label: '标签',
+        label: '标签1',
         enum: ['blue', 'red', 'orange'],
         default: ['blue']
       },
