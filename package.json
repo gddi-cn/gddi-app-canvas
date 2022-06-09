@@ -41,8 +41,8 @@
     "immer": "^9.0.12",
     "postcss": "^8.4.12",
     "prettier": "^2.4.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "rollup": "^2.70.2",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-dts": "^4.2.1",
@@ -58,8 +58,8 @@
     "zustand": "^3.6.8"
   },
   "peerDependencies": {
-    "react": "16 || 17",
-    "react-dom": "16 || 17"
+    "react": "16 || 17 || 18",
+    "react-dom": "16 || 17 || 18"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
