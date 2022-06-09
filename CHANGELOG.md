@@ -102,3 +102,7 @@ node过长。model name在cursor hover时用tooltip显示。
 - 🍗 feature: BoxFilter节点的prop -- `box_prop` (而不是`best_threshold`) 默认值(default value)根据pipeline中上游所有dependency模型节点的`best_threshold`中最小值确定.
 
 - 🐛 fix: BoxFilter节点的prop 的label未显示问题.
+
+## 2.0.3
+
+- 🍗 feature: 支持react18
