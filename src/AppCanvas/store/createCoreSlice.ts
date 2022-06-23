@@ -1,7 +1,8 @@
 import produce from 'immer'
-import { Elements, Node, OnLoadParams } from 'react-flow-renderer'
+import { Node, ReactFlowInstance } from 'react-flow-renderer'
 import { GetState, SetState } from 'zustand'
 import {
+  Elements,
   ModuleDefinitions,
   Pipeline,
   PropValue,
@@ -26,8 +27,8 @@ export interface CoreSlice {
   value: Pipeline
   moduleDefinitions: ModuleDefinitions
   rfElements: Elements
-  rfInstance?: OnLoadParams<any>
-  setRfInstance: (inst: OnLoadParams<any> | undefined) => void
+  rfInstance?: ReactFlowInstance<any>
+  setRfInstance: (inst: ReactFlowInstance<any> | undefined) => void
   setModuleDefinitions: (newMDs: ModuleDefinitions) => void
   setValue: (newValue: Pipeline) => void
   addModule: (module: RawModule) => void
@@ -58,7 +59,7 @@ const createCoreSlice = (
   value: initValue,
   moduleDefinitions: {},
   rfElements: [],
-  setRfInstance: (inst: OnLoadParams<any> | undefined) => {
+  setRfInstance: (inst: ReactFlowInstance<any> | undefined) => {
     set(
       produce((draft: MyState) => {
         draft.rfInstance = inst

@@ -19,8 +19,7 @@ const SimpleEdge0 = ({
   targetY,
   sourcePosition,
   targetPosition,
-  arrowHeadType,
-  markerEndId,
+  markerEnd,
   style
 }: EdgeProps): JSX.Element => {
   const { removeConnection, graphEditingDisabled } = useStore(
@@ -38,7 +37,7 @@ const SimpleEdge0 = ({
     targetY,
     targetPosition
   })
-  const markerEnd = getMarkerEnd(arrowHeadType, markerEndId)
+  // const markerEnd = getMarkerEnd(arrowHeadType, markerEndId)
   const [edgeCenterX, edgeCenterY] = getEdgeCenter({
     sourceX,
     sourceY,

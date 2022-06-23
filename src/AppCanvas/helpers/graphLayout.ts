@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Edge, Elements, Node } from 'react-flow-renderer'
+import { Elements } from '../types'
+import { Edge, Node } from 'react-flow-renderer'
 import ELK from 'elkjs/lib/elk.bundled.js'
 
 const MOD_WIDTH = 410

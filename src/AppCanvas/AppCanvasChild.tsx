@@ -7,8 +7,10 @@ import React, {
   useMemo
 } from 'react'
 import ReactFlow, {
+  Node,
+  Edge,
   Controls,
-  OnLoadParams,
+  ReactFlowInstance,
   ReactFlowProvider
 } from 'react-flow-renderer'
 import shallow from 'zustand/shallow'
@@ -94,7 +96,7 @@ export const AppCanvasChild = ({
   const theme = useTheme()
   const colorMode = useContext(ColorModeContext)
   const appRef = useRef<AIAppType | null>(null)
-  const loadParaRef = useRef<OnLoadParams<any> | null>(null)
+  const loadParaRef = useRef<ReactFlowInstance<any> | null>(null)
   const {
     value,
     rfElements,
@@ -150,7 +152,7 @@ export const AppCanvasChild = ({
     }
   }, [addModule, addPipeline, layoutGraph, fitView, clear, resetModuleProps])
   const handleLoaded = useCallback(
-    (params: OnLoadParams<any>) => {
+    (params: ReactFlowInstance<any>) => {
       // console.log('[gddi-aiappcanvas] loaded')
       params.fitView({ padding: 0.01 })
       loadParaRef.current = params
@@ -175,6 +177,16 @@ export const AppCanvasChild = ({
       background: theme.palette.mode === 'dark' ? '#444444' : '#e8eaed'
     }),
     [theme]
+  )
+
+  const rfNodes = useMemo(
+    () => rfElements.filter((v) => v.id.includes('node')) as Node[],
+    [rfElements]
+  )
+
+  const rfEdges = useMemo(
+    () => rfElements.filter((v) => v.id.includes('edge')) as Edge[],
+    [rfElements]
   )
 
   useEffect(() => {
@@ -238,10 +250,11 @@ export const AppCanvasChild = ({
       <ReactFlow
         className={theme.palette.mode}
         style={style}
-        elements={rfElements}
+        nodes={rfNodes}
+        edges={rfEdges}
         nodeTypes={rfNodeTypes}
         edgeTypes={rfEdgeTypes}
-        onLoad={handleLoaded}
+        onInit={handleLoaded}
         // snapToGrid
         // snapGrid={[15, 15]}
         minZoom={0.1}

@@ -1,4 +1,5 @@
 // export * from './modDef'
+export * from './extra'
 export * from './modelDefinitions'
 export * from './pipeline'
 export * from './appInstance'

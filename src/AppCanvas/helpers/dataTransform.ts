@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Node, Edge, ArrowHeadType } from 'react-flow-renderer'
+import { Node, Edge, MarkerType } from 'react-flow-renderer'
 import { Module, Connection, Pipeline } from '../types'
 import { SIMPLE_NODE } from '../RFNodes'
 import { SIMPLE_EDGE } from '../RFEdges'
@@ -41,7 +41,7 @@ export const getRFEdge = (conn: Connection): Edge => {
     targetHandle: `chris-pipenode-${conn[2].toString()}-input-${conn[3].toString()}`,
     style: { strokeWidth: 2 },
     // animated: true,
-    arrowHeadType: 'arrowclosed' as ArrowHeadType,
+    markerEnd: { type: 'arrowclosed' as MarkerType },
     data: {
       elementType: 'edge',
       connection: conn
