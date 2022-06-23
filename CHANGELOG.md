@@ -106,3 +106,7 @@ node过长。model name在cursor hover时用tooltip显示。
 ## 2.0.3
 
 - 🍗 feature: 支持react18
+
+## 2.0.6
+
+- 🐛 fix: dependencies `react-flow-renderer`, `react-draw-roi` upgrade.

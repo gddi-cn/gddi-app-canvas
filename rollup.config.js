@@ -25,14 +25,14 @@ export default [
         format: 'cjs',
         sourcemap: true,
         name: 'gddi-app-canvas'
+      },
+      {
+        // if in package.json -- "module": "dist/esm/index.js",
+        file: packageJson.module,
+        format: 'esm',
+        sourcemap: true,
+        name: 'gddi-app-canvas'
       }
-      // {
-      //   // if in package.json -- "module": "dist/esm/index.js",
-      //   file: packageJson.module,
-      //   format: 'esm',
-      //   sourcemap: true,
-      //   name: 'gddi-app-canvas'
-      // }
     ],
     external: ['react', 'react-dom', 'fabric'],
     plugins: [
