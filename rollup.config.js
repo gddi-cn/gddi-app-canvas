@@ -34,7 +34,7 @@ export default [
         name: 'gddi-app-canvas'
       }
     ],
-    external: ['react', 'react-dom', 'fabric'],
+    external: ['react', 'react-dom', 'fabric', 'react/jsx-runtime'],
     plugins: [
       peerDepsExternal(),
       resolve(),
