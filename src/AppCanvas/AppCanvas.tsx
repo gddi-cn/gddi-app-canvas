@@ -33,6 +33,10 @@ export interface AppCanvasProps {
    */
   defaultValue?: Pipeline
   /**
+   * Layout Nodes Vertically - default false
+   */
+   layoutVertically?: boolean
+  /**
    * Callback when the AppCanvas get loaded
    */
   onLoad?: (app: AIAppType) => void
@@ -68,6 +72,7 @@ export const AppCanvas = ({
   hideDarkModeButton,
   defaultValue,
   moduleDefinitions,
+  layoutVertically,
   onLoad,
   onValueChange,
   fetchModelList,
@@ -96,6 +101,7 @@ export const AppCanvas = ({
           <AppCanvasChild
             defaultValue={defaultValue}
             hideDarkModeButton={hideDarkModeButton}
+            layoutVertically={layoutVertically}
             moduleDefinitions={moduleDefinitions}
             onLoad={onLoad}
             onValueChange={onValueChange}

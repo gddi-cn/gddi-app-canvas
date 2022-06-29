@@ -15,11 +15,15 @@ export interface GraphLayoutHelperResult {
 }
 
 export const graphLayoutHelper = (
-  elements: Elements
+  elements: Elements,
+  verticalDirection?: boolean
 ): Promise<GraphLayoutHelperResult[]> => {
+  const layoutOption: {[key: string]: string} = { 'elk.algorithm': 'layered' }
+  if (verticalDirection) {
+    layoutOption['elk.direction'] = 'DOWN'
+  }
   const graph = {
     id: 'root',
-    layoutOption: { 'elk.algorithm': 'layered' },
     children: [],
     edges: []
   }
@@ -49,7 +53,7 @@ export const graphLayoutHelper = (
   })
   return new Promise<GraphLayoutHelperResult[]>((resolve, reject) => {
     elk
-      .layout(graph)
+      .layout(graph, {layoutOptions: layoutOption})
       .then((newValue) => {
         const result: GraphLayoutHelperResult[] = []
         newValue.children?.forEach((elkNode) => {
@@ -58,62 +62,6 @@ export const graphLayoutHelper = (
             x: elkNode.x || 100,
             y: elkNode.y || 100
           })
-        })
-        resolve(result)
-      })
-      .catch(reject)
-  })
-}
-
-// [!important] unused currently
-export const layoutNodes = (
-  rfNodes: Node[],
-  rfEdges: Edge[]
-): Promise<Node[]> => {
-  const result = [...rfNodes]
-  const elements = [...rfNodes, ...rfEdges]
-  const graph = {
-    id: 'root',
-    layoutOption: { 'elk.algorithm': 'layered' },
-    children: [],
-    edges: []
-  }
-  elements.forEach((ele) => {
-    if (ele.data.elementType === 'node') {
-      const eleNode = ele as Node
-      ;(graph.children as Record<string, any>[]).push({
-        id: eleNode.id,
-        width: 600,
-        height: 200
-      })
-    } else {
-      const eleEdge = ele as Edge
-      const graphEdgeArray = graph.edges as Record<string, any>[]
-      const graphEdge = graphEdgeArray.find((ge) => ge.id === eleEdge.id)
-      if (graphEdge === undefined) {
-        graphEdgeArray.push({
-          id: eleEdge.id,
-          sources: [eleEdge.source],
-          targets: [eleEdge.target]
-        })
-      } else {
-        ;(graphEdge.sources as string[]).push(eleEdge.source)
-        ;(graphEdge.targets as string[]).push(eleEdge.target)
-      }
-    }
-  })
-  return new Promise<Node[]>((resolve, reject) => {
-    elk
-      .layout(graph)
-      .then((newValue) => {
-        newValue.children?.forEach((elkNode) => {
-          const resElementIdx = result.findIndex((e) => e.id === elkNode.id)
-          if (resElementIdx !== -1) {
-            ;(result[resElementIdx] as Node).position = {
-              x: elkNode.x || 100,
-              y: elkNode.y || 100
-            }
-          }
         })
         resolve(result)
       })

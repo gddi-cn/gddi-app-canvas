@@ -7,16 +7,21 @@ import './CollapseContainer.scss'
 export interface CollapseContainerProps {
   title: string
   children?: React.ReactNode
+  onOpen?: () => void
 }
 
 export const CollapseContainer = ({
   title,
-  children
+  children,
+  onOpen
 }: CollapseContainerProps): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false)
   const handleHeaderClick = useCallback(() => {
     setOpen(!open)
-  }, [open, setOpen])
+    if (onOpen) {
+      onOpen()
+    }
+  }, [open, setOpen, onOpen])
 
   return (
     <div>

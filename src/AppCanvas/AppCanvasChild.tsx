@@ -51,6 +51,10 @@ export interface AppCanvasChildProps {
    */
   defaultValue?: Pipeline
   /**
+   * Layout Nodes Vertically - default false
+   */
+   layoutVertically?: boolean
+  /**
    * Callback when the AppCanvas get loaded
    */
   onLoad?: (app: AIAppType) => void
@@ -86,6 +90,7 @@ export const AppCanvasChild = ({
   hideDarkModeButton,
   defaultValue,
   moduleDefinitions,
+  layoutVertically,
   onLoad,
   onValueChange,
   fetchModelList,
@@ -100,6 +105,7 @@ export const AppCanvasChild = ({
   const {
     value,
     rfElements,
+    setLayoutVer,
     setRfInstance,
     setModuleDefinitions,
     setValue,
@@ -116,6 +122,7 @@ export const AppCanvasChild = ({
     (state) => ({
       value: state.value,
       rfElements: state.rfElements,
+      setLayoutVer: state.setLayoutVertically,
       setRfInstance: state.setRfInstance,
       setModuleDefinitions: state.setModuleDefinitions,
       setValue: state.setValue,
@@ -244,6 +251,11 @@ export const AppCanvasChild = ({
   useEffect(() => {
     setROIImgFetcher(fetchROIImg)
   }, [setROIImgFetcher, fetchROIImg])
+
+  useEffect(() => {
+    setLayoutVer(layoutVertically === true)
+    layoutGraph()
+  }, [layoutVertically])
 
   return (
     <ReactFlowProvider>

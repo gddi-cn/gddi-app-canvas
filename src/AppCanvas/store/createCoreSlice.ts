@@ -28,6 +28,7 @@ export interface CoreSlice {
   moduleDefinitions: ModuleDefinitions
   rfElements: Elements
   rfInstance?: ReactFlowInstance<any>
+  layoutVertically: boolean
   setRfInstance: (inst: ReactFlowInstance<any> | undefined) => void
   setModuleDefinitions: (newMDs: ModuleDefinitions) => void
   setValue: (newValue: Pipeline) => void
@@ -50,6 +51,8 @@ export interface CoreSlice {
   removeConnection: (rfEdgeId: string) => void
   layoutGraph: () => void
   clear: () => void
+  setLayoutVertically: (lv: boolean) => void
+  putNodeFront: (moduleId: number) => void
 }
 
 const createCoreSlice = (
@@ -59,6 +62,7 @@ const createCoreSlice = (
   value: initValue,
   moduleDefinitions: {},
   rfElements: [],
+  layoutVertically: false,
   setRfInstance: (inst: ReactFlowInstance<any> | undefined) => {
     set(
       produce((draft: MyState) => {
@@ -78,8 +82,9 @@ const createCoreSlice = (
       ...getRFNodes(newValue.nodes),
       ...getRFEdges(newValue.pipe)
     ]
+    const { layoutVertically } = get()
 
-    const newPostions = await graphLayoutHelper(rfElements)
+    const newPostions = await graphLayoutHelper(rfElements, layoutVertically)
     newPostions.forEach((np) => {
       const ele = rfElements.find((e) => e.id === np.nodeId)
       if (ele) {
@@ -99,7 +104,7 @@ const createCoreSlice = (
     )
   },
   addPipeline: async (modules: Module[], connections: Connection[]) => {
-    const { value, rfElements, rfInstance } = get()
+    const { value, rfElements, layoutVertically } = get()
     // update modules and connections IDs
     const [mods1, conns1] = updateIds(modules, connections, value.nodes)
     // update positions
@@ -110,7 +115,7 @@ const createCoreSlice = (
     )
     const rfElements1 = [...rfElements, ...rfNodesNew, ...rfEdgeNew]
 
-    const newPostions = await graphLayoutHelper(rfElements1)
+    const newPostions = await graphLayoutHelper(rfElements1, layoutVertically)
     // set state
     set(
       produce((draft: MyState) => {
@@ -270,8 +275,8 @@ const createCoreSlice = (
     )
   },
   layoutGraph: () => {
-    const { rfElements } = get()
-    graphLayoutHelper(rfElements).then((res) => {
+    const { rfElements, layoutVertically } = get()
+    graphLayoutHelper(rfElements, layoutVertically).then((res) => {
       res.forEach((r) => {
         set(
           produce((draft: MyState) => {
@@ -298,6 +303,20 @@ const createCoreSlice = (
         draft1.rfElements = []
       })
     )
+  },
+  setLayoutVertically: (lv: boolean) => {
+    set(produce((draft: MyState) => {
+      draft.layoutVertically = lv
+    }))
+  },
+  putNodeFront: (moduleId: number) => {
+    set(produce((draft: MyState) => {
+      for (const node of draft.rfElements) {
+        if (node.data && node.data.elementType === 'node') {
+          node.zIndex = node.data && node.data.id === moduleId ? 100 : 0
+        }
+      }
+    }))
   }
 })
 

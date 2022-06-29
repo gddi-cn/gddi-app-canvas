@@ -24,8 +24,9 @@ export const NodeDetail = ({
   hidePropsWithName,
   onPropChange
 }: NodeDetailProps): JSX.Element => {
-  const { propDefinition, pipeline } = useStore(
+  const { propDefinition, pipeline, putNodeFront } = useStore(
     (state) => ({
+      putNodeFront: state.putNodeFront,
       propDefinition: state.moduleDefinitions[nodeData.type]
         ? state.moduleDefinitions[nodeData.type].props
         : undefined,
@@ -150,5 +151,10 @@ export const NodeDetail = ({
     hidePropsWithName,
     generatePropDefinition
   ])
-  return <CollapseContainer title="属性详情">{rowList}</CollapseContainer>
+
+  const handleCollapseOpen = useCallback(() => {
+    putNodeFront(nodeData.id)
+  }, [nodeData.id])
+
+  return <CollapseContainer title="属性详情" onOpen={handleCollapseOpen}>{rowList}</CollapseContainer>
 }
