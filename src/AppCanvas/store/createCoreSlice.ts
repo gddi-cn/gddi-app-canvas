@@ -1,5 +1,5 @@
 import produce from 'immer'
-import { Node, ReactFlowInstance } from 'react-flow-renderer'
+import { Edge, Node, Position, ReactFlowInstance } from 'react-flow-renderer'
 import { GetState, SetState } from 'zustand'
 import {
   Elements,
@@ -85,7 +85,7 @@ const createCoreSlice = (
     const { layoutVertically } = get()
 
     const newPostions = await graphLayoutHelper(rfElements, layoutVertically)
-    newPostions.forEach((np) => {
+    newPostions.nodes.forEach((np) => {
       const ele = rfElements.find((e) => e.id === np.nodeId)
       if (ele) {
         ;(ele as Node).position = { x: np.x, y: np.y }
@@ -129,7 +129,7 @@ const createCoreSlice = (
         })
         // set state - add new rfElements
         rfNodesNew.forEach((nodeNew) => {
-          const p = newPostions.find((np) => np.nodeId === nodeNew.id)
+          const p = newPostions.nodes.find((np) => np.nodeId === nodeNew.id)
           if (p) {
             nodeNew.position = { x: p.x, y: p.y }
           }
@@ -139,7 +139,7 @@ const createCoreSlice = (
           draft1.rfElements.push(edgeNew)
         })
         // set state - update old rfElements' positions
-        newPostions.forEach((np) => {
+        newPostions.nodes.forEach((np) => {
           const ele1 = draft1.rfElements.find((e) => e.id === np.nodeId)
           if (ele1) {
             ;(ele1 as Node).position = { x: np.x, y: np.y }
@@ -277,11 +277,10 @@ const createCoreSlice = (
   layoutGraph: () => {
     const { rfElements, layoutVertically } = get()
     graphLayoutHelper(rfElements, layoutVertically).then((res) => {
-      res.forEach((r) => {
+      res.nodes.forEach((r) => {
         set(
           produce((draft: MyState) => {
-            const draft1 = draft
-            const eleNode = draft1.rfElements.find((n) => n.id === r.nodeId)
+            const eleNode = draft.rfElements.find((n) => n.id === r.nodeId)
             if (eleNode) {
               // + Math.random() is a hack to force rerendering the Flow
               ;(eleNode as Node).position = { x: r.x + Math.random(), y: r.y }
@@ -289,6 +288,16 @@ const createCoreSlice = (
           })
         )
       })
+      // res.edges.forEach((r) => {
+      //   set(
+      //     produce((draft: MyState) => {
+      //       const eleEdge = draft.rfElements.find((n) => n.id === r.edgeId)
+      //       if (eleEdge) {
+      //         ;(eleEdge as Edge).s = { x: r.x + Math.random(), y: r.y }
+      //       }
+      //     })
+      //   )
+      // })
     })
   },
   clear: () => {
@@ -307,6 +316,13 @@ const createCoreSlice = (
   setLayoutVertically: (lv: boolean) => {
     set(produce((draft: MyState) => {
       draft.layoutVertically = lv
+      draft.rfElements.forEach((ele) => {
+        if (ele.data && ele.data.elementType === 'node') {
+          const rfNode = ele as Node
+          rfNode.sourcePosition = lv ? 'bottom' as Position : 'right'  as Position
+          rfNode.targetPosition = lv ? 'top' as Position : 'left'  as Position
+        }
+      })
     }))
   },
   putNodeFront: (moduleId: number) => {

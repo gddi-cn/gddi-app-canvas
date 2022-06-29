@@ -1,23 +1,40 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Elements } from '../types'
 import { Edge, Node } from 'react-flow-renderer'
-import ELK from 'elkjs/lib/elk.bundled.js'
+import ELK, { ElkEdgeSection } from 'elkjs/lib/elk.bundled.js'
 
 const MOD_WIDTH = 410
 const MOD_HEIGHT = 400
 
 const elk = new ELK()
 
-export interface GraphLayoutHelperResult {
+export interface LayoutResNode {
   nodeId: string
   x: number
-  y: number
+  y: number  
+}
+
+export interface LayoutResEdge {
+  edgeId: string
+  startPoint: {
+    x: number,
+    y: number,
+  },
+  endPoint: {
+    x: number,
+    y: number,
+  }
+}
+
+export interface GraphLayoutHelperResult {
+  nodes: LayoutResNode[]
+  edges: LayoutResEdge[]
 }
 
 export const graphLayoutHelper = (
   elements: Elements,
   verticalDirection?: boolean
-): Promise<GraphLayoutHelperResult[]> => {
+): Promise<GraphLayoutHelperResult> => {
   const layoutOption: {[key: string]: string} = { 'elk.algorithm': 'layered' }
   if (verticalDirection) {
     layoutOption['elk.direction'] = 'DOWN'
@@ -51,17 +68,37 @@ export const graphLayoutHelper = (
       }
     }
   })
-  return new Promise<GraphLayoutHelperResult[]>((resolve, reject) => {
+  return new Promise<GraphLayoutHelperResult>((resolve, reject) => {
     elk
       .layout(graph, {layoutOptions: layoutOption})
       .then((newValue) => {
-        const result: GraphLayoutHelperResult[] = []
+        const result: GraphLayoutHelperResult = {
+          nodes: [],
+          edges: []
+        }
         newValue.children?.forEach((elkNode) => {
-          result.push({
+          result.nodes.push({
             nodeId: elkNode.id,
             x: elkNode.x || 100,
             y: elkNode.y || 100
           })
+        })
+        // TODO: maybe remove this, this is NOT IN USE
+        newValue.edges?.forEach((elkEdge) => {
+          if (elkEdge.sections) {
+            const section = elkEdge.sections[0] as ElkEdgeSection
+            result.edges.push({
+              edgeId: elkEdge.id,
+              startPoint: {
+                x: (section).startPoint.x,
+                y: (section).startPoint.y,
+              },
+              endPoint: {
+                x: (section).endPoint.x,
+                y: (section).endPoint.y,
+              },
+            })
+          }
         })
         resolve(result)
       })

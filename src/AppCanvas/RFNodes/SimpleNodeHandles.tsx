@@ -16,8 +16,9 @@ export const SimpleNodeHandles = ({
   nodeType,
   isInput
 }: SimpleNodeHandlesProps): JSX.Element => {
-  const { nodeDef, connectModules } = useStore(
+  const { layoutVertically, nodeDef, connectModules } = useStore(
     (state) => ({
+      layoutVertically: state.layoutVertically,
       nodeDef: state.moduleDefinitions[nodeType],
       connectModules: state.connectModules
     }),
@@ -54,6 +55,13 @@ export const SimpleNodeHandles = ({
 
   const intervalHeight = 80 / endpointList.length
 
+  const handlePosition: Position = useMemo(() => {
+    if (layoutVertically) {
+      return (isInput ? 'top' : 'bottom') as Position
+    }
+    return (isInput ? 'left' : 'right') as Position
+  }, [isInput, layoutVertically])
+
   return (
     <>
       <div
@@ -75,9 +83,9 @@ export const SimpleNodeHandles = ({
                     isInput ? 'input' : 'output'
                   }-${ep.id.toString()}`}
                   type={isInput ? 'target' : 'source'}
-                  position={(isInput ? 'left' : 'right') as Position}
+                  position={handlePosition}
                   onConnect={handleConnectNodes}
-                  style={{ top: 70 + intervalHeight * (idx + 1) }}
+                  style={layoutVertically ? {} : { top: 70 + intervalHeight * (idx + 1) }}
                   isConnectable
                 />
               </Tooltip>

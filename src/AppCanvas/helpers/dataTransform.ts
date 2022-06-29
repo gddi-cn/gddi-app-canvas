@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Node, Edge, MarkerType } from 'react-flow-renderer'
+import { Node, Edge, MarkerType, Position } from 'react-flow-renderer'
 import { Module, Connection, Pipeline } from '../types'
 import { SIMPLE_NODE } from '../RFNodes'
 import { SIMPLE_EDGE } from '../RFEdges'
@@ -11,7 +11,7 @@ const getRandomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max1 - min1) + min1)
 }
 
-export const getRFNode = (module: Module): Node => {
+export const getRFNode = (module: Module, layoutVertically?: boolean): Node => {
   const rfNode: Node = {
     id: `chris-pipenode-${module.id.toString()}`,
     type: SIMPLE_NODE,
@@ -19,6 +19,8 @@ export const getRFNode = (module: Module): Node => {
       x: 100 + getRandomInt(-30, 30),
       y: 100 + getRandomInt(-30, 30)
     },
+    sourcePosition: layoutVertically ? 'bottom' as Position : 'right'  as Position,
+    targetPosition: layoutVertically ? 'top' as Position : 'left'  as Position,
     data: {
       id: module.id,
       elementType: 'node'
