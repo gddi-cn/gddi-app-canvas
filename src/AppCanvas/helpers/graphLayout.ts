@@ -11,18 +11,18 @@ const elk = new ELK()
 export interface LayoutResNode {
   nodeId: string
   x: number
-  y: number  
+  y: number
 }
 
 export interface LayoutResEdge {
   edgeId: string
   startPoint: {
-    x: number,
-    y: number,
-  },
+    x: number
+    y: number
+  }
   endPoint: {
-    x: number,
-    y: number,
+    x: number
+    y: number
   }
 }
 
@@ -35,7 +35,7 @@ export const graphLayoutHelper = (
   elements: Elements,
   verticalDirection?: boolean
 ): Promise<GraphLayoutHelperResult> => {
-  const layoutOption: {[key: string]: string} = { 'elk.algorithm': 'layered' }
+  const layoutOption: { [key: string]: string } = { 'elk.algorithm': 'layered' }
   if (verticalDirection) {
     layoutOption['elk.direction'] = 'DOWN'
   }
@@ -70,7 +70,7 @@ export const graphLayoutHelper = (
   })
   return new Promise<GraphLayoutHelperResult>((resolve, reject) => {
     elk
-      .layout(graph, {layoutOptions: layoutOption})
+      .layout(graph, { layoutOptions: layoutOption })
       .then((newValue) => {
         const result: GraphLayoutHelperResult = {
           nodes: [],
@@ -90,13 +90,13 @@ export const graphLayoutHelper = (
             result.edges.push({
               edgeId: elkEdge.id,
               startPoint: {
-                x: (section).startPoint.x,
-                y: (section).startPoint.y,
+                x: section.startPoint.x,
+                y: section.startPoint.y
               },
               endPoint: {
-                x: (section).endPoint.x,
-                y: (section).endPoint.y,
-              },
+                x: section.endPoint.x,
+                y: section.endPoint.y
+              }
             })
           }
         })

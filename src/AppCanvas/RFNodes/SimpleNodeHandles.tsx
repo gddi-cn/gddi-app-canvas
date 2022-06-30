@@ -85,7 +85,11 @@ export const SimpleNodeHandles = ({
                   type={isInput ? 'target' : 'source'}
                   position={handlePosition}
                   onConnect={handleConnectNodes}
-                  style={layoutVertically ? {} : { top: 70 + intervalHeight * (idx + 1) }}
+                  style={
+                    layoutVertically
+                      ? {}
+                      : { top: 70 + intervalHeight * (idx + 1) }
+                  }
                   isConnectable
                 />
               </Tooltip>

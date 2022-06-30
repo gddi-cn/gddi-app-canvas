@@ -19,8 +19,12 @@ export const getRFNode = (module: Module, layoutVertically?: boolean): Node => {
       x: 100 + getRandomInt(-30, 30),
       y: 100 + getRandomInt(-30, 30)
     },
-    sourcePosition: layoutVertically ? 'bottom' as Position : 'right'  as Position,
-    targetPosition: layoutVertically ? 'top' as Position : 'left'  as Position,
+    sourcePosition: layoutVertically
+      ? ('bottom' as Position)
+      : ('right' as Position),
+    targetPosition: layoutVertically
+      ? ('top' as Position)
+      : ('left' as Position),
     data: {
       id: module.id,
       elementType: 'node'
@@ -41,7 +45,7 @@ export const getRFEdge = (conn: Connection): Edge => {
     target: `chris-pipenode-${conn[2].toString()}`,
     sourceHandle: `chris-pipenode-${conn[0].toString()}-output-${conn[1].toString()}`,
     targetHandle: `chris-pipenode-${conn[2].toString()}-input-${conn[3].toString()}`,
-    style: { strokeWidth: 2},
+    style: { strokeWidth: 2 },
     // animated: true,
     markerEnd: { type: 'arrowclosed' as MarkerType },
     data: {

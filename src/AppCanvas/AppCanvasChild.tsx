@@ -53,7 +53,7 @@ export interface AppCanvasChildProps {
   /**
    * Layout Nodes Vertically - default false
    */
-   layoutVertically?: boolean
+  layoutVertically?: boolean
   /**
    * Callback when the AppCanvas get loaded
    */

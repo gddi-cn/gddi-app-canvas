@@ -314,25 +314,33 @@ const createCoreSlice = (
     )
   },
   setLayoutVertically: (lv: boolean) => {
-    set(produce((draft: MyState) => {
-      draft.layoutVertically = lv
-      draft.rfElements.forEach((ele) => {
-        if (ele.data && ele.data.elementType === 'node') {
-          const rfNode = ele as Node
-          rfNode.sourcePosition = lv ? 'bottom' as Position : 'right'  as Position
-          rfNode.targetPosition = lv ? 'top' as Position : 'left'  as Position
-        }
+    set(
+      produce((draft: MyState) => {
+        draft.layoutVertically = lv
+        draft.rfElements.forEach((ele) => {
+          if (ele.data && ele.data.elementType === 'node') {
+            const rfNode = ele as Node
+            rfNode.sourcePosition = lv
+              ? ('bottom' as Position)
+              : ('right' as Position)
+            rfNode.targetPosition = lv
+              ? ('top' as Position)
+              : ('left' as Position)
+          }
+        })
       })
-    }))
+    )
   },
   putNodeFront: (moduleId: number) => {
-    set(produce((draft: MyState) => {
-      for (const node of draft.rfElements) {
-        if (node.data && node.data.elementType === 'node') {
-          node.zIndex = node.data && node.data.id === moduleId ? 100 : 0
+    set(
+      produce((draft: MyState) => {
+        for (const node of draft.rfElements) {
+          if (node.data && node.data.elementType === 'node') {
+            node.zIndex = node.data && node.data.id === moduleId ? 100 : 0
+          }
         }
-      }
-    }))
+      })
+    )
   }
 })
 
