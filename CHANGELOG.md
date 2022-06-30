@@ -110,3 +110,7 @@ node过长。model name在cursor hover时用tooltip显示。
 ## 2.0.6
 
 - 🐛 fix: dependencies `react-flow-renderer`, `react-draw-roi` upgrade.
+
+## 2.0.8
+
+- 🍗 feature: 横排或竖排布局选择. 通过 `<AppCanvas />` 的属性： `layoutVertically?: boolean` 调整。缺省状态为横排布局
